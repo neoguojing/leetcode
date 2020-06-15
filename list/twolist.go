@@ -34,6 +34,8 @@ func Print(head *ListNode) {
 }
 
 //no 2
+//carry变量
+//空头节点的应用
 func AddTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 	head := &ListNode{}
 	pos := head
