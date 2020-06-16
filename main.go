@@ -26,4 +26,8 @@ func main() {
 	in:= "abcabcbb"
 	out := string.LengthOfLongestSubstring(in);
 	fmt.Println(out)
+
+	in = "babad"
+	outStr := string.LongestPalindrome(in)
+	fmt.Println(outStr)
 }
