@@ -3,6 +3,7 @@ package main
 import(
 	"leetcode/array"
 	"leetcode/list"
+	"leetcode/string"
 	"fmt"
 )
 
@@ -21,4 +22,8 @@ func main() {
 
 	result2 := list.AddTwoNumbers(l1,l2)
 	list.Print(result2)
+
+	in:= "abcabcbb"
+	out := string.LengthOfLongestSubstring(in);
+	fmt.Println(out)
 }
