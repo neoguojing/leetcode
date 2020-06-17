@@ -7,11 +7,27 @@ import(
 
 
 func TestIsMatch(t *testing.T){
-	t = "aa"
-	p = "a*"
+	text := "aa"
+	p := "a*"
 
-	ret := string.IsMatch(t,p)
-	if(!ret) [
-		
-	]
+	ret := string.IsMatch(text,p)
+	if(!ret) {
+		t.Error("wrong")
+	}
+
+	text = "aa"
+	p = ".*"
+
+	ret = string.IsMatch(text,p)
+	if(!ret) {
+		t.Error("wrong")
+	}
+
+	text = "aa"
+	p = "a"
+
+	ret = string.IsMatch(text,p)
+	if(!ret) {
+		t.Error("wrong")
+	}
 }
