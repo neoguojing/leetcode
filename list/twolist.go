@@ -77,6 +77,7 @@ func AddTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 	return head.Next
 }
 
+//递归解法
 func AddTwoNumbersRecur(l1 *ListNode, l2 *ListNode) *ListNode {
 	return nil
 }
@@ -85,4 +86,16 @@ func addTwoNumbersRecur(l1 *ListNode, l2 *ListNode, carry int, output *ListNode)
 	if l1 == nil {
 
 	}
+}
+
+/**
+no 21
+合并两个有序链表。
+
+1.首尾比较，一次合并
+2.
+**/
+func  MergeTwoLists( l1, l2 *ListNode) *ListNode{
+
+	return nil
 }

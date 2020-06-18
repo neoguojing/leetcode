@@ -12,8 +12,6 @@ func reverse(x int32) int32 {
 		mod := x%10
 		x = x/10
 
-		ret = ret * 10 + mod
-
 		if ret > MAX_INT32/10 {
 			return 0
 		}
@@ -21,6 +19,8 @@ func reverse(x int32) int32 {
 		if ret < MIN_INT32/10 {
 			return 0
 		}
+
+		ret = ret * 10 + mod
 	}
 
 	return ret
