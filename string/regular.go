@@ -22,7 +22,17 @@ func IsMatch(text, patten string) bool {
 	}
 	for i := 0; i < m; i++ {
 		for j := 0; j < n; j++ {
+			if text[i] == patten[j] || patten[j] =='.' {
+				dp[i+1][j+1] = dp[i][j]
+			}
 
+			if patten[j] == '*' {
+				if patten[j-1] != text[i] && patten[j-1] != '.'{
+					dp[i+1][j+1] = dp[i+1][j+1-2]
+				} else if patten[j-1] == text[i] || patten[j-1] == '.' {
+					dp[i+1][j+1] = dp[i][j+1] || dp[i+1][j] || dp[i+1][j-1]
+				}
+			}
 		}
 	}
 	return dp[m][n]

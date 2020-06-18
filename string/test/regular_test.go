@@ -27,7 +27,7 @@ func TestIsMatch(t *testing.T){
 	p = "a"
 
 	ret = string.IsMatch(text,p)
-	if(!ret) {
+	if(ret) {
 		t.Error("wrong")
 	}
 }
