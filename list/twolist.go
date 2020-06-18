@@ -1,38 +1,5 @@
 package list
 
-import (
-	"fmt"
-)
-
-type ListNode struct {
-	Next *ListNode
-	Val  int
-}
-
-func GeneListByArray(in []int) *ListNode {
-	head := &ListNode{}
-	cur := head
-	for _, v := range in {
-		cur.Next = &ListNode{
-			Val: v,
-		}
-		cur = cur.Next
-	}
-
-	return head.Next
-}
-
-func Print(head *ListNode) {
-	cur := head
-	out := ""
-	for cur != nil {
-		out += fmt.Sprintf("%d->", cur.Val)
-		cur = cur.Next
-	}
-
-	fmt.Println(out)
-}
-
 //no 2
 //carry变量
 //空头节点的应用
@@ -89,13 +56,39 @@ func addTwoNumbersRecur(l1 *ListNode, l2 *ListNode, carry int, output *ListNode)
 }
 
 /**
+MergeTwoLists...
 no 21
 合并两个有序链表。
 
 1.首尾比较，一次合并
-2.
+2.递归结束条件：
 **/
-func  MergeTwoLists( l1, l2 *ListNode) *ListNode{
+func MergeTwoLists(l1, l2 *ListNode) *ListNode {
+	dummyHead := &ListNode{}
+	cur := dummyHead
+	mergeTwoLists(l1, l2, cur)
+	return dummyHead.Next
+}
+func mergeTwoLists(l1, l2, cur *ListNode) {
+	if l1 == nil && l2 == nil {
+		return
+	}
+	if l1 == nil && l2 != nil {
+		cur.Next = l2
+		return
+	}
 
-	return nil
+	if l1 != nil && l2 == nil {
+		cur.Next = l1
+		return
+	}
+
+	if l1.Val < l2.Val {
+		cur.Next = l1
+		mergeTwoLists(l1.Next, l2, cur.Next)
+	} else {
+		cur.Next = l2
+		mergeTwoLists(l1, l2.Next, cur.Next)
+	}
+
 }
