@@ -4,6 +4,7 @@ import(
 	"leetcode/array"
 	"leetcode/list"
 	"leetcode/string"
+	"leetcode/integer"
 	"fmt"
 )
 
@@ -30,4 +31,7 @@ func main() {
 	in = "babad"
 	outStr := string.LongestPalindrome(in)
 	fmt.Println(outStr)
+
+	fmt.Println(integer.MAX_INT32)
+	fmt.Println(integer.MIN_INT32)
 }
