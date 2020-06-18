@@ -10,5 +10,5 @@ func TestMergeTwoLists(t *testing.T) {
 	b := list.GeneListByArray([]int{1, 3, 4})
 	c := list.MergeTwoLists(a, b)
 
-	t.Log(list.ToString(c))
+	t.Log(c.ToString(c))
 }

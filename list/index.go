@@ -20,13 +20,13 @@ func GeneListByArray(in []int) *ListNode {
 	return head.Next
 }
 
-func Print(head *ListNode) {
-	out := ToString(head)
+func (l *ListNode) Print(head *ListNode) {
+	out := l.ToString(head)
 
 	fmt.Println(out)
 }
 
-func ToString(head *ListNode) string {
+func (l *ListNode) ToString(head *ListNode) string {
 	cur := head
 	out := ""
 	for cur != nil {
