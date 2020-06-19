@@ -42,3 +42,37 @@ func swapPairs(p, n1, n2 *ListNode) {
 
 	swapPairs(n1, n1.Next, n1.Next.Next)
 }
+
+/*
+19 给定一个链表，将倒数第 n 个结点删除
+快慢指针
+n = 2
+ 0->1->2->3->4->nil
+nth       i
+q         p 
+	  nth        i
+	   q         p         
+	   
+**/
+func RemoveNthFromEnd(head *ListNode, n int) *ListNode{
+	i:=0
+	nth := 0
+	p := head
+	q := head
+	for ;p != nil;p = p.Next {
+		if i-nth == n+1 {
+			nth++
+			q = q.Next
+		}
+		i++
+	}
+
+
+	if q.Next != nil {
+		q.Next = q.Next.Next
+	}
+	
+	return head
+}
+
+
