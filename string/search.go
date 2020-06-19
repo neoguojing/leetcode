@@ -2,7 +2,7 @@ package string
 
 import()
 
-//给定一个字符串，找到没有重复字符的最长子串，返回它的长度。
+//no 3给定一个字符串，找到没有重复字符的最长子串，返回它的长度。
 //滑动窗口
 func LengthOfLongestSubstring(in string) int{
 	max := 0
