@@ -18,3 +18,10 @@ func TestRemoveNthFromEnd(t *testing.T) {
 	head := list.RemoveNthFromEnd(a,2)
 	t.Log(head.ToString(head))
 }
+
+func TestRReverseList(t *testing.T) {
+	a := list.GeneListByArray([]int{1, 2, 3, 4,5})
+
+	head := list.ReverseList(a)
+	t.Log(head.ToString(head))
+}

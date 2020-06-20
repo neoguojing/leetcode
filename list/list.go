@@ -59,6 +59,7 @@ func RemoveNthFromEnd(head *ListNode, n int) *ListNode{
 	nth := 0
 	p := head
 	q := head
+	
 	for ;p != nil;p = p.Next {
 		if i-nth == n+1 {
 			nth++
@@ -75,4 +76,31 @@ func RemoveNthFromEnd(head *ListNode, n int) *ListNode{
 	return head
 }
 
+
+/*
+25 将一个链表，每 k 个倒置，最后一组不足 k 个就不倒置
+**/
+func ReverseKGroup(head *ListNode, k int) *ListNode{
+	return nil
+}
+
+/*
+a ->     b -> c -> other
+
+dummy    head
+dummy         head
+*/
+func ReverseList(head *ListNode) *ListNode {
+	if head == nil {
+		return nil
+	}
+
+	dummyHead := &ListNode{}
+	for head!= nil {
+		dummyHead.Next = head
+		head = head.Next
+	}
+
+	return dummyHead.Next
+}
 
