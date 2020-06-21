@@ -4,6 +4,7 @@ import (
 	"sort"
 )
 
+//TwoSum ...
 func TwoSum(nums []int, target int) []int {
 	anotherMap := make(map[int]int)
 	for i := 0; i < len(nums); i++ {
@@ -22,6 +23,7 @@ func TwoSum(nums []int, target int) []int {
 	return result
 }
 
+//ThreeSum ...
 //排序和双指针
 func ThreeSum(nums []int, target int) [][]int {
 	sort.Ints(nums)
