@@ -22,6 +22,7 @@ func TestRemoveNthFromEnd(t *testing.T) {
 func TestReverseList(t *testing.T) {
 	a := list.GeneListByArray([]int{1, 2, 3, 4,5})
 
-	head := list.ReverseList(a)
+	head,tail := list.ReverseList(a)
 	t.Log(head.ToString(head))
+	t.Log(tail)
 }

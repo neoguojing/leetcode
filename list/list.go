@@ -77,37 +77,81 @@ func RemoveNthFromEnd(head *ListNode, n int) *ListNode{
 }
 
 
+
+
 /*
 25 将一个链表，每 k 个倒置，最后一组不足 k 个就不倒置
+递归：
+1.子问题：g(n-1).Next = g(n)
+2.结束条件：组元素个数小于k，则不
 **/
 func ReverseKGroup(head *ListNode, k int) *ListNode{
-	return nil
-}
-
-/*
-a ->     b -> c -> other
-
-dummy         head
-1.需要一个额外指针
-2.提前将末尾指针设置为nil
-*/
-func ReverseList(head *ListNode) *ListNode {
 	if head == nil {
 		return nil
 	}
 
+	if k == 0 {
+		return head
+	}
+
+	if k == 1 {
+		return ReverseList(head)
+	}
+
+	dummy := &ListNode{}
+	dummy.Next = reverseKGroup(head,k)
+	
+	return dummy.Next
+}
+/**
+k = 3
+0     ->      1- >     2   ->    3->    4
+p
+count 
+					   p
+
+*/
+func reverseKGroup(head *ListNode,k int) *ListNode{
+	var count =0
+	p := head
+	for p != nil && count+1<k {
+		p = p.Next
+		count++
+	}
+
+	if count+1 < k {
+		return head
+	}
+
+	
+	
+	return 
+}
+/*
+a ->     b -> c -> other
+
+dummy         head 
+1.需要一个额外指针，保存即将插入的元素
+3.head保存接下来将插入的元素
+2.提前将末尾指针设置为nil
+*/
+func ReverseList(head *ListNode) (*ListNode,*ListNode) {
+	if head == nil {
+		return nil,nil
+	}
+	tail := head
 	dummyHead := &ListNode{}
 	dummyHead.Next = head
+	q := head
 	head= head.Next
 	dummyHead.Next.Next = nil
 	for head!= nil {
-		q := head
+		q = head
 		head=head.Next
 		q.Next = dummyHead.Next
 		dummyHead.Next = q
-		
 	}
 
-	return dummyHead.Next
+	return dummyHead.Next,tail
 }
 
