@@ -49,18 +49,18 @@ func swapPairs(p, n1, n2 *ListNode) {
 n = 2
  0->1->2->3->4->nil
 nth       i
-q         p 
+q         p
 	  nth        i
-	   q         p         
-	   
+	   q         p
+
 **/
-func RemoveNthFromEnd(head *ListNode, n int) *ListNode{
-	i:=0
+func RemoveNthFromEnd(head *ListNode, n int) *ListNode {
+	i := 0
 	nth := 0
 	p := head
 	q := head
-	
-	for ;p != nil;p = p.Next {
+
+	for ; p != nil; p = p.Next {
 		if i-nth == n+1 {
 			nth++
 			q = q.Next
@@ -68,16 +68,12 @@ func RemoveNthFromEnd(head *ListNode, n int) *ListNode{
 		i++
 	}
 
-
 	if q.Next != nil {
 		q.Next = q.Next.Next
 	}
-	
+
 	return head
 }
-
-
-
 
 /*
 25 将一个链表，每 k 个倒置，最后一组不足 k 个就不倒置
@@ -85,7 +81,7 @@ func RemoveNthFromEnd(head *ListNode, n int) *ListNode{
 1.子问题：g(n-1).Next = g(n)
 2.结束条件：组元素个数小于k，则不
 **/
-func ReverseKGroup(head *ListNode, k int) *ListNode{
+func ReverseKGroup(head *ListNode, k int) *ListNode {
 	if head == nil {
 		return nil
 	}
@@ -95,63 +91,70 @@ func ReverseKGroup(head *ListNode, k int) *ListNode{
 	}
 
 	if k == 1 {
-		return ReverseList(head)
-	}
-
-	dummy := &ListNode{}
-	dummy.Next = reverseKGroup(head,k)
-	
-	return dummy.Next
-}
-/**
-k = 3
-0     ->      1- >     2   ->    3->    4
-p
-count 
-					   p
-
-*/
-func reverseKGroup(head *ListNode,k int) *ListNode{
-	var count =0
-	p := head
-	for p != nil && count+1<k {
-		p = p.Next
-		count++
-	}
-
-	if count+1 < k {
+		head, _ = ReverseList(head)
 		return head
 	}
 
-	
-	
-	return 
+	head = reverseKGroup(head, k)
+
+	return head
 }
-/*
+
+/**
+
+ */
+func reverseKGroup(head *ListNode, k int) *ListNode {
+	var count = 0
+	//需要指针做偏移
+	p := head
+	//找到第n组的尾指针
+	for p.Next != nil && count+1 < k {
+		p = p.Next
+		count++
+	}
+	//确定本组的尾指针和下一组的头指针
+	tail := p
+	//编码时要注意空指针
+	p = p.Next
+	//长度不足直接返回
+	if count+1 < k {
+		return head
+	}
+	//断开胃部进行本组反转
+	tail.Next = nil
+	head, tail = ReverseList(head)
+	//进行下一组反转
+	if p != nil {
+		tail.Next = reverseKGroup(p, k)
+	}
+
+	return head
+}
+
+/*ReverseList ...
 a ->     b -> c -> other
 
-dummy         head 
+dummy         head
 1.需要一个额外指针，保存即将插入的元素
 3.head保存接下来将插入的元素
 2.提前将末尾指针设置为nil
 */
-func ReverseList(head *ListNode) (*ListNode,*ListNode) {
+func ReverseList(head *ListNode) (*ListNode, *ListNode) {
 	if head == nil {
-		return nil,nil
+		return nil, nil
 	}
 	tail := head
 	dummyHead := &ListNode{}
 	dummyHead.Next = head
 	q := head
-	head= head.Next
+	head = head.Next
 	dummyHead.Next.Next = nil
-	for head!= nil {
+	for head != nil {
 		q = head
-		head=head.Next
+		head = head.Next
 		q.Next = dummyHead.Next
 		dummyHead.Next = q
 	}
 
-	return dummyHead.Next,tail
+	return dummyHead.Next, tail
 }
-

@@ -13,16 +13,25 @@ func TestSwapPairs(t *testing.T) {
 }
 
 func TestRemoveNthFromEnd(t *testing.T) {
-	a := list.GeneListByArray([]int{1, 2, 3, 4,5})
+	a := list.GeneListByArray([]int{1, 2, 3, 4, 5})
 
-	head := list.RemoveNthFromEnd(a,2)
+	head := list.RemoveNthFromEnd(a, 2)
 	t.Log(head.ToString(head))
 }
 
 func TestReverseList(t *testing.T) {
-	a := list.GeneListByArray([]int{1, 2, 3, 4,5})
+	a := list.GeneListByArray([]int{1, 2, 3, 4, 5})
 
-	head,tail := list.ReverseList(a)
+	head, tail := list.ReverseList(a)
 	t.Log(head.ToString(head))
 	t.Log(tail)
+}
+
+func TestReverseKGroup(t *testing.T) {
+	a := list.GeneListByArray([]int{1, 2, 3, 4, 5})
+	head := list.ReverseKGroup(a, 2)
+	t.Log(head.ToString(head))
+	a = list.GeneListByArray([]int{1, 2, 3, 4, 5})
+	head = list.ReverseKGroup(a, 3)
+	t.Log(head.ToString(head))
 }
