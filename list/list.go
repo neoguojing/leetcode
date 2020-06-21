@@ -87,8 +87,9 @@ func ReverseKGroup(head *ListNode, k int) *ListNode{
 /*
 a ->     b -> c -> other
 
-dummy    head
 dummy         head
+1.需要一个额外指针
+2.提前将末尾指针设置为nil
 */
 func ReverseList(head *ListNode) *ListNode {
 	if head == nil {
@@ -96,9 +97,15 @@ func ReverseList(head *ListNode) *ListNode {
 	}
 
 	dummyHead := &ListNode{}
+	dummyHead.Next = head
+	head= head.Next
+	dummyHead.Next.Next = nil
 	for head!= nil {
-		dummyHead.Next = head
-		head = head.Next
+		q := head
+		head=head.Next
+		q.Next = dummyHead.Next
+		dummyHead.Next = q
+		
 	}
 
 	return dummyHead.Next
