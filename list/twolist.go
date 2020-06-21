@@ -1,5 +1,6 @@
 package list
 
+//AddTwoNumbers ...
 //no 2
 //carry变量
 //空头节点的应用
@@ -55,8 +56,7 @@ func addTwoNumbersRecur(l1 *ListNode, l2 *ListNode, carry int, output *ListNode)
 	}
 }
 
-/**
-MergeTwoLists...
+/*MergeTwoLists ...
 no 21
 合并两个有序链表。
 
