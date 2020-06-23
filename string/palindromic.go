@@ -46,6 +46,7 @@ func longestPalindromeByDP(in string) string {
 	return ret
 }
 
+// todo
 func longestPalindromeByDP1(in string) string {
 	n := len(in)
 	dp := make([]bool, n)
