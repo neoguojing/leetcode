@@ -156,3 +156,50 @@ func ReverseList(head *ListNode) (*ListNode, *ListNode) {
 
 	return dummyHead.Next, tail
 }
+
+/*RotateRight ...
+no 61
+将最后一个链表节点移到最前边，然后重复这个过程 k 次。
+快慢指针：如何找到目标指针?
+1.倒转倒数k个，需要找出倒数第k+1个
+2.
+不满足k的，不处理
+k=3
+3    2    1    0
+0 -> 1 -> 2 -> 3 -> 4
+			   k
+head
+					k
+    head
+*/
+func RotateRight(head *ListNode, k int) *ListNode {
+	if head == nil || k == 0 {
+		return nil
+	}
+
+	dummyHead := &ListNode{}
+	dummyHead.Next = head
+	p := head
+
+	for p.Next != nil {
+		if k <= 0 {
+			head = head.Next
+		}
+		k--
+		p = p.Next
+	}
+
+	//长度不足，则返回
+	if k-1 > 0 {
+		return head
+	}
+
+	q := head.Next
+	head.Next = nil
+
+	h, t := ReverseList(q)
+	t.Next = dummyHead.Next
+	dummyHead.Next = h
+
+	return dummyHead.Next
+}
