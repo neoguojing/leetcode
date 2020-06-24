@@ -42,6 +42,7 @@ func LetterCombinations(digits string) []string {
 
 }
 
+//LetterCombinationsWithQueue ...
 func LetterCombinationsWithQueue(digits string) []string {
 	var digitLetter = []string{"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"}
 	strings := make([]string, 0)
