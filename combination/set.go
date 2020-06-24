@@ -1,5 +1,7 @@
 package combination
 
+import "fmt"
+
 /*Subsets ...
 no 78
 给一个数组，输出这个数组的所有子数组
@@ -12,17 +14,27 @@ func Subsets(nums []int) [][]int {
 	}
 
 	result := make([][]int, 0)
-	//result = append(result, make([]int, 0))
-	for i := rang nums{
-		result = append(result,subsets(nums,i)) 
-	}
+	tmp := make([]int, 0)
+	subsets(nums, 0, tmp, result)
 	return result
 }
 
-func subsets(nums []int,index int) [][]int {
-	if len(nums) == 0 {
-		
-		return 
+func subsets(nums []int, index int, tmp []int, result [][]int) [][]int {
+	result = append(result, tmp)
+	for i := index; i < len(nums); i++ {
+		tmp = append(tmp, nums[i])
+		result = subsets(nums, i+1, tmp, result)
+		tmpLen := len(tmp)
+		if tmpLen == 0 {
+			tmp = make([]int, 0)
+		} else if tmpLen == 1 {
+			tmp = make([]int, 0)
+		} else {
+			tmp = tmp[0 : tmpLen-1]
+		}
+
 	}
+
+	fmt.Println(result)
 	return result
 }
