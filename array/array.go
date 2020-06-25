@@ -19,3 +19,66 @@ func RemoveDuplicates(nums []int) int {
 	nums = nums[0 : j+1]
 	return j + 1
 }
+
+/*SearchRange ...
+no 34
+找到目标值的第一次出现和最后一次出现的位置，同样要求 log ( n ) 下完成
+数组已经有序
+二分查找
+查找左侧边界和右侧边界
+*/
+func SearchRange(nums []int, target int) []int {
+	ret := make([]int, 2)
+	left := FindLeftBound(nums, target)
+	right := FindRightBound(nums, target)
+	ret[0] = left
+	ret[1] = right
+
+	return ret
+}
+
+//FindLeftBound ...
+//查找target的左侧边界
+func FindLeftBound(nums []int, target int) int {
+	left, right := 0, len(nums)-1
+	//寻找左侧边界
+	for left <= right {
+		mid := left + (right-left)/2
+		if nums[mid] < target {
+			left = mid + 1
+		} else if nums[mid] > target {
+			right = mid - 1
+		} else if nums[mid] == target {
+			right = mid - 1
+		}
+	}
+
+	if left >= len(nums) || nums[left] != target {
+		return -1
+	}
+
+	return left
+}
+
+//FindRightBound ...
+//查找target的右侧边界
+func FindRightBound(nums []int, target int) int {
+	left, right := 0, len(nums)-1
+	//寻找左侧边界
+	for left <= right {
+		mid := left + (right-left)/2
+		if nums[mid] < target {
+			left = mid + 1
+		} else if nums[mid] > target {
+			right = mid - 1
+		} else if nums[mid] == target {
+			left = mid + 1
+		}
+	}
+
+	if right < 0 || nums[right] != target {
+		return -1
+	}
+
+	return right
+}
