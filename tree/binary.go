@@ -4,7 +4,7 @@ package tree
 //no 100
 //判断两个二叉树是否相同
 //中序遍历
-func  IsSameTree( p *TreeNode,  q *TreeNode) bool{
+func IsSameTree( p *TreeNode,  q *TreeNode) bool{
 	return inorderTraversal(p,q)
 }
 
