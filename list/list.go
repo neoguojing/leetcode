@@ -271,10 +271,9 @@ no 86
 双指针
 */
 func Partition(head *ListNode, x int) *ListNode {
+	//两个头指针，两个活动指针
 	dummyLeft, dummyRight := &ListNode{}, &ListNode{}
 	p, q := dummyLeft, dummyRight
-	dummyLeft.Next = p
-	dummyRight.Next = q
 	for head != nil {
 		if head.Val < x {
 			p.Next = head
@@ -285,7 +284,9 @@ func Partition(head *ListNode, x int) *ListNode {
 		}
 		head = head.Next
 	}
-
+	//切断尾防止环路
+	q.Next = nil
+	//连接两部分列表
 	p.Next = dummyRight.Next
 	return dummyLeft.Next
 }
