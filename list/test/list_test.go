@@ -59,3 +59,13 @@ func TestDeleteDuplicates(t *testing.T) {
 	head = list.DeleteDuplicates(a)
 	t.Log(head.ToString(head))
 }
+
+func TestDeleteAllDuplicates(t *testing.T) {
+	a := list.GeneListByArray([]int{1, 2, 3, 3, 4, 4, 5})
+	head := list.DeleteAllDuplicates(a)
+	t.Log(head.ToString(head))
+
+	a = list.GeneListByArray([]int{1, 1, 1, 2, 3})
+	head = list.DeleteAllDuplicates(a)
+	t.Log(head.ToString(head))
+}

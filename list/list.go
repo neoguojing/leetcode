@@ -229,3 +229,35 @@ func DeleteDuplicates(head *ListNode) *ListNode {
 	}
 	return dummy.Next
 }
+
+/*DeleteAllDuplicates ...
+列表有序
+给一个链表，如果一个数属于重复数字，就把这个数删除，一个都不留
+*/
+func DeleteAllDuplicates(head *ListNode) *ListNode {
+	if head == nil {
+		return head
+	}
+	dummy := &ListNode{}
+	dummy.Next = head
+	//指想前一个节点
+	p := dummy
+	head = head.Next
+	for head != nil {
+		if p.Next.Val != head.Val {
+			p = p.Next
+			head = head.Next
+		} else {
+			//遍历所有相同的
+			for p.Next.Val == head.Val && head != nil {
+				head = head.Next
+			}
+			p.Next = head
+			if head != nil {
+				head = head.Next
+			}
+		}
+
+	}
+	return dummy.Next
+}
