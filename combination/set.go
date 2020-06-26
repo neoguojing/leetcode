@@ -1,5 +1,9 @@
 package combination
 
+import (
+	"sort"
+)
+
 /*Subsets ...
 no 78
 给一个数组，输出这个数组的所有子数组
@@ -54,6 +58,40 @@ func SubsetsWithBit(nums []int) [][]int {
 			k = k << 1
 		}
 		result = append(result, item)
+	}
+	return result
+}
+
+//SubsetsWithDup ...
+// 去除重复元素 1.数组排序 2.
+/*1 2 2
+ */
+func SubsetsWithDup(nums []int) [][]int {
+	if nums == nil {
+		return nil
+	}
+	//对数组排序
+	sort.Ints(nums)
+
+	result := make([][]int, 0)
+	tmp := make([]int, 0)
+	result = subsetsWithDup(nums, 0, tmp, result)
+	return result
+}
+
+func subsetsWithDup(nums []int, index int, tmp []int, result [][]int) [][]int {
+	row := make([]int, len(tmp))
+	copy(row, tmp)
+	result = append(result, row)
+
+	for i := index; i < len(nums); i++ {
+		//相邻重复的元素过滤
+		if i > index && nums[i] == nums[i-1] {
+			continue
+		}
+		tmp = append(tmp, nums[i])
+		result = subsetsWithDup(nums, i+1, tmp, result)
+		tmp = tmp[0 : len(tmp)-1]
 	}
 	return result
 }
