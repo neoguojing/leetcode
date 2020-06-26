@@ -1,6 +1,7 @@
 package combination
 
 import (
+	"fmt"
 	"sort"
 )
 
@@ -12,6 +13,9 @@ no 78
 递归函数是一个多路递归
 需要维护一个当前路径tmp，记录当前取值情况，方便回溯
 需要维护一个变量记录当前迭代的可选路径中的某个值
+1 2 3
+ 1  2  3
+ 1  2
 2.位表示法：
 */
 func Subsets(nums []int) [][]int {
@@ -29,12 +33,15 @@ func subsets(nums []int, index int, tmp []int, result [][]int) [][]int {
 	//copy 防止内存被修改
 	item := make([]int, len(tmp))
 	copy(item, tmp)
+
+	fmt.Println(item)
+	fmt.Println(index)
+
 	result = append(result, item)
 	for i := index; i < len(nums); i++ {
 		tmp = append(tmp, nums[i])
 		result = subsets(nums, i+1, tmp, result)
-		tmpLen := len(tmp)
-		tmp = tmp[0 : tmpLen-1]
+		tmp = tmp[0 : len(tmp)-1]
 	}
 	return result
 }
@@ -85,7 +92,7 @@ func subsetsWithDup(nums []int, index int, tmp []int, result [][]int) [][]int {
 	result = append(result, row)
 
 	for i := index; i < len(nums); i++ {
-		//相邻重复的元素过滤
+		//当前数等于前一个数，且前一个数在该次迭代中存在
 		if i > index && nums[i] == nums[i-1] {
 			continue
 		}

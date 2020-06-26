@@ -203,3 +203,29 @@ func RotateRight(head *ListNode, k int) *ListNode {
 
 	return dummyHead.Next
 }
+
+/*DeleteDuplicates ...
+no 83
+列表有序
+给定一个链表，去重，每个数字只保留一个
+*/
+func DeleteDuplicates(head *ListNode) *ListNode {
+	if head == nil {
+		return head
+	}
+	dummy := &ListNode{}
+	dummy.Next = head
+	p := head.Next
+
+	for p != nil {
+		if p.Val != head.Val {
+			p = p.Next
+			head = head.Next
+		} else {
+			head.Next = p.Next
+			p = head.Next
+		}
+
+	}
+	return dummy.Next
+}

@@ -49,3 +49,13 @@ func TestRotateRight(t *testing.T) {
 	head = list.RotateRight(a, 3)
 	t.Log(head.ToString(head))
 }
+
+func TestDeleteDuplicates(t *testing.T) {
+	a := list.GeneListByArray([]int{1, 1, 2})
+	head := list.DeleteDuplicates(a)
+	t.Log(head.ToString(head))
+
+	a = list.GeneListByArray([]int{1, 1, 2, 3, 3})
+	head = list.DeleteDuplicates(a)
+	t.Log(head.ToString(head))
+}
