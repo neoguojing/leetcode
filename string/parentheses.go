@@ -4,7 +4,7 @@ import (
 	"leetcode/utils"
 )
 
-/*
+/*IsParenthesesValid ...
 20 括号匹配问题
 */
 func IsParenthesesValid(in string) bool {

@@ -1,5 +1,6 @@
 package string
 
+//LongestPalindrome ...
 //给定一个字符串，输出最长的回文子串。回文串指的是正的读和反的读是一样的字符串
 func LongestPalindrome(in string) string {
 	return longestPalindromeByDP1(in)
@@ -18,7 +19,7 @@ func LongestPalindrome(in string) string {
 func longestPalindromeByDP(in string) string {
 	n := len(in)
 	dp := make([][]bool, n)
-	for i, _ := range dp {
+	for i := range dp {
 		dp[i] = make([]bool, 0)
 		for j := 0; j < n; j++ {
 			dp[i] = append(dp[i], false)
@@ -50,7 +51,7 @@ func longestPalindromeByDP(in string) string {
 func longestPalindromeByDP1(in string) string {
 	n := len(in)
 	dp := make([]bool, n)
-	for i, _ := range dp {
+	for i := range dp {
 		dp[i] = false
 	}
 	rs := []rune(in)
