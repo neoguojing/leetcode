@@ -69,3 +69,9 @@ func TestDeleteAllDuplicates(t *testing.T) {
 	head = list.DeleteAllDuplicates(a)
 	t.Log(head.ToString(head))
 }
+
+func TestPartition(t *testing.T) {
+	a := list.GeneListByArray([]int{1, 4, 3, 2, 5, 2})
+	head := list.Partition(a, 3)
+	t.Log(head.ToString(head))
+}

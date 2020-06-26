@@ -208,6 +208,7 @@ func RotateRight(head *ListNode, k int) *ListNode {
 no 83
 列表有序
 给定一个链表，去重，每个数字只保留一个
+双指针
 */
 func DeleteDuplicates(head *ListNode) *ListNode {
 	if head == nil {
@@ -231,8 +232,10 @@ func DeleteDuplicates(head *ListNode) *ListNode {
 }
 
 /*DeleteAllDuplicates ...
+no 82
 列表有序
 给一个链表，如果一个数属于重复数字，就把这个数删除，一个都不留
+双指针
 */
 func DeleteAllDuplicates(head *ListNode) *ListNode {
 	if head == nil {
@@ -260,4 +263,29 @@ func DeleteAllDuplicates(head *ListNode) *ListNode {
 
 	}
 	return dummy.Next
+}
+
+/*Partition ...
+no 86
+将链表分成了两部分，一部分的数字全部小于分区点 x，另一部分全部大于等于分区点 x。最后就是 1 2 2 和 4 3 5 两部分。
+双指针
+*/
+func Partition(head *ListNode, x int) *ListNode {
+	dummyLeft, dummyRight := &ListNode{}, &ListNode{}
+	p, q := dummyLeft, dummyRight
+	dummyLeft.Next = p
+	dummyRight.Next = q
+	for head != nil {
+		if head.Val < x {
+			p.Next = head
+			p = p.Next
+		} else {
+			q.Next = head
+			q = q.Next
+		}
+		head = head.Next
+	}
+
+	p.Next = dummyRight.Next
+	return dummyLeft.Next
 }
