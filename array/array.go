@@ -82,3 +82,32 @@ func FindRightBound(nums []int, target int) int {
 
 	return right
 }
+
+//SearchInsert ...
+//no 35
+//给定一个有序数组，依旧是二分查找，不同之处是如果没有找到指定数字，需要返回这个数字应该插入的位置。
+func SearchInsert(nums []int, target int) int {
+	start := 0
+	end := len(nums) - 1
+
+	for start <= end {
+		mid := start + (end-start)/2
+		if nums[mid] < target {
+			start = mid + 1
+		} else if nums[mid] > target {
+			end = mid - 1
+		} else if nums[mid] == target {
+			return start
+		}
+	}
+
+	if start == 0 {
+		return 0
+	}
+
+	if end == len(nums)-1 {
+		return len(nums)
+	}
+
+	return start
+}

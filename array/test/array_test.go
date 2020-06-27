@@ -21,3 +21,19 @@ func TestSearchRange(t *testing.T) {
 	t.Log(ret)
 
 }
+
+func TestSearchInsert(t *testing.T) {
+	in := []int{1, 3, 5, 6}
+	ret := array.SearchInsert(in, 5)
+	t.Log(ret)
+
+	ret = array.SearchInsert(in, 2)
+	t.Log(ret)
+
+	ret = array.SearchInsert(in, 7)
+	t.Log(ret)
+
+	ret = array.SearchInsert(in, 0)
+	t.Log(ret)
+
+}
