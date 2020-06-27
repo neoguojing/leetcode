@@ -1,5 +1,7 @@
 package array
 
+import "fmt"
+
 /*RemoveDuplicates ...
 返回非重复数字的个数，并且把 nums 里重复的数字也去掉。
 例如，nums = [ 1, 1, 2 ] ，那么就返回 2 ，并且把 nums 变成 [ 1, 2 ]。
@@ -7,17 +9,47 @@ package array
  1 1 2 2 3 3
 */
 func RemoveDuplicates(nums []int) int {
+	if nums == nil || len(nums) == 0 {
+		return 0
+	}
 	//j 记录非重复元素的插入位置
 	i, j := 1, 0
 	for ; i < len(nums); i++ {
 		if nums[i] != nums[j] {
 			j++
+
 			nums[j] = nums[i]
 		}
 	}
 
 	nums = nums[0 : j+1]
 	return j + 1
+}
+
+//RemoveElement ...
+// no 27
+// 只不过这个是去除给定的值。
+//遇到删除的元素，用末尾元素覆盖，长度减一，需要防止末尾元素即要删除的元素
+func RemoveElement(nums []int, val int) int {
+	if nums == nil || len(nums) == 0 {
+		return 0
+	}
+
+	end := len(nums)
+	i := 0
+	//end 会变化
+	for i < end {
+		if nums[i] == val {
+			nums[i] = nums[end-1]
+			end--
+		} else {
+			//防止末尾的数字和当前数字相同
+			i++
+		}
+	}
+	nums = nums[:end]
+	fmt.Println(nums)
+	return end
 }
 
 /*SearchRange ...

@@ -37,3 +37,13 @@ func TestSearchInsert(t *testing.T) {
 	t.Log(ret)
 
 }
+
+func TestRemoveElement(t *testing.T) {
+	in := []int{3, 2, 2, 3}
+	ret := array.RemoveElement(in, 3)
+	t.Log(ret)
+
+	in = []int{0, 1, 2, 2, 3, 0, 4, 2}
+	ret = array.RemoveElement(in, 2)
+	t.Log(ret)
+}
