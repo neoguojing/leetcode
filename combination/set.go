@@ -25,11 +25,11 @@ func Subsets(nums []int) [][]int {
 
 	result := make([][]int, 0)
 	tmp := make([]int, 0)
-	result = subsets(nums, 0, tmp, result)
+	subsets(nums, 0, tmp, &result)
 	return result
 }
 
-func subsets(nums []int, index int, tmp []int, result [][]int) [][]int {
+func subsets(nums []int, index int, tmp []int, result *[][]int) {
 	//copy 防止内存被修改
 	item := make([]int, len(tmp))
 	copy(item, tmp)
@@ -37,13 +37,12 @@ func subsets(nums []int, index int, tmp []int, result [][]int) [][]int {
 	fmt.Println(item)
 	fmt.Println(index)
 
-	result = append(result, item)
+	*result = append(*result, item)
 	for i := index; i < len(nums); i++ {
 		tmp = append(tmp, nums[i])
-		result = subsets(nums, i+1, tmp, result)
+		subsets(nums, i+1, tmp, result)
 		tmp = tmp[0 : len(tmp)-1]
 	}
-	return result
 }
 
 //SubsetsWithBit ...
@@ -82,14 +81,14 @@ func SubsetsWithDup(nums []int) [][]int {
 
 	result := make([][]int, 0)
 	tmp := make([]int, 0)
-	result = subsetsWithDup(nums, 0, tmp, result)
+	subsetsWithDup(nums, 0, tmp, &result)
 	return result
 }
 
-func subsetsWithDup(nums []int, index int, tmp []int, result [][]int) [][]int {
+func subsetsWithDup(nums []int, index int, tmp []int, result *[][]int) {
 	row := make([]int, len(tmp))
 	copy(row, tmp)
-	result = append(result, row)
+	*result = append(*result, row)
 
 	for i := index; i < len(nums); i++ {
 		//当前数等于前一个数，且前一个数在该次迭代中存在
@@ -97,8 +96,7 @@ func subsetsWithDup(nums []int, index int, tmp []int, result [][]int) [][]int {
 			continue
 		}
 		tmp = append(tmp, nums[i])
-		result = subsetsWithDup(nums, i+1, tmp, result)
+		subsetsWithDup(nums, i+1, tmp, result)
 		tmp = tmp[0 : len(tmp)-1]
 	}
-	return result
 }
