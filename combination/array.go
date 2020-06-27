@@ -85,3 +85,43 @@ func combinationSum(nums []int, target int, tmp []int, result *[][]int, pos int)
 	}
 
 }
+
+//CombinationSum2 ...
+// no 40
+// 给几个数字有重复，一个目标值，输出所有和等于目标值的组合,同一个数字只能被使用一次,且集合不能重复,
+//回溯法：
+func CombinationSum2(nums []int, target int) [][]int {
+	if nums == nil || len(nums) == 0 {
+		return nil
+	}
+	sort.Ints(nums)
+	tmp := make([]int, 0)
+	result := make([][]int, 0)
+	combinationSum2(nums, target, tmp, &result, 0)
+	return result
+
+}
+
+func combinationSum2(nums []int, target int, tmp []int, result *[][]int, pos int) {
+	//递归结束条件
+	if target == 0 {
+		row := make([]int, len(tmp))
+		copy(row, tmp)
+		*result = append(*result, row)
+		return
+	} else if target < 0 {
+		return
+	}
+	//多路递归
+	//i = pos 表明只能向后选择，避免向前选择导致的重复
+	for i := pos; i < len(nums); i++ {
+		//有重复元素的需要这个条件
+		if i > pos && nums[i] == nums[i-1] {
+			continue
+		}
+		tmp = append(tmp, nums[i])
+		combinationSum2(nums, target-nums[i], tmp, result, i+1)
+		tmp = tmp[:len(tmp)-1]
+	}
+
+}
