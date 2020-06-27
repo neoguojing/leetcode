@@ -109,6 +109,8 @@ func solve(board *[][]byte) bool {
 			return false
 		}
 	}
+
+	return false
 }
 
 // 某个点的输入是否合法,行,列和cell,所谓合法是指该数字不重复,有没有.不重要
