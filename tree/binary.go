@@ -4,11 +4,11 @@ package tree
 //no 100
 //判断两个二叉树是否相同
 //中序遍历
-func IsSameTree( p *TreeNode,  q *TreeNode) bool{
-	return inorderTraversal(p,q)
+func IsSameTree(p *TreeNode, q *TreeNode) bool {
+	return inorderTraversal(p, q)
 }
 
-func inorderTraversal(p *TreeNode, q *TreeNode) bool{
+func inorderTraversal(p *TreeNode, q *TreeNode) bool {
 	if p == nil && q == nil {
 		return true
 	}
@@ -21,7 +21,7 @@ func inorderTraversal(p *TreeNode, q *TreeNode) bool{
 		return false
 	}
 
-	if !inorderTraversal(p.Left,q.Left) {
+	if !inorderTraversal(p.Left, q.Left) {
 		return false
 	}
 
@@ -29,9 +29,22 @@ func inorderTraversal(p *TreeNode, q *TreeNode) bool{
 		return false
 	}
 
-	if !inorderTraversal(p.Right,q.Right) {
+	if !inorderTraversal(p.Right, q.Right) {
 		return false
 	}
 
 	return true
+}
+
+func PreOrder(root *TreeNode, op func(*TreeNode)) {
+	if root == nil {
+		return
+	}
+
+	if op != nil {
+		op(root)
+	}
+
+	PreOrder(root.Left, op)
+	PreOrder(root.Right, op)
 }
