@@ -47,6 +47,7 @@ func inorderTraversal(p *TreeNode, q *TreeNode) bool {
 // PreOrder ...
 func PreOrder(root *TreeNode, op func(*TreeNode)) {
 	if root == nil {
+		op(root)
 		return
 	}
 

@@ -17,10 +17,38 @@ func (l *TreeNode) Print(root *TreeNode) {
 }
 
 //ToString ...
-func (l *TreeNode) ToString(root *TreeNode) [][]int {
-	out := BFSByRow(root)
+func (l *TreeNode) ToString(root *TreeNode) []int {
+	out := make([]int, 0)
+	op := func(node *TreeNode) {
+		if node != nil {
+			out = append(out, node.Val)
 
+		} else {
+			out = append(out, -1)
+		}
+	}
+
+	PreOrder(root, op)
 	return out
+}
+
+//Copy ...
+func (l *TreeNode) Copy(root *TreeNode) *TreeNode {
+
+	return l.copy(root)
+}
+
+func (l *TreeNode) copy(root *TreeNode) *TreeNode {
+	if root == nil {
+		return nil
+	}
+	copyRoot := &TreeNode{}
+	copyRoot.Val = root.Val
+
+	copyRoot.Left = l.copy(root.Left)
+	copyRoot.Right = l.copy(root.Right)
+
+	return copyRoot
 }
 
 //GeneBinaryTree ...
