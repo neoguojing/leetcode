@@ -11,6 +11,7 @@ func TestIsSameTree(t *testing.T) {
 }
 
 func TestGeneBinaryTree(t *testing.T) {
-	ret := tree.GeneBinaryTree(nil, nil)
-	t.Log(ret)
+	in := []int{1, -1, 2, -1, -1, 3}
+	ret := tree.GeneBinaryTree(in, -1)
+	t.Log(ret.ToString(ret))
 }

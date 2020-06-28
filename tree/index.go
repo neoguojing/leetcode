@@ -18,12 +18,7 @@ func (l *TreeNode) Print(root *TreeNode) {
 
 //ToString ...
 func (l *TreeNode) ToString(root *TreeNode) [][]int {
-	out := make([][]int, 0)
-	op := func(node *TreeNode) {
-		fmt.Println(node.Val)
-	}
-
-	PreOrder(root, op)
+	out := BFSByRow(root)
 
 	return out
 }
@@ -48,7 +43,7 @@ func geneBinaryTree(in []int, index int, tag int) *TreeNode {
 	node := &TreeNode{}
 	node.Val = in[index]
 	node.Left = geneBinaryTree(in, 2*index+1, tag)
-	node.Right = geneBinaryTree(in, 2*index+1, tag)
+	node.Right = geneBinaryTree(in, 2*index+2, tag)
 
 	return node
 }
