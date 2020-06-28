@@ -4,6 +4,10 @@ import (
 	"leetcode/utils"
 )
 
+/*
+	1.树的递归，可以转换为栈的方式
+*/
+
 //IsSameTree ...
 //no 100
 //判断两个二叉树是否相同
@@ -52,6 +56,32 @@ func PreOrder(root *TreeNode, op func(*TreeNode)) {
 
 	PreOrder(root.Left, op)
 	PreOrder(root.Right, op)
+}
+
+// InOrder ...
+func InOrder(root *TreeNode, op func(*TreeNode)) {
+	if root == nil {
+		return
+	}
+
+	InOrder(root.Left, op)
+	if op != nil {
+		op(root)
+	}
+	InOrder(root.Right, op)
+}
+
+// PostOrder ...
+func PostOrder(root *TreeNode, op func(*TreeNode)) {
+	if root == nil {
+		return
+	}
+
+	PostOrder(root.Left, op)
+	PostOrder(root.Right, op)
+	if op != nil {
+		op(root)
+	}
 }
 
 // BFS ...

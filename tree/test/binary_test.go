@@ -15,3 +15,15 @@ func TestGeneBinaryTree(t *testing.T) {
 	ret := tree.GeneBinaryTree(in, -1)
 	t.Log(ret.ToString(ret))
 }
+
+func TestInOrder(t *testing.T) {
+	in := []int{1, -1, 2, -1, -1, 3}
+	root := tree.GeneBinaryTree(in, -1)
+
+	ret := make([]int, 0)
+	op := func(node *tree.TreeNode) {
+		ret = append(ret, node.Val)
+	}
+	tree.InOrder(root, op)
+	t.Log(ret)
+}
