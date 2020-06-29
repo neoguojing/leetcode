@@ -27,3 +27,10 @@ func TestInOrder(t *testing.T) {
 	tree.InOrder(root, op)
 	t.Log(ret)
 }
+
+func TestGBFSByRow(t *testing.T) {
+	in := []int{1, -1, 2, -1, -1, 3}
+	root := tree.GeneBinaryTree(in, -1)
+	ret := tree.BFSByRow(root)
+	t.Log(ret)
+}

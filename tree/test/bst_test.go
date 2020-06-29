@@ -26,3 +26,14 @@ func TestIsValidBST(t *testing.T) {
 	ret = tree.IsValidBST(root)
 	t.Log(ret)
 }
+
+func TestRecoverTree(t *testing.T) {
+	root := tree.GeneBinaryTree([]int{1, 3, -1, -1, 2}, -1)
+	tree.RecoverTree(root)
+	t.Log(root.ToString(root))
+
+	root = tree.GeneBinaryTree([]int{3, 1, 4, -1, -1, 2}, -1)
+	tree.RecoverTree(root)
+	t.Log(root.ToString(root))
+
+}

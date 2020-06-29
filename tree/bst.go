@@ -108,3 +108,32 @@ func IsValidBST(root *TreeNode) bool {
 	}
 	return true
 }
+
+//RecoverTree ...
+//no 99
+// 一个合法的二分查找树随机交换了两个数的位置，然后让我们恢复二分查找树。不能改变原来的结构，只是改变两个数的位置
+// 解法：利用中序遍历的时，顺序的原理，找到数组中逆序的序列：1.一组逆序 2.两组逆序，用第一个逆序的首字符，和第二个逆序的末字符交换
+func RecoverTree(root *TreeNode) {
+	var first *TreeNode = nil
+	var second *TreeNode = nil
+	var pre *TreeNode = nil
+	op := func(root *TreeNode) {
+		if root == nil {
+			return
+		}
+
+		if pre != nil && pre.Val > root.Val {
+			if second == nil {
+				first = pre
+			}
+			second = root
+		} else {
+			pre = root
+		}
+	}
+	InOrder(root, op)
+
+	tmp := first.Val
+	first.Val = second.Val
+	second.Val = tmp
+}
