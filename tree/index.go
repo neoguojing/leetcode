@@ -17,23 +17,39 @@ func (l *TreeNode) Print(root *TreeNode) {
 }
 
 //ToString ...
+/*
+0          1          7
+1	   2       3      3 7
+2	 4   5   6   7    1 3
+3	1 1 1 1 1 1 1 1   0 1     2^3
+*/
 func (l *TreeNode) ToString(root *TreeNode) string {
 	out := "\n"
 	ret := BFSByRow(root)
 	if ret == nil {
 		return out
 	}
-
+	dep := len(ret)
 	for i, row := range ret {
-		for j, elem := range row {
-			_ = i
-			_ = j
+		headSpaceNum := (1 << (dep - 1 - i)) - 1
+		headSpace := ""
+		for i := 0; i < headSpaceNum; i++ {
+			headSpace += " "
+		}
+		neibSpaceNum := (1 << (dep - i)) - 1
+		neibSpace := ""
+		for i := 0; i < neibSpaceNum; i++ {
+			neibSpace += " "
+		}
+		out += headSpace
+		for _, elem := range row {
+
 			if elem == 0 {
 				out += fmt.Sprintf(" ")
 			} else {
-				out += fmt.Sprintf("%d ", elem)
-
+				out += fmt.Sprintf("%d", elem)
 			}
+			out += neibSpace
 		}
 
 		out += "\n"

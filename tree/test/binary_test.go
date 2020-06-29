@@ -37,4 +37,8 @@ func TestBFSByRow(t *testing.T) {
 	ret := tree.BFSByRow(root)
 	t.Log(ret)
 	t.Log(root.ToString(root))
+
+	in = []int{1, 2, 3, 4, 5, 6, 7, 1, 1, 1, 1, 1, 1, 1, 1}
+	root = tree.GeneBinaryTree(in, -1)
+	t.Log(root.ToString(root))
 }
