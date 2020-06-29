@@ -21,6 +21,18 @@ func TestIsSameTree(t *testing.T) {
 	t.Log(ret)
 }
 
+func TestIsSymmetric(t *testing.T) {
+	a := tree.GeneBinaryTree([]int{1, 2, 2, 3, 4, 4, 3}, 0)
+	a.Print(a)
+	ret := tree.IsSymmetric(a)
+	t.Log(ret)
+
+	a = tree.GeneBinaryTree([]int{1, 2, 2, 0, 3, 0, 3}, 0)
+	a.Print(a)
+	ret = tree.IsSymmetric(a)
+	t.Log(ret)
+}
+
 func TestGeneBinaryTree(t *testing.T) {
 	in := []int{1, -1, 2, -1, -1, 3}
 	ret := tree.GeneBinaryTree(in, -1)

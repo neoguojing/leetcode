@@ -180,3 +180,35 @@ func Depth(root *TreeNode) int {
 
 	return rightDep
 }
+
+// IsSymmetric ...
+// no 101
+// 判断一个二叉树是否关于中心轴对称。
+// 解法：递归，同时递归两个树
+func IsSymmetric(root *TreeNode) bool {
+	if root == nil {
+		return true
+	}
+	return isSymmetric(root.Left, root.Right)
+}
+
+func isSymmetric(left *TreeNode, right *TreeNode) bool {
+	if left == nil && right == nil {
+		return true
+	}
+
+	if left == nil && right != nil {
+		return false
+	}
+
+	if left != nil && right == nil {
+		return false
+	}
+
+	if left.Val != right.Val {
+		return false
+	}
+
+	return isSymmetric(left.Left, right.Right) && isSymmetric(left.Right, right.Left)
+
+}
