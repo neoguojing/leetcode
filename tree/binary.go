@@ -119,6 +119,7 @@ func BFSByRow(root *TreeNode) [][]int {
 	queue.Push(root)
 	left := 0
 	right := 1
+	level := 1
 	row := make([]int, 0)
 	for !queue.Empty() {
 		node := queue.Pop().(*TreeNode)
@@ -128,13 +129,31 @@ func BFSByRow(root *TreeNode) [][]int {
 
 		if node.Left != nil {
 			queue.Push(node.Left)
+		} else {
+			nilNode := &TreeNode{}
+			queue.Push(nilNode)
 		}
 
 		if node.Right != nil {
 			queue.Push(node.Right)
+		} else {
+			nilNode := &TreeNode{}
+			queue.Push(nilNode)
 		}
 
 		if left == right {
+			level++
+			//判断是否叶节点
+			isLeaf := true
+			for i := range row {
+				if row[i] != 0 {
+					isLeaf = false
+				}
+			}
+			if isLeaf {
+				break
+			}
+
 			result = append(result, row)
 			left = 0
 			right = queue.Len()
@@ -144,4 +163,20 @@ func BFSByRow(root *TreeNode) [][]int {
 	}
 
 	return result
+}
+
+// Depth ...
+// 求二叉树的深度
+func Depth(root *TreeNode) int {
+	if root == nil {
+		return 0
+	}
+	leftDep := Depth(root.Left) + 1
+	rightDep := Depth(root.Right) + 1
+
+	if leftDep > rightDep {
+		return leftDep
+	}
+
+	return rightDep
 }

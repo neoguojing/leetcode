@@ -17,18 +17,27 @@ func (l *TreeNode) Print(root *TreeNode) {
 }
 
 //ToString ...
-func (l *TreeNode) ToString(root *TreeNode) []int {
-	out := make([]int, 0)
-	op := func(node *TreeNode) {
-		if node != nil {
-			out = append(out, node.Val)
-
-		} else {
-			out = append(out, -1)
-		}
+func (l *TreeNode) ToString(root *TreeNode) string {
+	out := "\n"
+	ret := BFSByRow(root)
+	if ret == nil {
+		return out
 	}
 
-	PreOrder(root, op)
+	for i, row := range ret {
+		for j, elem := range row {
+			_ = i
+			_ = j
+			if elem == 0 {
+				out += fmt.Sprintf(" ")
+			} else {
+				out += fmt.Sprintf("%d ", elem)
+
+			}
+		}
+
+		out += "\n"
+	}
 	return out
 }
 
