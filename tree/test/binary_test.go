@@ -6,7 +6,18 @@ import (
 )
 
 func TestIsSameTree(t *testing.T) {
-	ret := tree.IsSameTree(nil, nil)
+	a := tree.GeneBinaryTree([]int{1, 2}, 0)
+	b := tree.GeneBinaryTree([]int{1, 0, 2}, 0)
+	a.Print(a)
+	b.Print(b)
+	ret := tree.IsSameTree(a, b)
+	t.Log(ret)
+
+	a = tree.GeneBinaryTree([]int{1, 2, 1}, 0)
+	b = tree.GeneBinaryTree([]int{1, 1, 2}, 0)
+	a.Print(a)
+	b.Print(b)
+	ret = tree.IsSameTree(a, b)
 	t.Log(ret)
 }
 
