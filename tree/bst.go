@@ -1,5 +1,9 @@
 package tree
 
+import (
+	"leetcode/utils"
+)
+
 /*
 所谓二分查找树，定义如下：
 
@@ -7,6 +11,8 @@ package tree
 若任意节点的右子树不空，则右子树上所有节点的值均大于它的根节点的值；
 任意节点的左、右子树也分别为二叉查找树；
 没有键值相等的节点。
+
+特性1:中序遍历的二叉树输出一定是一个有序数组
 */
 
 // NumTrees ...
@@ -72,4 +78,33 @@ func generateBSTrees(start int, end int) []*TreeNode {
 	}
 
 	return ret
+}
+
+//IsValidBST ...
+// no 98
+// 输入一个树，判断该树是否是合法二分查找树
+//误区：分别判断根节点和左子树右子树的大小不对，需要确认左子树的最大值小于根同理又子树的最小值大于根
+// 解法一：中序遍历
+// 解法二：递归：根节点取值任意，左节点取值范围为（-inf，根的值），同理
+func IsValidBST(root *TreeNode) bool {
+	if root == nil {
+		return true
+	}
+	stack := utils.NewStack()
+	var pre *TreeNode = nil
+
+	for root != nil || !stack.Empty() {
+		for root != nil {
+			stack.Push(root)
+			root = root.Left
+		}
+
+		root = stack.Pop().(*TreeNode)
+		if pre != nil && pre.Val >= root.Val {
+			return false
+		}
+		pre = root
+		root = root.Right
+	}
+	return true
 }
