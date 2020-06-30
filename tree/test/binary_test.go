@@ -65,3 +65,17 @@ func TestBFSByRow(t *testing.T) {
 	root = tree.GeneBinaryTree(in, -1)
 	t.Log(root.ToString(root))
 }
+
+func TestBuildTree(t *testing.T) {
+	preorder := []int{3, 9, 20, 15, 7}
+	inorder := []int{9, 3, 15, 20, 7}
+	ret := tree.BuildTree(preorder, inorder)
+	t.Log(ret.ToString(ret))
+}
+
+func TestBuildTreeByPost(t *testing.T) {
+	postorder := []int{9, 15, 7, 20, 3}
+	inorder := []int{9, 3, 15, 20, 7}
+	ret := tree.BuildTreeByPost(postorder, inorder)
+	t.Log(ret.ToString(ret))
+}

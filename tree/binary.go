@@ -212,3 +212,87 @@ func isSymmetric(left *TreeNode, right *TreeNode) bool {
 	return isSymmetric(left.Left, right.Right) && isSymmetric(left.Right, right.Left)
 
 }
+
+//BuildTree ...
+// no 105
+// 3,9,20,15,7
+// 9 3 15 20 7
+func BuildTree(preorder []int, inorder []int) *TreeNode {
+	if preorder == nil || inorder == nil {
+		return nil
+	}
+
+	if len(preorder) == 0 || len(inorder) == 0 {
+		return nil
+	}
+	return buildTree(preorder, 0, inorder)
+}
+
+func buildTree(preorder []int, idx int, inorder []int) *TreeNode {
+	if idx >= len(preorder) {
+		return nil
+	}
+
+	root := &TreeNode{}
+	root.Val = preorder[idx]
+	mid := 0
+	for i, v := range inorder {
+		if v == preorder[idx] {
+			mid = i
+		}
+	}
+
+	left := inorder[0:mid]
+	if len(left) != 0 {
+		root.Left = buildTree(preorder, idx+1, left)
+	}
+
+	right := inorder[mid+1:]
+	if len(right) != 0 {
+		root.Right = buildTree(preorder, idx+2, right)
+	}
+
+	return root
+}
+
+//BuildTreeByPost ...
+// no 105
+// 3,9,20,15,7
+// 9 3 15 20 7
+func BuildTreeByPost(postorder []int, inorder []int) *TreeNode {
+	if postorder == nil || inorder == nil {
+		return nil
+	}
+
+	if len(postorder) == 0 || len(inorder) == 0 {
+		return nil
+	}
+	return buildTreeByPost(postorder, len(postorder)-1, inorder)
+}
+
+func buildTreeByPost(postorder []int, idx int, inorder []int) *TreeNode {
+	if idx < 0 {
+		return nil
+	}
+
+	root := &TreeNode{}
+	root.Val = postorder[idx]
+	mid := 0
+	for i, v := range inorder {
+		if v == postorder[idx] {
+			mid = i
+		}
+	}
+
+	right := inorder[mid+1:]
+	if len(right) != 0 {
+		root.Right = buildTreeByPost(postorder, idx-1, right)
+	}
+
+	left := inorder[0:mid]
+	if len(left) != 0 {
+		root.Left = buildTreeByPost(postorder, idx-2, left)
+	}
+
+	return root
+}
