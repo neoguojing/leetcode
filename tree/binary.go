@@ -142,6 +142,7 @@ func MaxDepth(root *TreeNode) int {
 }
 
 // MinDepth ...
+// no 111
 // 求二叉树的深度
 func MinDepth(root *TreeNode) int {
 	if root == nil {
