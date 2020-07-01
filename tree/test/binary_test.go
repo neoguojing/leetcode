@@ -61,7 +61,7 @@ func TestBFSByRow(t *testing.T) {
 	in := []int{1, -1, 2, -1, -1, 3}
 	root := tree.GeneBinaryTree(in, -1)
 	t.Log(root.ToString(root))
-	dep := tree.Depth(root)
+	dep := tree.MaxDepth(root)
 	t.Log(dep)
 	ret := tree.BFSByRow(root)
 	t.Log(ret)

@@ -125,14 +125,14 @@ func BFS(root *TreeNode, op func(*TreeNode)) [][]int {
 	return ret
 }
 
-// Depth ...
+// MaxDepth ...
 // 求二叉树的深度
-func Depth(root *TreeNode) int {
+func MaxDepth(root *TreeNode) int {
 	if root == nil {
 		return 0
 	}
-	leftDep := Depth(root.Left) + 1
-	rightDep := Depth(root.Right) + 1
+	leftDep := MaxDepth(root.Left) + 1
+	rightDep := MaxDepth(root.Right) + 1
 
 	if leftDep > rightDep {
 		return leftDep
