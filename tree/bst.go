@@ -1,6 +1,7 @@
 package tree
 
 import (
+	"leetcode/list"
 	"leetcode/utils"
 )
 
@@ -146,6 +147,7 @@ func RecoverTree(root *TreeNode) {
 // SortedArrayToBST ...
 // no 108
 // 给一个升序数组，生成一个平衡二叉搜索树。平衡二叉树定义如下：
+// 该序列即中续遍历
 // -10,-3,0,5,9
 func SortedArrayToBST(nums []int) *TreeNode {
 	if nums == nil || len(nums) == 0 {
@@ -160,12 +162,56 @@ func SortedArrayToBST(nums []int) *TreeNode {
 	root.Val = nums[mid]
 
 	left := nums[0:mid]
-	// if len(left) == 0 {
 	root.Left = SortedArrayToBST(left)
-	// }
 
 	right := nums[mid+1:]
 	root.Right = SortedArrayToBST(right)
+
+	return root
+}
+
+//SortedListToBST ...
+// no 109
+// 是一样的，都是给定一个升序序列，然后生成二分平衡查找树。区别在于 108 题给定的是数组，这里给的是链表
+//有序列表本质上是数的中序遍历
+//0 1 2
+func SortedListToBST(head *list.ListNode) *TreeNode {
+	if head == nil {
+		return nil
+	}
+	cur := head
+	end := 0
+	for cur != nil {
+		end++
+		cur = cur.Next
+	}
+
+	return sortedListToBST(head, 0, end-1)
+}
+
+// 0 1  0
+// 1 1  1
+func sortedListToBST(head *list.ListNode, start, end int) *TreeNode {
+	if start > end {
+		return nil
+	}
+	cur := head
+	//start 和end分别代表实际的起始和结束位置，而不是位置的下一位
+	mid := start + (end-start)/2
+
+	//mid 是全量数据的全局位置，用<号确保走到mid的位置
+	for i := 0; i < mid; i++ {
+		cur = cur.Next
+	}
+
+	left := sortedListToBST(head, start, mid-1)
+
+	root := &TreeNode{}
+	root.Val = cur.Val
+	root.Left = left
+
+	right := sortedListToBST(head, mid+1, end)
+	root.Right = right
 
 	return root
 }
