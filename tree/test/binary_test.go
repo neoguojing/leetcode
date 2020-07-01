@@ -85,3 +85,10 @@ func TestBuildTreeByPost(t *testing.T) {
 	ret := tree.BuildTreeByPost(postorder, inorder)
 	t.Log(ret.ToString(ret))
 }
+
+func TestMinDepth(t *testing.T) {
+	in := []int{3, 9, 20, -1, -1, 15, 7}
+	root := tree.GeneBinaryTree(in, -1)
+	ret := tree.MinDepth(root)
+	t.Log(ret)
+}

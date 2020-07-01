@@ -6,11 +6,24 @@ package tree
 */
 
 // IsBalanced ...
-// 判断一棵树是否是平衡二叉树，平衡二叉树定义如下：
+// no 110
+// 判断一棵树是否是平衡二叉树
 func IsBalanced(root *TreeNode) bool {
+
 	if root == nil {
 		return true
 	}
 
-	return false
+	leftDepth := MaxDepth(root.Left)
+	rightDepth := MaxDepth(root.Right)
+
+	if leftDepth-rightDepth > 1 {
+		return false
+	}
+
+	if rightDepth-leftDepth > 1 {
+		return false
+	}
+
+	return IsBalanced(root.Left) && IsBalanced(root.Right)
 }

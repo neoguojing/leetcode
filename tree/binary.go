@@ -141,6 +141,22 @@ func MaxDepth(root *TreeNode) int {
 	return rightDep
 }
 
+// MinDepth ...
+// 求二叉树的深度
+func MinDepth(root *TreeNode) int {
+	if root == nil {
+		return 0
+	}
+	leftDep := MinDepth(root.Left) + 1
+	rightDep := MinDepth(root.Right) + 1
+
+	if leftDep > rightDep {
+		return rightDep
+	}
+
+	return leftDep
+}
+
 // IsSymmetric ...
 // no 101
 // 判断一个二叉树是否关于中心轴对称。
