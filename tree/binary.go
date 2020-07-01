@@ -215,6 +215,7 @@ func isSymmetric(left *TreeNode, right *TreeNode) bool {
 
 //BuildTree ...
 // no 105
+// 根据二叉树的先序遍历和中序遍历还原二叉树
 // 3,9,20,15,7
 // 9 3 15 20 7
 func BuildTree(preorder []int, inorder []int) *TreeNode {
@@ -256,7 +257,8 @@ func buildTree(preorder []int, idx int, inorder []int) *TreeNode {
 }
 
 //BuildTreeByPost ...
-// no 105
+// no 106
+// 根据二叉树的中序遍历和后序遍历还原二叉树。
 // 3,9,20,15,7
 // 9 3 15 20 7
 func BuildTreeByPost(postorder []int, inorder []int) *TreeNode {
