@@ -125,64 +125,6 @@ func BFS(root *TreeNode, op func(*TreeNode)) [][]int {
 	return ret
 }
 
-// BFSByRow ...
-// tag为nil节点的标示
-func BFSByRow(root *TreeNode) [][]int {
-	if root == nil {
-		return nil
-	}
-
-	result := make([][]int, 0)
-	queue := utils.NewQueue()
-	queue.Push(root)
-	left := 0
-	right := 1
-	level := 1
-	row := make([]int, 0)
-	for !queue.Empty() {
-		node := queue.Pop().(*TreeNode)
-
-		row = append(row, node.Val.(int))
-		left++
-
-		if node.Left != nil {
-			queue.Push(node.Left)
-		} else {
-			nilNode := &TreeNode{}
-			queue.Push(nilNode)
-		}
-
-		if node.Right != nil {
-			queue.Push(node.Right)
-		} else {
-			nilNode := &TreeNode{}
-			queue.Push(nilNode)
-		}
-
-		if left == right {
-			level++
-			//判断是否叶节点
-			isLeaf := true
-			for i := range row {
-				if row[i] != 0 {
-					isLeaf = false
-				}
-			}
-			if isLeaf {
-				break
-			}
-
-			result = append(result, row)
-			left = 0
-			right = queue.Len()
-			row = make([]int, 0)
-		}
-
-	}
-
-	return result
-}
-
 // Depth ...
 // 求二叉树的深度
 func Depth(root *TreeNode) int {

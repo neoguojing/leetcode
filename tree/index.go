@@ -1,6 +1,9 @@
 package tree
 
-import "fmt"
+import (
+	"fmt"
+	"leetcode/utils"
+)
 
 //TreeNode ...
 type TreeNode struct {
@@ -45,10 +48,10 @@ func (l *TreeNode) ToString(root *TreeNode) string {
 		out += headSpace
 		for _, elem := range row {
 
-			if elem == 0 {
+			if elem == nil {
 				out += fmt.Sprintf(" ")
 			} else {
-				out += fmt.Sprintf("%d", elem)
+				out += fmt.Sprintf("%v", elem)
 			}
 			out += neibSpace
 		}
@@ -100,4 +103,61 @@ func geneBinaryTree(in []int, index int, tag int) *TreeNode {
 	node.Right = geneBinaryTree(in, 2*index+2, tag)
 
 	return node
+}
+
+// BFSByRow ...
+func BFSByRow(root *TreeNode) [][]interface{} {
+	if root == nil {
+		return nil
+	}
+
+	result := make([][]interface{}, 0)
+	queue := utils.NewQueue()
+	queue.Push(root)
+	left := 0
+	right := 1
+	level := 1
+	row := make([]interface{}, 0)
+	for !queue.Empty() {
+		node := queue.Pop().(*TreeNode)
+
+		row = append(row, node.Val)
+		left++
+
+		if node.Left != nil {
+			queue.Push(node.Left)
+		} else {
+			nilNode := &TreeNode{}
+			queue.Push(nilNode)
+		}
+
+		if node.Right != nil {
+			queue.Push(node.Right)
+		} else {
+			nilNode := &TreeNode{}
+			queue.Push(nilNode)
+		}
+
+		if left == right {
+			level++
+			//判断是否叶节点
+			isLeaf := true
+			for i := range row {
+				if row[i] != nil {
+					isLeaf = false
+				}
+			}
+			if isLeaf {
+				break
+			}
+
+			result = append(result, row)
+			left = 0
+			right = queue.Len()
+			row = make([]interface{}, 0)
+		}
+
+	}
+
+	return result
 }

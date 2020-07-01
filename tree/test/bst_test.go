@@ -43,9 +43,5 @@ func TestRecoverTree(t *testing.T) {
 func TestSortedArrayToBST(t *testing.T) {
 	in := []int{-10, -3, 0, 5, 9}
 	ret := tree.SortedArrayToBST(in)
-	out := tree.BFS(ret, nil)
-	t.Log(out)
-	out = tree.BFSByRow(ret)
-	t.Log(out)
-	//t.Log(ret.ToString(ret))
+	t.Log(ret.ToString(ret))
 }
