@@ -6,6 +6,7 @@ import (
 	"leetcode/integer"
 	"leetcode/list"
 	"leetcode/string"
+	_ "leetcode/tree"
 )
 
 func main() {

@@ -45,7 +45,7 @@ func TestInOrder(t *testing.T) {
 
 	ret := make([]int, 0)
 	op := func(node *tree.TreeNode) {
-		ret = append(ret, node.Val)
+		ret = append(ret, node.Val.(int))
 	}
 	tree.InOrder(root, op)
 	t.Log(ret)

@@ -102,7 +102,7 @@ func BFS(root *TreeNode, op func(*TreeNode)) [][]int {
 		if op != nil {
 			op(node)
 		}
-		row = append(row, node.Val)
+		row = append(row, node.Val.(int))
 
 		left++
 
@@ -126,6 +126,7 @@ func BFS(root *TreeNode, op func(*TreeNode)) [][]int {
 }
 
 // BFSByRow ...
+// tag为nil节点的标示
 func BFSByRow(root *TreeNode) [][]int {
 	if root == nil {
 		return nil
@@ -141,7 +142,7 @@ func BFSByRow(root *TreeNode) [][]int {
 	for !queue.Empty() {
 		node := queue.Pop().(*TreeNode)
 
-		row = append(row, node.Val)
+		row = append(row, node.Val.(int))
 		left++
 
 		if node.Left != nil {

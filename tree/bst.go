@@ -15,6 +15,11 @@ import (
 特性1:中序遍历的二叉树输出一定是一个有序数组
 */
 
+/*
+平衡树：
+它是一棵空树或它的左右两个子树的高度差的绝对值不超过1，并且左右两个子树都是一棵平衡二叉树。
+*/
+
 // NumTrees ...
 // no 96
 // 1-n 能够成多少二分查找树
@@ -100,7 +105,7 @@ func IsValidBST(root *TreeNode) bool {
 		}
 
 		root = stack.Pop().(*TreeNode)
-		if pre != nil && pre.Val >= root.Val {
+		if pre != nil && pre.Val.(int) >= root.Val.(int) {
 			return false
 		}
 		pre = root
@@ -122,7 +127,7 @@ func RecoverTree(root *TreeNode) {
 			return
 		}
 
-		if pre != nil && pre.Val > root.Val {
+		if pre != nil && pre.Val.(int) > root.Val.(int) {
 			if second == nil {
 				first = pre
 			}
@@ -136,4 +141,31 @@ func RecoverTree(root *TreeNode) {
 	tmp := first.Val
 	first.Val = second.Val
 	second.Val = tmp
+}
+
+// SortedArrayToBST ...
+// no 108
+// 给一个升序数组，生成一个平衡二叉搜索树。平衡二叉树定义如下：
+// -10,-3,0,5,9
+func SortedArrayToBST(nums []int) *TreeNode {
+	if nums == nil || len(nums) == 0 {
+		return nil
+	}
+
+	start := 0
+	end := len(nums) - 1
+	mid := start + (end-start)/2
+
+	root := &TreeNode{}
+	root.Val = nums[mid]
+
+	left := nums[0:mid]
+	// if len(left) == 0 {
+	root.Left = SortedArrayToBST(left)
+	// }
+
+	right := nums[mid+1:]
+	root.Right = SortedArrayToBST(right)
+
+	return root
 }

@@ -6,7 +6,7 @@ import "fmt"
 type TreeNode struct {
 	Left  *TreeNode
 	Right *TreeNode
-	Val   int
+	Val   interface{}
 }
 
 //Print ...
@@ -29,6 +29,7 @@ func (l *TreeNode) ToString(root *TreeNode) string {
 	if ret == nil {
 		return out
 	}
+
 	dep := len(ret)
 	for i, row := range ret {
 		headSpaceNum := (1 << (dep - 1 - i)) - 1
