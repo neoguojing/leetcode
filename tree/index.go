@@ -36,22 +36,22 @@ func (l *TreeNode) ToString(root *TreeNode) string {
 	dep := len(ret)
 	for i, row := range ret {
 		headSpaceNum := (1 << (dep - 1 - i)) - 1
-		headSpace := ""
-		for i := 0; i < headSpaceNum; i++ {
-			headSpace += " "
-		}
+		headSpace := fmt.Sprintf("% [1]*s", 2*headSpaceNum, " ")
+		// for i := 0; i < headSpaceNum; i++ {
+		// headSpace += " "
+		// }
 		neibSpaceNum := (1 << (dep - i)) - 1
-		neibSpace := ""
-		for i := 0; i < neibSpaceNum; i++ {
+		neibSpace := fmt.Sprintf("% [1]*s", 2*neibSpaceNum, " ")
+		/*for i := 0; i < neibSpaceNum; i++ {
 			neibSpace += " "
-		}
+		}*/
 		out += headSpace
 		for _, elem := range row {
 
 			if elem == nil {
-				out += fmt.Sprintf(" ")
+				out += fmt.Sprintf("  ")
 			} else {
-				out += fmt.Sprintf("%v", elem)
+				out += fmt.Sprintf("%2v", elem)
 			}
 			out += neibSpace
 		}

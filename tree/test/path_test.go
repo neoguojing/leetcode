@@ -15,6 +15,7 @@ func TestHasPathSum(t *testing.T) {
 func TestPathSum(t *testing.T) {
 	in := []int{5, 4, 8, 11, -1, 13, 4, 7, 2, -1, -1, -1, -1, 5, 1}
 	root := tree.GeneBinaryTree(in, -1)
+	t.Log(root.ToString(root))
 	ret := tree.PathSum(root, 22)
 	t.Log(ret)
 }
