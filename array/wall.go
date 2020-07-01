@@ -38,3 +38,10 @@ func MaxArea(height []int) int {
 
 	return maxArea
 }
+
+// Trap ...
+// no 42
+// 给定一个数组，每个数代表从左到右墙的高度，求出能装多少单位的水。也就是图中蓝色正方形的个数。
+func Trap(height []int) int {
+
+}
