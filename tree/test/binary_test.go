@@ -94,7 +94,7 @@ func TestMinDepth(t *testing.T) {
 }
 
 func TestFlatten(t *testing.T) {
-	in := []int{3, 9, 20, -1, -1, 15, 7}
+	in := []int{1, 2, 5, 3, 4, -1, 6}
 	root := tree.GeneBinaryTree(in, -1)
 	tree.Flatten(root)
 	t.Log(root.ToString(root))
