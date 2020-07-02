@@ -487,5 +487,4 @@ func rightSideView(root *TreeNode, level int, ret *[]int) {
 	// 先遍历右子树
 	rightSideView(root.Right, level+1, ret)
 	rightSideView(root.Left, level+1, ret)
-
 }
