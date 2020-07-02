@@ -138,6 +138,8 @@ func PostOrder(root *TreeNode, op func(*TreeNode)) {
 }
 
 // PostOrderWithStack ...
+// 两次入栈解决问题
+// 注意入栈顺序
 func PostOrderWithStack(root *TreeNode, op func(*TreeNode)) {
 	if root == nil {
 		return
@@ -456,4 +458,34 @@ func ConnectForFullBT(root *TreeNode) *TreeNode {
 	}
 
 	return root
+}
+
+// RightSideView ...
+// no 199
+//给一个二叉树，然后想象自己站在二叉树右边向左边看过去，返回从上到下看到的数字序列。
+// 解法1:层序遍历，输出每行最右边的
+// 解法2:递归，如下
+func RightSideView(root *TreeNode) []int {
+	ret := make([]int, 0)
+	rightSideView(root, 0, &ret)
+	return ret
+}
+
+func rightSideView(root *TreeNode, level int, ret *[]int) {
+	if root == nil {
+		return
+	}
+
+	//res.size() 的值理解成当前在等待的层级数
+	//res.size() == 0, 在等待 level = 0 的第一个数
+	//res.size() == 1, 在等待 level = 1 的第一个数
+	//res.size() == 2, 在等待 level = 2 的第一个数
+	if level == len(*ret) {
+		*ret = append(*ret, root.Val.(int))
+	}
+
+	// 先遍历右子树
+	rightSideView(root.Right, level+1, ret)
+	rightSideView(root.Left, level+1, ret)
+
 }
