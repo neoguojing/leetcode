@@ -289,9 +289,21 @@ func Flatten(root *TreeNode) {
 
 	stack := utils.NewStack()
 	stack.Push(root)
-	pre := &TreeNode{}
+	var pre *TreeNode = nil
 	for !stack.Empty() {
 		tmp := stack.Pop().(*TreeNode)
+		if pre != nil {
+			pre.Right = tmp
+			pre.Left = nil
+		}
+		//右子树先入栈
+		if tmp.Right != nil {
+			stack.Push(tmp.Right)
+		}
+		if tmp.Left != nil {
+			stack.Push(tmp.Left)
+		}
 
+		pre = tmp
 	}
 }
