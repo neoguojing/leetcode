@@ -307,3 +307,39 @@ func Flatten(root *TreeNode) {
 		pre = tmp
 	}
 }
+
+//Connect ...
+//no 116 117 ,区别1个是满秩二叉树，一个不是
+//二叉树，每个节点多了一个next指针，然后将所有的next指针指向它的右边的节点。并且要求空间复杂度是O(1)。
+/*
+			1
+		2       3
+	4      5 6      7
+*/
+func Connect(root *TreeNode) *TreeNode {
+	if root == nil {
+		return nil
+	}
+	// 保存每层的第一个节点
+	pre := root
+	// cur保存要处理层的上层节点
+	var cur *TreeNode
+	for pre.Left != nil {
+		// cur 站在上一级
+		cur = pre
+		for cur != nil {
+			// 子树的左孩子指向右孩子
+			cur.Left.Next = cur.Right
+			// 子树的右孩子指向兄弟节点的左孩子
+			if cur.Next != nil {
+				cur.Right.Next = cur.Next.Left
+			}
+			// 处理兄弟节点
+			cur = cur.Next
+		}
+		//指向下一层
+		pre = pre.Left
+	}
+
+	return root
+}

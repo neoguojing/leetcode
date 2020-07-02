@@ -4,9 +4,10 @@ package integer
 本文件用于边界考察
 **/
 
+// Reverse ...
 //no 7
 //整数反转
-func reverse(x int32) int32 {
+func Reverse(x int32) int32 {
 	var ret int32 = 0
 	for x != 0 {
 		mod := x % 10

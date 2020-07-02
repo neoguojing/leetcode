@@ -9,6 +9,7 @@ import (
 type TreeNode struct {
 	Left  *TreeNode
 	Right *TreeNode
+	Next  *TreeNode
 	Val   interface{}
 }
 
