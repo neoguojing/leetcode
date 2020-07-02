@@ -317,7 +317,32 @@ func Flatten(root *TreeNode) {
 	4      5 6      7
 */
 func Connect(root *TreeNode) *TreeNode {
-	return nil
+	if root == nil {
+		return nil
+	}
+
+	cur := root
+	for cur != nil {
+		dummyHead := &TreeNode{}
+		tail := dummyHead
+
+		for cur != nil {
+			if cur.Left != nil {
+				tail.Next = cur.Left
+				tail = tail.Next
+			}
+
+			if cur.Right != nil {
+				tail.Next = cur.Right
+				tail = tail.Next
+			}
+
+			cur = cur.Next
+		}
+
+		cur = dummyHead.Next
+	}
+	return root
 }
 
 //ConnectForFullBT ...
