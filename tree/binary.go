@@ -275,3 +275,23 @@ func buildTreeByPost(postorder []int, idx int, inorder []int) *TreeNode {
 
 	return root
 }
+
+//Flatten ...
+// no 114
+// 题目其实就是将二叉树通过右指针，组成一个链表。
+//将左子树插入到右子树的地方
+// 将原来的右子树接到左子树的最右边节点
+// 考虑新的右子树的根节点，一直重复上边的过程，直到新的右子树为 null
+func Flatten(root *TreeNode) {
+	if root == nil {
+		return
+	}
+
+	stack := utils.NewStack()
+	stack.Push(root)
+	pre := &TreeNode{}
+	for !stack.Empty() {
+		tmp := stack.Pop().(*TreeNode)
+
+	}
+}
