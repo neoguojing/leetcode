@@ -59,6 +59,31 @@ func PreOrder(root *TreeNode, op func(*TreeNode)) {
 	PreOrder(root.Right, op)
 }
 
+// PreOrderWithStack ...
+// 注意压栈顺讯
+func PreOrderWithStack(root *TreeNode, op func(*TreeNode)) {
+	if root == nil {
+		return
+	}
+	stack := utils.NewStack()
+	stack.Push(root)
+
+	for !stack.Empty() {
+		v := stack.Pop()
+		if v == nil {
+			continue
+		}
+		cur := v.(*TreeNode)
+
+		if op != nil {
+			op(cur)
+		}
+		// 先压右子树
+		stack.Push(cur.Right)
+		stack.Push(cur.Left)
+	}
+}
+
 // InOrder ...
 func InOrder(root *TreeNode, op func(*TreeNode)) {
 	if root == nil {
@@ -72,6 +97,33 @@ func InOrder(root *TreeNode, op func(*TreeNode)) {
 	InOrder(root.Right, op)
 }
 
+// InOrderWithStack ...
+//只有一处压栈处理
+func InOrderWithStack(root *TreeNode, op func(*TreeNode)) {
+	if root == nil {
+		return
+	}
+	stack := utils.NewStack()
+	cur := root
+	for !stack.Empty() || cur != nil {
+		//左子树全部入栈
+		for cur != nil {
+			stack.Push(cur)
+			cur = cur.Left
+		}
+		v := stack.Pop()
+
+		//访问左节点
+		cur = v.(*TreeNode)
+		if op != nil {
+			op(cur)
+		}
+
+		cur = cur.Right
+	}
+
+}
+
 // PostOrder ...
 func PostOrder(root *TreeNode, op func(*TreeNode)) {
 	if root == nil {
@@ -82,6 +134,38 @@ func PostOrder(root *TreeNode, op func(*TreeNode)) {
 	PostOrder(root.Right, op)
 	if op != nil {
 		op(root)
+	}
+}
+
+// PostOrderWithStack ...
+func PostOrderWithStack(root *TreeNode, op func(*TreeNode)) {
+	if root == nil {
+		return
+	}
+	stack := utils.NewStack()
+	cur := root
+	stack.Push(cur)
+	stack.Push(cur)
+
+	for !stack.Empty() {
+		v := stack.Pop()
+		if v == nil {
+			continue
+		}
+
+		cur = v.(*TreeNode)
+
+		if !stack.Empty() && cur.Val == stack.Peak().(*TreeNode) {
+			stack.Push(cur.Right)
+			stack.Push(cur.Right)
+
+			stack.Push(cur.Left)
+			stack.Push(cur.Left)
+		} else {
+			if op != nil {
+				op(cur)
+			}
+		}
 	}
 }
 
