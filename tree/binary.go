@@ -317,12 +317,11 @@ func Flatten(root *TreeNode) {
 	4      5 6      7
 */
 func Connect(root *TreeNode) *TreeNode {
-	if root == nil {
-		return nil
-	}
 
+	// 指向本层
 	cur := root
 	for cur != nil {
+		// 下层的虚拟头
 		dummyHead := &TreeNode{}
 		tail := dummyHead
 
@@ -339,7 +338,7 @@ func Connect(root *TreeNode) *TreeNode {
 
 			cur = cur.Next
 		}
-
+		// 虚拟头的下一个节点，为下层的第一个节点
 		cur = dummyHead.Next
 	}
 	return root
