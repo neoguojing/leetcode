@@ -39,3 +39,11 @@ func Min(in ...int) int {
 
 	return min
 }
+
+//Abs ...
+func Abs(a, b int) int {
+	if a-b > 0 {
+		return a - b
+	}
+	return b - a
+}
