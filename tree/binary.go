@@ -317,6 +317,12 @@ func Flatten(root *TreeNode) {
 	4      5 6      7
 */
 func Connect(root *TreeNode) *TreeNode {
+	return nil
+}
+
+//ConnectForFullBT ...
+// 仅适用于满二叉树
+func ConnectForFullBT(root *TreeNode) *TreeNode {
 	if root == nil {
 		return nil
 	}
