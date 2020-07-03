@@ -4,14 +4,16 @@ package classify
 // 并查集是一种树型的数据结构，用于处理一些不交集（Disjoint Sets）的合并及查询问题
 type UnionFind struct {
 	Parent *UnionFind
-	Val    interface{}
+	Val    int
+	Rank   int
 }
 
 //MakeSet ...
 // 创建单元素集合
-func MakeSet(x interface{}) *UnionFind {
+func MakeSet(x int) *UnionFind {
 	ret := &UnionFind{
-		Val: x,
+		Val:  x,
+		Rank: 0,
 	}
 
 	ret.Parent = ret
@@ -35,6 +37,12 @@ func Union(x *UnionFind, y *UnionFind) *UnionFind {
 	xRoot := Find(x)
 	yRoot := Find(y)
 
-	xRoot.Parent = yRoot
+	if xRoot.Rank < yRoot.Rank {
+		xRoot.Parent = yRoot
+		xRoot.Rank++
+	} else {
+		yRoot.Parent = xRoot
+		yRoot.Rank++
+	}
 	return yRoot
 }
