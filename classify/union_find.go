@@ -62,3 +62,54 @@ func NumIslands(grid [][]int) int {
 
 	return nums
 }
+
+// Solve ...
+// no 130
+// 有一点点像围棋，把被 X 围起来的 O 变成 X，边界的 O
+// 一定不会被围起来。如果 O 和边界的 O 连通起来，那么这些 O 就都算作不被围起来
+func Solve(board [][]string) [][]string {
+	m := len(board)
+	n := len(board[0])
+
+	aliveSet := MakeSet(-1)
+	for i := range board {
+		for j := range board[i] {
+			if board[i][j] == "O" {
+				cur := MakeSet(i*n + j)
+				if i == 0 || i == m-1 || j == 0 || j == n-1 {
+					Union(aliveSet, cur)
+				} else {
+					if board[i-1][j] == "O" {
+						tmp := MakeSet((i-1)*n + j)
+						Union(cur, tmp)
+					}
+					if board[i+1][j] == "O" {
+						tmp := MakeSet((i+1)*n + j)
+						Union(cur, tmp)
+					}
+					if board[i][j-1] == "O" {
+						tmp := MakeSet(i*n + j - 1)
+						Union(cur, tmp)
+					}
+					if board[i][j+1] == "O" {
+						tmp := MakeSet(i*n + j + 1)
+						Union(cur, tmp)
+					}
+				}
+
+			}
+		}
+	}
+
+	for i := range board {
+		for j := range board[0] {
+			if board[i][j] == "O" {
+				if Find(MakeSet(i*n+j)).Parent.Val != -1 {
+					board[i][j] = "X"
+				}
+			}
+		}
+	}
+
+	return board
+}

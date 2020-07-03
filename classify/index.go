@@ -31,9 +31,9 @@ func Find(x *UnionFind) *UnionFind {
 	return x.Parent
 }
 
-// Union ...
+// UnionByRank ...
 //将两个子集合并成同一个集合
-func Union(x *UnionFind, y *UnionFind) *UnionFind {
+func UnionByRank(x *UnionFind, y *UnionFind) *UnionFind {
 	xRoot := Find(x)
 	yRoot := Find(y)
 
@@ -45,4 +45,14 @@ func Union(x *UnionFind, y *UnionFind) *UnionFind {
 		yRoot.Rank++
 	}
 	return yRoot
+}
+
+// Union ...
+// y->x
+func Union(x *UnionFind, y *UnionFind) *UnionFind {
+	xRoot := Find(x)
+	yRoot := Find(y)
+
+	yRoot.Parent = xRoot
+	return xRoot
 }
