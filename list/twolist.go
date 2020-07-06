@@ -13,17 +13,17 @@ func AddTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 	for l1 != nil || l2 != nil {
 
 		if l1 == nil && l2 != nil {
-			sum = l2.Val + carry
+			sum = l2.Val.(int) + carry
 			l2 = l2.Next
 		}
 
 		if l2 == nil && l1 != nil {
-			sum = l1.Val + carry
+			sum = l1.Val.(int) + carry
 			l1 = l1.Next
 		}
 
 		if l1 != nil && l2 != nil {
-			sum = l1.Val + l2.Val + carry
+			sum = l1.Val.(int) + l2.Val.(int) + carry
 			l1 = l1.Next
 			l2 = l2.Next
 		}
@@ -83,7 +83,7 @@ func mergeTwoLists(l1, l2, cur *ListNode) {
 		return
 	}
 
-	if l1.Val < l2.Val {
+	if l1.Val.(int) < l2.Val.(int) {
 		cur.Next = l1
 		mergeTwoLists(l1.Next, l2, cur.Next)
 	} else {

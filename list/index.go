@@ -4,7 +4,8 @@ import "fmt"
 
 type ListNode struct {
 	Next *ListNode
-	Val  int
+	Pre  *ListNode
+	Val  interface{}
 }
 
 func GeneListByArray(in []int) *ListNode {

@@ -275,7 +275,7 @@ func Partition(head *ListNode, x int) *ListNode {
 	dummyLeft, dummyRight := &ListNode{}, &ListNode{}
 	p, q := dummyLeft, dummyRight
 	for head != nil {
-		if head.Val < x {
+		if head.Val.(int) < x {
 			p.Next = head
 			p = p.Next
 		} else {
