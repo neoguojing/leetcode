@@ -55,34 +55,30 @@ func (lru *LRU) Get(key interface{}) interface{} {
 }
 
 // Put ...
-// 放置元素时,如key已经存在，在需要判断容量是否已经满了,满了移除末尾的元素和map中元素，否则添加到头
+// 放置元素时,如key已经存在，在需要判断容量是否已经满了,满了移除末尾的元素和map中元素，否则添加到末尾
 func (lru *LRU) Put(key interface{}, val interface{}) {
 	if v, ok := lru.hashMap[key]; ok {
 		v.Val = val
 	} else {
-		if lru.capacity == len(lru.hashMap) {
-			fmt.Println(lru.tail)
+		node := &PriQueue{}
+		node.Val = val
+		node.Key = key
 
+		if lru.capacity == len(lru.hashMap) {
 			tmp := lru.tail
 			lru.tail = lru.tail.Pre
 			lru.tail.Next = nil
-
 			tmp.Next = nil
 			tmp.Pre = nil
-			delete(lru.hashMap, lru.tail.Key)
-
-		} else {
-			node := &PriQueue{}
-			node.Val = val
-			node.Key = key
-			lru.hashMap[key] = node
-
-			//将node插入头
-			node.Pre = lru.queue
-			node.Next = lru.queue.Next
-			lru.queue.Next = node
+			delete(lru.hashMap, tmp.Key)
 		}
 
+		//将node插入末尾
+		lru.tail.Next = node
+		node.Pre = lru.tail
+		lru.tail = lru.tail.Next
+
+		lru.hashMap[key] = node
 	}
 
 }
@@ -97,7 +93,12 @@ func (lru *LRU) Print() {
 	cur := lru.queue
 	out := ""
 	for cur != nil {
-		out += fmt.Sprintf("(%v,%v)->", cur.Key, cur.Val)
+		if cur.Next != nil && cur.Next.Pre != nil {
+			out += fmt.Sprintf("(%v,%v)<->", cur.Key, cur.Val)
+		} else {
+			out += fmt.Sprintf("(%v,%v)->", cur.Key, cur.Val)
+		}
+
 		cur = cur.Next
 	}
 	fmt.Println(out)
