@@ -16,14 +16,18 @@ func solveNQueens(n int, row int, col int, ret *[][]string) {
 	if row == n {
 		return
 	}
-
+	tmp := make([][]string, 0)
 	for i := 0; i < n; i++ {
 		if i != col {
-			solveNQueens(n, row+1, i, ret)
+			if isValid(n, row+1, i, tmp) {
+				solveNQueens(n, row+1, i, ret)
+			} else {
+
+			}
 		}
 	}
 }
 
-func isValid(n, row, col int) bool {
+func isValid(n, row, col int, tmp [][]string) bool {
 	return false
 }
