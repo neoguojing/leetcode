@@ -2,12 +2,14 @@ package list
 
 import "fmt"
 
+//ListNode ...
 type ListNode struct {
 	Next *ListNode
 	Pre  *ListNode
 	Val  interface{}
 }
 
+// GeneListByArray ...
 func GeneListByArray(in []int) *ListNode {
 	head := &ListNode{}
 	cur := head
@@ -31,7 +33,7 @@ func (l *ListNode) ToString(head *ListNode) string {
 	cur := head
 	out := ""
 	for cur != nil {
-		out += fmt.Sprintf("%d->", cur.Val)
+		out += fmt.Sprintf("%v->", cur.Val)
 		cur = cur.Next
 	}
 	return out
