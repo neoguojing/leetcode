@@ -7,54 +7,56 @@ func NumIslands(grid [][]int) int {
 	nums := 0
 	m := len(grid)
 	n := len(grid[0])
-	trees := make([]*UnionFind, m*n)
+	trees := MakeSet()
 	for i := range grid {
 		for j := range grid[i] {
+			//为1的值创建集合
 			if grid[i][j] == 1 {
 				elem := i*n + j
-				trees[elem] = MakeSet(elem)
+				trees.NewElem(elem)
 				nums++
 			}
 		}
 	}
 
-	for _, v := range trees {
+	for k, v := range trees.Set {
 		if v == nil {
 			continue
 		}
 
-		elem := v.Val
+		//计算坐标
+		elem := k.(int)
 		i := elem / n
 		j := elem % n
 
-		if i*n+j-1 > 0 && trees[i*n+j-1] != nil {
-			if v.Parent.Val != trees[i*n+j-1].Parent.Val {
-				Union(v, trees[i*n+j-1])
+		//左面的值为1，且不属于一个集合，则合并
+		if i*n+j-1 > 0 && trees.Set[i*n+j-1] != nil {
+			if v.Parent.Val != trees.Set[i*n+j-1].Parent.Val {
+				trees.Union(k.(int), trees.Set[i*n+j-1].Val)
 				nums--
 			}
 
 		}
-
-		if (i-1)*n+j > 0 && trees[(i-1)*n+j] != nil {
-			if v.Parent.Val != trees[(i-1)*n+j].Parent.Val {
-
-				Union(v, trees[(i-1)*n+j])
+		//上面的值为1
+		if (i-1)*n+j > 0 && trees.Set[(i-1)*n+j] != nil {
+			if v.Parent.Val != trees.Set[(i-1)*n+j].Parent.Val {
+				trees.Union(k.(int), trees.Set[(i-1)*n+j].Val)
 				nums--
 			}
 		}
+		// 右面的值为1
+		if i*n+j+1 < m*n && trees.Set[i*n+j+1] != nil {
+			if v.Parent.Val != trees.Set[i*n+j+1].Parent.Val {
 
-		if i*n+j+1 < m*n && trees[i*n+j+1] != nil {
-			if v.Parent.Val != trees[i*n+j+1].Parent.Val {
-
-				Union(v, trees[i*n+j+1])
+				trees.Union(k.(int), trees.Set[i*n+j+1].Val)
 				nums--
 			}
 		}
+		// 下面的只为1
+		if (i+1)*n+j < m*n && trees.Set[(i+1)*n+j] != nil {
+			if v.Parent.Val != trees.Set[(i+1)*n+j].Parent.Val {
 
-		if (i+1)*n+j < m*n && trees[(i+1)*n+j] != nil {
-			if v.Parent.Val != trees[(i+1)*n+j].Parent.Val {
-
-				Union(v, trees[(i+1)*n+j])
+				trees.Union(k.(int), trees.Set[(i+1)*n+j].Val)
 				nums--
 			}
 		}
@@ -70,30 +72,42 @@ func NumIslands(grid [][]int) int {
 func Solve(board [][]string) [][]string {
 	m := len(board)
 	n := len(board[0])
-
-	aliveSet := MakeSet(-1)
+	aliveSet := MakeSet()
+	// 创建不需要重置的集合
+	aliveSet.NewElem(-1)
 	for i := range board {
 		for j := range board[i] {
 			if board[i][j] == "O" {
-				cur := MakeSet(i*n + j)
+				cur := i*n + j
+				aliveSet.NewElem(cur)
+				// 若为边角元素，则合并到-1的集合
 				if i == 0 || i == m-1 || j == 0 || j == n-1 {
-					Union(aliveSet, cur)
+					aliveSet.Union(-1, cur)
 				} else {
+					// 非边角元素，则与当前元素合并
 					if board[i-1][j] == "O" {
-						tmp := MakeSet((i-1)*n + j)
-						Union(cur, tmp)
+						tmp := (i-1)*n + j
+						aliveSet.NewElem(tmp)
+
+						aliveSet.Union(cur, tmp)
 					}
 					if board[i+1][j] == "O" {
-						tmp := MakeSet((i+1)*n + j)
-						Union(cur, tmp)
+						tmp := (i+1)*n + j
+						aliveSet.NewElem(tmp)
+
+						aliveSet.Union(cur, tmp)
 					}
 					if board[i][j-1] == "O" {
-						tmp := MakeSet(i*n + j - 1)
-						Union(cur, tmp)
+						tmp := i*n + j - 1
+						aliveSet.NewElem(tmp)
+
+						aliveSet.Union(cur, tmp)
 					}
 					if board[i][j+1] == "O" {
-						tmp := MakeSet(i*n + j + 1)
-						Union(cur, tmp)
+						tmp := i*n + j + 1
+						aliveSet.NewElem(tmp)
+
+						aliveSet.Union(cur, tmp)
 					}
 				}
 
@@ -103,8 +117,9 @@ func Solve(board [][]string) [][]string {
 
 	for i := range board {
 		for j := range board[0] {
+			// 若不在-1集合中则重置
 			if board[i][j] == "O" {
-				if Find(MakeSet(i*n+j)).Parent.Val != -1 {
+				if aliveSet.Find(i*n+j).Parent.Val != -1 {
 					board[i][j] = "X"
 				}
 			}
