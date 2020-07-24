@@ -1,9 +1,8 @@
 package sort
 
-import "fmt"
-
 // RadixSort ...
 // 基数排序
+// 时间复杂度：o(kn)
 func RadixSort(in []int) []int {
 	// 求最大位数
 	d := maxBits(in)
@@ -29,7 +28,7 @@ func RadixSort(in []int) []int {
 		for j := 1; j < 10; j++ {
 			counter[j] = counter[j-1] + counter[j]
 		}
-		fmt.Println(counter[9])
+		//倒叙
 		for j := len(in) - 1; j >= 0; j-- {
 			k := (in[j] / raidx) % 10
 			tmp[counter[k]-1] = in[j]
