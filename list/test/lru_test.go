@@ -24,6 +24,6 @@ func TestLRU(t *testing.T) {
 	t.Log(lru.Get(3))
 	lru.Print()
 	t.Log(lru.Get(4))
-	//lru.Print()
+	lru.Print()
 
 }

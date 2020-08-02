@@ -13,8 +13,9 @@ type PriQueue struct {
 // LRU ...
 // no 146
 type LRU struct {
-	queue    *PriQueue
-	tail     *PriQueue
+	head *PriQueue
+	tail *PriQueue
+
 	hashMap  map[interface{}]*PriQueue
 	capacity int
 }
@@ -22,11 +23,16 @@ type LRU struct {
 // NewLRU ...
 func NewLRU(cap int) *LRU {
 	q := &PriQueue{}
+	t := &PriQueue{}
+	// 关键首尾相连
+	q.Next = t
+	t.Pre = q
+
 	ret := &LRU{
-		queue:    q,
+		head:     q,
 		hashMap:  make(map[interface{}]*PriQueue),
 		capacity: cap,
-		tail:     q,
+		tail:     t,
 	}
 	return ret
 }
@@ -34,53 +40,67 @@ func NewLRU(cap int) *LRU {
 // Get ...
 // 获取时需要判断key是否存在，存在的话需要将元素移动到列表头部
 func (lru *LRU) Get(key interface{}) interface{} {
-	var ok bool
-	var ret *PriQueue
-	if ret, ok = lru.hashMap[key]; ok {
-		ret.Pre.Next = ret.Next
-		if ret.Next != nil {
-			ret.Next.Pre = ret.Pre
-		}
+	if v, ok := lru.hashMap[key]; ok {
 
-		ret.Next = lru.queue.Next
-		ret.Pre = lru.queue
+		// 摘除v
+		v.Pre.Next = v.Next
+		v.Next.Pre = v.Pre
 
-		lru.queue.Next = ret
+		// 插入头
+		v.Next = lru.head.Next
+		v.Pre = lru.head
 
+		lru.head.Next.Pre = v
+		lru.head.Next = v
+		return v.Val
 	}
-	if ret == nil {
-		return -1
-	}
-	return ret.Val
+
+	return nil
 }
 
 // Put ...
-// 放置元素时,如key已经存在，在需要判断容量是否已经满了,满了移除末尾的元素和map中元素，否则添加到末尾
+// 若已存在则，重置新值，并添加的列表头
+// 若不存在，且容量已满，删除列表最后元素，在表头插入元素
+// 若不存在，且容量不满，则添加元素到列表头
 func (lru *LRU) Put(key interface{}, val interface{}) {
 	if v, ok := lru.hashMap[key]; ok {
 		v.Val = val
-	} else {
-		node := &PriQueue{}
-		node.Val = val
-		node.Key = key
+		// 从原位置删除
+		v.Next.Pre = v.Pre
+		v.Pre.Next = v.Next
+		// 插入开头
+		v.Pre = lru.head
+		v.Next = lru.head.Next
 
-		if lru.capacity == len(lru.hashMap) {
-			tmp := lru.tail
-			lru.tail = lru.tail.Pre
-			lru.tail.Next = nil
-			tmp.Next = nil
-			tmp.Pre = nil
-			delete(lru.hashMap, tmp.Key)
+		lru.head.Next.Pre = v
+		lru.head.Next = v
+	} else {
+		if len(lru.hashMap) == lru.capacity {
+			if lru.tail.Pre != nil {
+				end := lru.tail.Pre
+				delete(lru.hashMap, end.Key)
+
+				if end.Pre != nil {
+					end.Pre.Next = lru.tail
+					lru.tail.Pre = end.Pre
+				}
+			}
 		}
 
-		//将node插入末尾
-		lru.tail.Next = node
-		node.Pre = lru.tail
-		lru.tail = lru.tail.Next
+		// 插入开头
+		node := &PriQueue{
+			Key: key,
+			Val: val,
+		}
+
+		node.Pre = lru.head
+		node.Next = lru.head.Next
+
+		lru.head.Next.Pre = node
+		lru.head.Next = node
 
 		lru.hashMap[key] = node
 	}
-
 }
 
 // Size ...
@@ -90,7 +110,7 @@ func (lru *LRU) Size() int {
 
 // Print ...
 func (lru *LRU) Print() {
-	cur := lru.queue
+	cur := lru.head
 	out := ""
 	for cur != nil {
 		if cur.Next != nil && cur.Next.Pre != nil {
