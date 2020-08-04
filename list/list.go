@@ -1,5 +1,7 @@
 package list
 
+import "fmt"
+
 /*SwapPairs ...
 24 给定一个链表，然后两两交换链表的位置
 递归法
@@ -289,4 +291,43 @@ func Partition(head *ListNode, x int) *ListNode {
 	//连接两部分列表
 	p.Next = dummyRight.Next
 	return dummyLeft.Next
+}
+
+// ReorderList ...
+// no 143
+// 给一个链表，然后依次头尾头尾头尾取元素，组成新的链表。
+// 1.平分列表
+// 2.第二个列表倒序
+// 3.依次取值
+func ReorderList(head *ListNode) *ListNode {
+	if head == nil {
+		return nil
+	}
+
+	if head.Next == nil || head.Next.Next == nil {
+		return head
+	}
+
+	slow := head
+	fast := head
+
+	//  slow 指向中间位置的前一个指针
+	for fast.Next != nil && fast.Next.Next != nil {
+		slow = slow.Next
+		fast = fast.Next.Next
+	}
+
+	second, _ := ReverseList(slow)
+	fmt.Println(second.ToString(second))
+	newHaed := head
+	// 交替指向
+	for second != nil {
+		tmp := second.Next
+		second.Next = head.Next
+		head.Next = second
+		head = second.Next
+		second = tmp
+	}
+
+	return newHaed
 }
