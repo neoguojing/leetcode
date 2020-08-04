@@ -317,11 +317,14 @@ func ReorderList(head *ListNode) *ListNode {
 		fast = fast.Next.Next
 	}
 
-	second, _ := ReverseList(slow)
+	second, _ := ReverseList(slow.Next)
+	slow.Next = nil
 	fmt.Println(second.ToString(second))
 	newHaed := head
 	// 交替指向
 	for second != nil {
+		fmt.Println(head.Val)
+
 		tmp := second.Next
 		second.Next = head.Next
 		head.Next = second

@@ -79,11 +79,5 @@ func TestPartition(t *testing.T) {
 func TestReorderList(t *testing.T) {
 	a := list.GeneListByArray([]int{1, 2, 3, 4, 5})
 	head := list.ReorderList(a)
-	_ = head
-	//t.Log(head.ToString(head))
-	t.Log(head.Val)
-	t.Log(head.Next.Next.Val)
-	t.Log(head.Next.Next.Next.Val)
-	t.Log(head.Next.Next.Next.Next.Val)
-	t.Log(head.Next.Next.Next.Next.Next.Val)
+	t.Log(head.ToString(head))
 }
