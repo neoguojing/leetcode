@@ -2,7 +2,8 @@
 
 ## 动态规划
 
-[188 MaxProfit4](https://github.com/neoguojing/leetcode/blob/master/array/stock.go)
+[188 MaxProfit4](https://github.com/neoguojing/leetcode/blob/master/array/stock.go)  
+
 [42 Trap](https://github.com/neoguojing/leetcode/blob/master/array/wall.go)
 
 ## 贪心算法
@@ -11,14 +12,22 @@
 
 ## 回溯
 
-[36 IsValidSudoku](https://github.com/neoguojing/leetcode/blob/master/matrix/sudoku.go)
-[CombinationSum](https://github.com/neoguojing/leetcode/blob/master/combination/array.go)
-[CombinationSum2](https://github.com/neoguojing/leetcode/blob/master/combination/array.go)
-[77 Combine](https://github.com/neoguojing/leetcode/blob/master/combination/combination.go)
-[46 Permute](https://github.com/neoguojing/leetcode/blob/master/combination/premutation.go)
-[47 PermuteUnique](https://github.com/neoguojing/leetcode/blob/master/combination/premutation.go)
-[78 Subsets](https://github.com/neoguojing/leetcode/blob/master/combination/set.go)
-[SubsetsWithDup](https://github.com/neoguojing/leetcode/blob/master/combination/set.go)
+[36 IsValidSudoku](https://github.com/neoguojing/leetcode/blob/master/matrix/sudoku.go)  
+
+[CombinationSum](https://github.com/neoguojing/leetcode/blob/master/combination/array.go)  
+
+[CombinationSum2](https://github.com/neoguojing/leetcode/blob/master/combination/array.go)  
+
+[77 Combine](https://github.com/neoguojing/leetcode/blob/master/combination/combination.go)  
+
+[46 Permute](https://github.com/neoguojing/leetcode/blob/master/combination/premutation.go)  
+
+[47 PermuteUnique](https://github.com/neoguojing/leetcode/blob/master/combination/premutation.go)  
+
+[78 Subsets](https://github.com/neoguojing/leetcode/blob/master/combination/set.go)  
+
+[SubsetsWithDup](https://github.com/neoguojing/leetcode/blob/master/combination/set.go)  
+
 
 ## 双指针
 
