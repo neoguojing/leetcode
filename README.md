@@ -39,12 +39,18 @@
 
 [11 MaxArea](https://github.com/neoguojing/leetcode/blob/master/array/wall.go)  
 
+[82 DeleteAllDuplicates](https://github.com/neoguojing/leetcode/blob/master/list/list.go)  
+
+[83 DeleteDuplicates](https://github.com/neoguojing/leetcode/blob/master/list/list.go)  
+
+[86 Partition](https://github.com/neoguojing/leetcode/blob/master/list/list.go)  
+
+
 
 ## 并查集
+[130 Solve](https://github.com/neoguojing/leetcode/blob/master/classify/union_find.go)
 
 [200 NumIslands](https://github.com/neoguojing/leetcode/blob/master/classify/union_find.go)  
-
-[130 Solve](https://github.com/neoguojing/leetcode/blob/master/classify/union_find.go)
 
 ## 二分查找
 
@@ -59,13 +65,16 @@
 [17 LetterCombinationsWithQueue](https://github.com/neoguojing/leetcode/blob/master/combination/letter.go)
 
 ## 快慢指针
+[19 RemoveNthFromEnd](https://github.com/neoguojing/leetcode/blob/master/list/list.go)  
+
+[61 RotateRight](https://github.com/neoguojing/leetcode/blob/master/list/list.go)  
 
 [141 HasCycle](https://github.com/neoguojing/leetcode/blob/master/list/circle.go)  
-
-[19 RemoveNthFromEnd](https://github.com/neoguojing/leetcode/blob/master/list/list.go)  
 
 [143 ReorderList](https://github.com/neoguojing/leetcode/blob/master/list/list.go)  
 
 
 ## 递归
-[24 SwapPairs](https://github.com/neoguojing/leetcode/blob/master/list/list.go)
+[24 SwapPairs](https://github.com/neoguojing/leetcode/blob/master/list/list.go)  
+
+[25 ReverseKGroup](https://github.com/neoguojing/leetcode/blob/master/list/list.go)
