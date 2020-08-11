@@ -31,24 +31,28 @@
 
 ## 双指针
 
-[RemoveDuplicates](https://github.com/neoguojing/leetcode/blob/master/array/array.go)
-[121 MaxProfit1](https://github.com/neoguojing/leetcode/blob/master/array/stock.go)
-[ThreeSum](https://github.com/neoguojing/leetcode/blob/master/array/sum.go)
-[11 MaxArea](https://github.com/neoguojing/leetcode/blob/master/array/wall.go)
+[RemoveDuplicates](https://github.com/neoguojing/leetcode/blob/master/array/array.go)  
+
+[121 MaxProfit1](https://github.com/neoguojing/leetcode/blob/master/array/stock.go)  
+
+[ThreeSum](https://github.com/neoguojing/leetcode/blob/master/array/sum.go)  
+
+[11 MaxArea](https://github.com/neoguojing/leetcode/blob/master/array/wall.go)  
+
 
 ## 并查集
 
-[200 NumIslands](https://github.com/neoguojing/leetcode/blob/master/classify/union_find.go)
+[200 NumIslands](https://github.com/neoguojing/leetcode/blob/master/classify/union_find.go)  
 
 [130 Solve](https://github.com/neoguojing/leetcode/blob/master/classify/union_find.go)
 
 ## 二分查找
 
-[34 SearchRange](https://github.com/neoguojing/leetcode/blob/master/array/array.go)
+[34 SearchRange](https://github.com/neoguojing/leetcode/blob/master/array/array.go)  
 
 ## 状态机
 
-[123 MaxProfit3](https://github.com/neoguojing/leetcode/blob/master/array/stock.go)
+[123 MaxProfit3](https://github.com/neoguojing/leetcode/blob/master/array/stock.go)  
 
 ## 队列
 
@@ -56,9 +60,12 @@
 
 ## 快慢指针
 
-[141 HasCycle]()
-[19 RemoveNthFromEnd]()
-[143 ReorderList]()
+[141 HasCycle](https://github.com/neoguojing/leetcode/blob/master/list/circle.go)  
+
+[19 RemoveNthFromEnd](https://github.com/neoguojing/leetcode/blob/master/list/list.go)  
+
+[143 ReorderList](https://github.com/neoguojing/leetcode/blob/master/list/list.go)  
+
 
 ## 递归
 [24 SwapPairs](https://github.com/neoguojing/leetcode/blob/master/list/list.go)
