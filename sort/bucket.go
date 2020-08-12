@@ -1,6 +1,9 @@
 package sort
 
-import "sort"
+import (
+	"fmt"
+	"sort"
+)
 
 // BucketSort ...
 // 桶排序
@@ -23,14 +26,17 @@ func BucketSort(in []int, bucketSize int) []int {
 	}
 	//	求需要多少个桶
 	bucketNum := (max - min) / bucketSize
-	buckets := make([][]int, bucketNum)
+	fmt.Println(bucketNum)
+	buckets := make([][]int, bucketNum+1)
 	//		初始化桶
 	for i := 0; i < len(buckets); i++ {
 		buckets[i] = make([]int, 0)
 	}
+
 	//将数据插入桶
 	for i := 0; i < len(in); i++ {
 		index := (in[i] - min) / bucketSize
+		fmt.Println(in[i], index)
 		buckets[index] = append(buckets[index], in[i])
 	}
 
