@@ -58,23 +58,20 @@ func merge(in []int, start, mid, end int) {
 
 // Quicksort ...
 func Quicksort(in []int, left, right int) {
-	if left >= right {
-		return
+	if left < right {
+		pivot := partition(in, left, right)
+		Quicksort(in, left, pivot-1)
+		Quicksort(in, pivot+1, right)
 	}
-
-	pivot := partition(in, left, right)
-	Quicksort(in, left, pivot-1)
-	Quicksort(in, pivot+1, right)
 }
 
 func partition(in []int, left, right int) int {
-	//left, right := i, j
 
 	pivot := (left + right) / 2
 	tmp := in[pivot]
 
+	// 将pivot移动到第一个，方便腾出空位用于元素交换
 	in[pivot] = in[left]
-	in[left] = tmp
 
 	for left < right {
 		for left < right && in[right] >= tmp {
@@ -90,8 +87,8 @@ func partition(in []int, left, right int) int {
 		in[right] = in[left]
 
 	}
-
+	// pivot值归位
 	in[left] = tmp
-
-	return pivot
+	// 真正的pivot
+	return left
 }
