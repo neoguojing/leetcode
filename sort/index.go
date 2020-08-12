@@ -9,6 +9,12 @@ package sort
 计数排序：每个桶只存储单一键值；
 桶排序：每个桶存储一定范围的数值；
 */
+// Swap ...
+func Swap(in []int, x, y int) {
+	tmp := in[x]
+	in[x] = in[y]
+	in[y] = tmp
+}
 
 //MergeSort ...
 func MergeSort(in []int, start, end int) {
@@ -21,7 +27,7 @@ func MergeSort(in []int, start, end int) {
 	}
 }
 
-// 使用index，模拟空间yidong
+// 使用index，模拟空间移动
 func merge(in []int, start, mid, end int) {
 	n := end - start + 1
 	tmp := make([]int, n)
@@ -91,4 +97,45 @@ func partition(in []int, left, right int) int {
 	in[left] = tmp
 	// 真正的pivot
 	return left
+}
+
+//HeapSort ...
+func HeapSort(in []int) {
+
+}
+
+//MakeHeap ...
+func MakeHeap(in []int) {
+
+}
+
+// AdjustHeap ...
+func AdjustHeap(in []int, i int, length int) {
+
+}
+
+//BubbleSort ...
+func BubbleSort(in []int) {
+	if in == nil {
+		return
+	}
+	n := len(in)
+	if n < 2 {
+		return
+	}
+	// 总共n-1轮
+	for i := 0; i < n-1; i++ {
+		// 每次需要计算新的j的终点
+		flag := false
+		for j := 0; j < n-1-i; j++ {
+			if in[j] > in[j+1] {
+				Swap(in, j, j+1)
+				flag = true
+			}
+		}
+
+		if !flag {
+			break
+		}
+	}
 }
