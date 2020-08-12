@@ -22,3 +22,9 @@ func TestBubbleSort(t *testing.T) {
 	sort.BubbleSort(in)
 	t.Log(in)
 }
+
+func TestHeapSort(t *testing.T) {
+	in := []int{6, 5, 3, 1, 8, 7, 2, 4}
+	sort.HeapSort(in)
+	t.Log(in)
+}

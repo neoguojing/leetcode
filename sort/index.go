@@ -101,17 +101,41 @@ func partition(in []int, left, right int) int {
 
 //HeapSort ...
 func HeapSort(in []int) {
-
+	MakeHeap(in)
+	// 排序
+	for i := len(in) - 1; i > 0; i-- {
+		Swap(in, 0, i)
+		AdjustHeap(in, 0, i)
+	}
 }
 
 //MakeHeap ...
 func MakeHeap(in []int) {
-
+	// 构建队
+	for i := len(in)/2 - 1; i >= 0; i-- {
+		AdjustHeap(in, i, len(in))
+	}
 }
 
 // AdjustHeap ...
+// 调整第i个元素的位置,建立大顶堆
 func AdjustHeap(in []int, i int, length int) {
+	tmp := in[i]
 
+	for k := 2*i + 1; k < length; k = 2*k + 1 {
+		if k+1 < length && in[k] < in[k+1] {
+			k++
+		}
+
+		if tmp < in[k] {
+			in[i] = in[k]
+			i = k
+		} else {
+			break
+		}
+	}
+
+	in[i] = tmp
 }
 
 //BubbleSort ...
