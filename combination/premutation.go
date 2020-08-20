@@ -84,3 +84,6 @@ func permuteUnique(nums []int, tmp []int, ret *[][]int) {
 		tmp = tmp[:len(tmp)-1]
 	}
 }
+
+// no 60
+// 是给一个 n，不是输出它的全排列，而是把所有组合从从小到大排列后，输出第 k 个。

@@ -23,3 +23,7 @@ func iniDP(m, n int, tag int) [][]int {
 
 	return visited
 }
+
+// 73
+// 给定一个矩阵，然后找到所有含有 0 的地方，把该位置所在行所在列的元素全部变成 0。
+// 要求原地place
