@@ -300,32 +300,19 @@ func BuildTree(preorder []int, inorder []int) *TreeNode {
 	if len(preorder) == 0 || len(inorder) == 0 {
 		return nil
 	}
-	return buildTree(preorder, 0, inorder)
-}
-
-func buildTree(preorder []int, idx int, inorder []int) *TreeNode {
-	if idx >= len(preorder) {
-		return nil
-	}
-
 	root := &TreeNode{}
-	root.Val = preorder[idx]
+	root.Val = preorder[0]
 	mid := 0
 	for i, v := range inorder {
-		if v == preorder[idx] {
+		if v == preorder[0] {
 			mid = i
+			break
 		}
 	}
 
-	left := inorder[0:mid]
-	if len(left) != 0 {
-		root.Left = buildTree(preorder, idx+1, left)
-	}
+	root.Left = BuildTree(preorder[1:mid+1], inorder[0:mid])
 
-	right := inorder[mid+1:]
-	if len(right) != 0 {
-		root.Right = buildTree(preorder, idx+2, right)
-	}
+	root.Right = BuildTree(preorder[mid+1:], inorder[mid+1:])
 
 	return root
 }
@@ -335,7 +322,7 @@ func buildTree(preorder []int, idx int, inorder []int) *TreeNode {
 // 根据二叉树的中序遍历和后序遍历还原二叉树。
 // 3,9,20,15,7
 // 9 3 15 20 7
-func BuildTreeByPost(postorder []int, inorder []int) *TreeNode {
+func BuildTreeByPost(inorder []int, postorder []int) *TreeNode {
 	if postorder == nil || inorder == nil {
 		return nil
 	}
@@ -343,33 +330,19 @@ func BuildTreeByPost(postorder []int, inorder []int) *TreeNode {
 	if len(postorder) == 0 || len(inorder) == 0 {
 		return nil
 	}
-	return buildTreeByPost(postorder, len(postorder)-1, inorder)
-}
-
-func buildTreeByPost(postorder []int, idx int, inorder []int) *TreeNode {
-	if idx < 0 {
-		return nil
-	}
 
 	root := &TreeNode{}
-	root.Val = postorder[idx]
-	mid := 0
+	root.Val = postorder[len(postorder)-1]
+	mid := len(postorder) - 1
 	for i, v := range inorder {
-		if v == postorder[idx] {
+		if v == postorder[len(postorder)-1] {
 			mid = i
+			break
 		}
 	}
 
-	right := inorder[mid+1:]
-	if len(right) != 0 {
-		root.Right = buildTreeByPost(postorder, idx-1, right)
-	}
-
-	left := inorder[0:mid]
-	if len(left) != 0 {
-		root.Left = buildTreeByPost(postorder, idx-2, left)
-	}
-
+	root.Left = BuildTreeByPost(inorder[:mid], postorder[:mid])
+	root.Right = BuildTreeByPost(inorder[mid+1:], postorder[mid:len(postorder)-1])
 	return root
 }
 
