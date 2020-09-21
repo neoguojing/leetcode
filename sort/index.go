@@ -104,7 +104,9 @@ func HeapSort(in []int) {
 	MakeHeap(in)
 	// 排序
 	for i := len(in) - 1; i > 0; i-- {
+		// 首尾交换
 		Swap(in, 0, i)
+		// 调整前i个
 		AdjustHeap(in, 0, i)
 	}
 }
