@@ -57,6 +57,10 @@ func numTrees(start, end int) int {
 // 1-n 输出所有不同的bst
 // 递归 ，
 func GenerateBSTrees(n int) []*TreeNode {
+	if n == 0 {
+		return nil
+	}
+
 	ret := generateBSTrees(1, n)
 	return ret
 }
@@ -68,6 +72,7 @@ func generateBSTrees(start int, end int) []*TreeNode {
 		return ret
 	}
 
+	// 只有一个节点的情况，生成一个节点
 	if start == end {
 		root := &TreeNode{}
 		root.Val = start
