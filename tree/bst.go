@@ -19,8 +19,21 @@ import (
 // NumTrees ...
 // no 96
 // 1-n 能够成多少二分查找树
+//G(n)=G(0)∗G(n−1)+G(1)∗(n−2)+...+G(n−1)∗G(0)
 func NumTrees(n int) int {
-	return numTrees(1, n)
+	dp := make([]int, n+1)
+
+	dp[0] = 1
+	dp[1] = 1
+	//i 作为dp的下标需要从2开始遍历
+	//表示 G(0)∗G(n−1)需要两个变量标示 j控制0-n的递增过程
+	for i := 2; i <= n; i++ {
+		for j := 1; j <= i; j++ {
+			dp[i] += dp[j-1] * dp[i-j]
+		}
+	}
+
+	return dp[n]
 }
 
 func numTrees(start, end int) int {
@@ -28,8 +41,8 @@ func numTrees(start, end int) int {
 	if start >= end {
 		return 1
 	}
-
 	for k := start; k <= end; k++ {
+
 		leftTrees := numTrees(start, k-1)
 		rightTrees := numTrees(k+1, end)
 
