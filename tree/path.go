@@ -4,18 +4,14 @@ package tree
 // no 112
 // 给定一个sum，判断是否有一条从根节点到叶子节点的路径，该路径上所有数字的和等于sum。
 func HasPathSum(root *TreeNode, sum int) bool {
-	// 该条件会导致叶节点重复判断两次
-	if sum == 0 && root == nil {
-		return true
-	}
-
-	if sum != 0 && root == nil {
+	if root == nil {
 		return false
 	}
+	if root.Left == nil && root.Right == nil {
+		return root.Val.(int) == sum
+	}
 
-	sum = sum - root.Val.(int)
-
-	return HasPathSum(root.Left, sum) || HasPathSum(root.Right, sum)
+	return HasPathSum(root.Left, sum-root.Val.(int)) || HasPathSum(root.Right, sum-root.Val.(int))
 }
 
 //PathSum ...
