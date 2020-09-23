@@ -18,11 +18,7 @@ func HasPathSum(root *TreeNode, sum int) bool {
 // no 113
 // 给定一个sum，输出一条从根节点到叶子节点的路径，该路径上所有数字的和等于sum。
 func PathSum(root *TreeNode, sum int) [][]int {
-	if sum == 0 && root == nil {
-		return nil
-	}
-
-	if root == nil && sum != 0 {
+	if root == nil {
 		return nil
 	}
 
@@ -42,6 +38,8 @@ func pathSum(root *TreeNode, sum int, tmp []int, ret *[][]int) {
 	tmp = append(tmp, root.Val.(int))
 	//处理合法的叶节点和非合法的叶节点
 	if root.Left == nil && root.Right == nil && sum == 0 {
+		dst := make([]int, len(tmp))
+		copy(dst, tmp)
 		*ret = append(*ret, tmp)
 		return
 	} else if root.Left == nil && root.Right == nil && sum != 0 {
