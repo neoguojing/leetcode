@@ -2,7 +2,7 @@ package tree
 
 import (
 	"leetcode/list"
-	"leetcode/utils"
+	"math"
 )
 
 /*
@@ -106,26 +106,33 @@ func generateBSTrees(start int, end int) []*TreeNode {
 // 解法一：中序遍历
 // 解法二：递归：根节点取值任意，左节点取值范围为（-inf，根的值），同理
 func IsValidBST(root *TreeNode) bool {
+
+	min := math.MinInt64
+	max := math.MaxInt64
+	return isValidBSTHelper(root, min, max)
+
+}
+
+func isValidBSTHelper(root *TreeNode, start, end int) bool {
+
 	if root == nil {
 		return true
 	}
-	stack := utils.NewStack()
-	var pre *TreeNode = nil
 
-	for root != nil || !stack.Empty() {
-		for root != nil {
-			stack.Push(root)
-			root = root.Left
-		}
+	if root.Val.(int) <= start || root.Val.(int) >= end {
+		return false
+	}
 
-		root = stack.Pop().(*TreeNode)
-		if pre != nil && pre.Val.(int) >= root.Val.(int) {
+	if isValidBSTHelper(root.Left, start, root.Val.(int)) {
+		if isValidBSTHelper(root.Right, root.Val.(int), end) {
+			return true
+		} else {
 			return false
 		}
-		pre = root
-		root = root.Right
+	} else {
+		return false
 	}
-	return true
+
 }
 
 //RecoverTree ...
