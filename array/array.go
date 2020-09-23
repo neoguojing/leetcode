@@ -129,7 +129,7 @@ func SearchInsert(nums []int, target int) int {
 		} else if nums[mid] > target {
 			end = mid - 1
 		} else if nums[mid] == target {
-			return start
+			return mid
 		}
 	}
 
