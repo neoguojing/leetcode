@@ -48,7 +48,7 @@ func MaxProfit3(prices []int) int {
 	if prices == nil || len(prices) == 0 {
 		return 0
 	}
-	s1 := prices[0]
+	s1 := -prices[0]
 	s2, s3, s4 := math.MinInt32, math.MinInt32, math.MinInt32
 	for i := 0; i < len(prices); i++ {
 		s1 = utils.Max(s1, -prices[i])
