@@ -61,33 +61,33 @@ func MaxProfit3(prices []int) int {
 
 // MaxProfit4 ...
 // no 188
-//给一个数组代表股票每天的价格。你最多可以买入卖出 K 次，但只有卖出了才可以再次买入，求出最大的收益是多少
+//给一个数组代表股票每天的价格。你最多可以买入卖出 k 次，但只有卖出了才可以再次买入，求出最大的收益是多少
 // 动态规划：dp[i][k] 第i天最多交易k次的收益,k=0 dp[i][0] = 0,i = 0,dp[0][k] = 0  dp[i][k] = dp[i-1][k] 第i天什么都不做
 // 要使第i天收益最大，则第i天选择卖出,则前面i-1天至少要有一天买入 dp[i][k] = max(dp[i-1][k],prices[i]-prices[j]+dp[j][k-1]),j =(0,i)
 // 等价于：dp[i][k] = max(dp[i-1][k],prices[i]-（prices[j]-dp[j][k-1]）)
 // 当k > len(prices)/2时，等价与任意买入，可参考122题
-func MaxProfit4(K int, prices []int) int {
-	if K == 0 || prices == nil || len(prices) == 0 {
+func MaxProfit4(k int, prices []int) int {
+	if k == 0 || prices == nil || len(prices) == 0 {
 		return 0
 	}
 
-	if K > len(prices)/2 {
+	if k > len(prices)/2 {
 		return MaxProfit2(prices)
 	}
 
-	dp := iniDP(len(prices), K+1, 0)
+	dp := iniDP(len(prices), k+1, 0)
 
-	for k := 1; k <= K; k++ {
+	for j := 1; j <= k; j++ {
 		for i := 1; i < len(prices); i++ {
 			min := math.MaxInt32
 			for h := 0; h <= i; h++ {
-				if prices[h]-dp[h][k-1] < min {
-					min = prices[h] - dp[h][k-1]
+				if prices[h]-dp[h][j-1] < min {
+					min = prices[h] - dp[h][j-1]
 				}
 			}
-			dp[i][k] = utils.Max(dp[i-1][k], prices[i]-min)
+			dp[i][k] = utils.Max(dp[i-1][j], prices[i]-min)
 		}
 	}
 
-	return dp[len(prices)-1][K]
+	return dp[len(prices)-1][k]
 }
