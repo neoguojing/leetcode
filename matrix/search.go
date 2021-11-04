@@ -87,6 +87,6 @@ func existRecur(board [][]rune, word string, index int, x, y int, bitMap [][]boo
 	return false
 }
 
-// 74
+// no 74
 //判断一个矩阵中是否存在某个数，矩阵是有序的。
 // todo

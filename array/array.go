@@ -3,6 +3,7 @@ package array
 import "fmt"
 
 /*RemoveDuplicates ...
+ no 26
 返回非重复数字的个数，并且把 nums 里重复的数字也去掉。
 例如，nums = [ 1, 1, 2 ] ，那么就返回 2 ，并且把 nums 变成 [ 1, 2 ]。
 双指针

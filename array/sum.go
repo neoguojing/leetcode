@@ -5,6 +5,7 @@ import (
 )
 
 //TwoSum ...
+// no 1
 func TwoSum(nums []int, target int) []int {
 	anotherMap := make(map[int]int)
 	for i := 0; i < len(nums); i++ {

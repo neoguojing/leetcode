@@ -5,7 +5,8 @@ import (
 )
 
 //SolveNQueens ...
-// no 51,52
+// no 51
+// no 52
 // 摆皇后的位置，每行每列以及对角线只能出现 1 个皇后。输出所有的情况,和判定有几个解
 // 回溯:递归深度是行，多路递归是列
 func SolveNQueens(n int) ([][]string, int) {

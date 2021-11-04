@@ -12,6 +12,12 @@ type PriQueue struct {
 
 // LRU ...
 // no 146
+// 构建优先级队列：列表最近一次访问的放在列表头，保存对于的key和val方便访问
+// 建立hashmap，帮助快速访问，hashmap指向列表指针，节省空间
+// get时，从hashmap获取，找到，则将找到的元素，移动到列表头
+// put时：
+// 1.存在，将该节点放入列表头
+// 2.不存在，则添加到列表头，容量满了则删除表尾元素和hashmap的值，未满则不处理
 type LRU struct {
 	head *PriQueue
 	tail *PriQueue

@@ -45,7 +45,7 @@ func swapPairs(p, n1, n2 *ListNode) {
 }
 
 /*RemoveNthFromEnd ...
-19 给定一个链表，将倒数第 n 个结点删除
+no 19 给定一个链表，将倒数第 n 个结点删除
 快慢指针
 n = 2
  0->1->2->3->4->nil
@@ -77,7 +77,7 @@ func RemoveNthFromEnd(head *ListNode, n int) *ListNode {
 }
 
 /*ReverseKGroup ...
-25 将一个链表，每 k 个倒置，最后一组不足 k 个就不倒置
+no 25 将一个链表，每 k 个倒置，最后一组不足 k 个就不倒置
 递归：
 1.子问题：g(n-1).Next = g(n)
 2.结束条件：组元素个数小于k，则不反转直接返回
@@ -133,6 +133,7 @@ func reverseKGroup(head *ListNode, k int) *ListNode {
 }
 
 /*ReverseList ...
+no 206
 a ->     b -> c -> other
 dummy         head
 1.需要一个额外指针，保存即将插入的元素
