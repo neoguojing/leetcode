@@ -53,3 +53,6 @@ col :  row->n
 - 子问题：left[i]的值如何计算？
 - >max(left[i-1],height[i-1]) : 当前左边最大值，有左边第一个值和左边的maxleft决定
 - >right同理
+- 238 构建一个数组，值是除自己以外的其他数的乘积,要求O(n)，不使用除法
+- > 子问题：pro[i] = left[i-1] * right[i+1] ,分为左右两边求解，同42
+-> left[i] = num[i-1] * left[i-1]
