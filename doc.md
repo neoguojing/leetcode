@@ -46,10 +46,10 @@ col :  row->n
 ### 数组
 - 42 数字代表墙，求墙体的凹槽可以装多少单位的水？
 - 分析：当前墙体可以乘水的单位由左右两边的墙体高度决定;
--- 求解i能够乘水的单位trap[i]，求和得到能够乘水的最大值
--- i的乘水量 trap[i]由左边和右边最低的决定:trap[i] = min(left[i],right[i])-height[i]
--- trap[i] <=0.则trap[i] = 0 ；否则为trap[i]
--- left[i]和right[i]求解：动态规划
+- 求解i能够乘水的单位trap[i]，求和得到能够乘水的最大值
+- i的乘水量 trap[i]由左边和右边最低的决定:trap[i] = min(left[i],right[i])-height[i]
+- trap[i] <=0.则trap[i] = 0 ；否则为trap[i]
+- left[i]和right[i]求解：动态规划
 - 子问题：left[i]的值如何计算？
--- max(left[i-1],height[i-1]) : 当前左边最大值，有左边第一个值和左边的maxleft决定
--- right同理
+- max(left[i-1],height[i-1]) : 当前左边最大值，有左边第一个值和左边的maxleft决定
+- right同理
