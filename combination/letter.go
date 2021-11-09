@@ -128,7 +128,7 @@ func generateParenthesis(l, r, n int, ret string, targets *[]string) {
 	ret += left
 	l++
 	generateParenthesis(l, r, n, ret, targets)
-	if l-r > 1 && r < n {
+	if l-r > 1 {
 		l--
 		ret = ret[:len(ret)-1]
 		ret += right
