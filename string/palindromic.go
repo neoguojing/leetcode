@@ -1,8 +1,6 @@
 package string
 
-import (
-	"leetcode/utils"
-)
+import "fmt"
 
 //LongestPalindrome ...
 // no 5
@@ -21,77 +19,67 @@ func LongestPalindrome(in string) string {
 11 12 13 14 15          22  23  24
 00 01 02 03 04 05       11  12  13 14
 */
-func longestPalindromeByDP(in string) string {
-	n := len(in)
-	dp := make([][]bool, n)
-	for i := range dp {
-		dp[i] = make([]bool, 0)
-		for j := 0; j < n; j++ {
-			dp[i] = append(dp[i], false)
-		}
+func longestPalindromeByDP(s string) string {
+	if len(s) == 0 || len(s) == 1 {
+		return s
 	}
-	rs := []rune(in)
-	maxLen := 0
-	ret := ""
-	//设计循环，i小于等于j必须的,且差值从0开始扩大
-	for i := n - 1; i >= 0; i-- {
-		for j := i; j < n; j++ {
-			if in[i] == in[j] && j-i+1 <= 2 {
+
+	dp := make([][]bool, len(s))
+	for i := 0; i < len(s); i++ {
+		dp[i] = make([]bool, len(s))
+	}
+
+	max := 0
+	var ret string
+	for i := len(s) - 1; i >= 0; i-- {
+		for j := i; j < len(s); j++ {
+			if j == i {
 				dp[i][j] = true
-			} else if in[i] == in[j] && dp[i+1][j-1] {
+			} else if j-i == 1 && s[i] == s[j] {
+				dp[i][j] = true
+			} else if j-i > 1 && s[i] == s[j] && dp[i+1][j-1] {
 				dp[i][j] = true
 			}
 
-			if dp[i][j] && maxLen < j-i+1 {
-				maxLen = j - i + 1
-				ret = string(rs[i : j+1])
+			if dp[i][j] && max < j-i+1 {
+				max = j - i + 1
+				ret = s[i : j+1]
 			}
 		}
 	}
-
 	return ret
 }
 
 // LongestPalindromeSubseq ...
 // no 516 求最长回文子序列 而不是子串
-func LongestPalindromeSubseq(in string) int {
-	if len(in) == 0 {
-		return 0
+func LongestPalindromeSubseq(s string) int {
+	if len(s) == 0 || len(s) == 1 {
+		return len(s)
 	}
-	n := len(in)
-	dp := make([][]int, n)
-	for i := range dp {
-		dp[i] = make([]int, 0)
-		for j := 0; j < n; j++ {
+
+	dp := make([][]int, len(s))
+	for i := 0; i < len(s); i++ {
+		dp[i] = make([]int, len(s))
+	}
+	for i := len(s) - 1; i >= 0; i-- {
+		for j := i; j < len(s); j++ {
 			if i == j {
-				dp[i] = append(dp[i], 1)
-
+				dp[i][j] = 1
+			} else if s[i] == s[j] {
+				dp[i][j] = dp[i+1][j-1] + 2
 			} else {
-				dp[i] = append(dp[i], 0)
-			}
-		}
-	}
-
-	maxLen := 0
-	for i := n - 1; i >= 0; i-- {
-		for j := i + 1; j < n; j++ {
-			if in[i] == in[j] {
-				if j-i == 1 {
-					dp[i][j] = 2
+				if dp[i+1][j] > dp[i][j-1] {
+					dp[i][j] = dp[i+1][j]
 				} else {
-					dp[i][j] = dp[i+1][j-1] + 2
+					dp[i][j] = dp[i][j-1]
 				}
-			} else {
-				dp[i][j] = utils.Max(dp[i+1][j], dp[i][j-1])
 			}
 
-			if maxLen < dp[i][j] {
-				maxLen = dp[i][j]
-			}
 		}
-	}
 
-	return maxLen
+	}
+	fmt.Println(dp)
+	return dp[0][len(s)-1]
 }
 
 //CountSubstrings ...
@@ -99,36 +87,32 @@ func LongestPalindromeSubseq(in string) int {
 // 给定一个字符串，你的任务是计算这个字符串中有多少个回文子串。
 // 具有不同开始位置或结束位置的子串，即使是由相同的字符组成，也会被视作不同的子串。
 // dp[i][j] ==
-func CountSubstrings(in string) int {
+func CountSubstrings(s string) int {
 
-	if len(in) == 0 {
-		return 0
+	if len(s) == 0 || len(s) == 1 {
+		return len(s)
 	}
 
-	if len(in) == 1 {
-		return 1
+	dp := make([][]bool, len(s))
+	for i := 0; i < len(s); i++ {
+		dp[i] = make([]bool, len(s))
 	}
 
-	n := len(in)
-	dp := make([][]bool, n)
-	for i := range dp {
-		dp[i] = make([]bool, 0)
-		for j := 0; j < n; j++ {
-			dp[i] = append(dp[i], false)
-		}
-	}
 	count := 0
-	for i := n - 1; i >= 0; i-- {
-		for j := i; j < n; j++ {
-			if in[i] == in[j] && i-j+1 <= 2 {
-				count++
+
+	for i := len(s) - 1; i >= 0; i-- {
+		for j := i; j < len(s); j++ {
+			if j == i {
 				dp[i][j] = true
-			} else if in[i] == in[j] && dp[i+1][j-1] {
+				count++
+			} else if j-i == 1 && s[i] == s[j] {
+				dp[i][j] = true
+				count++
+			} else if j-i > 1 && s[i] == s[j] && dp[i+1][j-1] {
 				dp[i][j] = true
 				count++
 			}
 		}
 	}
-
 	return count
 }

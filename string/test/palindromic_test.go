@@ -28,5 +28,6 @@ func TestLongestPalindromeSubseq(t *testing.T) {
 	t.Log(strings.LongestPalindromeSubseq(in))
 	in = "cbbd"
 	t.Log(strings.LongestPalindromeSubseq(in))
-
+	in = "abcabcabcabc"
+	t.Log(strings.LongestPalindromeSubseq(in))
 }

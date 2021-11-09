@@ -66,3 +66,24 @@ func Trap(height []int) int {
 	}
 	return sum
 }
+
+// ProductExceptSelf
+//no 238
+//计算新的数组，每个值等于除自己以外的所有数的乘积
+// 要求O(n),不使用除法
+// 动态规划
+func ProductExceptSelf(nums []int) []int {
+	ret := make([]int, len(nums))
+	ret[0] = 1
+	for i := 1; i < len(nums); i++ {
+		ret[i] = ret[i-1] * nums[i-1]
+	}
+
+	right := 1
+	for j := len(nums) - 1; j >= 0; j-- {
+		ret[j] *= right
+		right *= nums[j]
+	}
+
+	return ret
+}

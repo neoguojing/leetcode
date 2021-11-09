@@ -1,5 +1,7 @@
 package string
 
+import "fmt"
+
 // IsInterleave ...
 // no 97
 // 在两个字符串 s1 和 s2 中依次取字母，问是否可以组成 S3。什么意思呢？比如 s1 = abc , s2 = de，s3 = abdce。
@@ -63,26 +65,73 @@ func isInterleave(s1, s2, s3 string, i, j, k int) bool {
 // 等价于：每2k字符，反转前k个
 func ReverseStr(s string, k int) string {
 	if k > len(s) {
-		return reverseStr(s)
+		return ReverseString([]byte(s))
 	}
 
-	if len(s) > k && len(s) < 2*k {
-		return reverseStr(s[:k]) + s[k:]
+	if len(s) >= k && len(s) < 2*k {
+		return ReverseString([]byte(s[:k])) + s[k:]
 	}
 	var ret string
-	ret = reverseStr(s[:k]) + s[k:]
+	ret = ReverseString([]byte(s[:k])) + s[k:2*k]
 	ret += ReverseStr(s[2*k:], k)
 
 	return ret
 }
 
-// reverseStr ...
-func reverseStr(s string) string {
-	var ret string
-	for i := 0; i < len(s); i++ {
-		ret += string(s[len(s)-1-i])
+// ReverseString ...
+// no 344
+// 原地反转string
+func ReverseString(s []byte) string {
+	if s == nil || len(s) == 1 || len(s) == 0 {
+		return string(s)
 	}
-	return ret
+
+	for i := 0; i < len(s)/2; i++ {
+		tmp := s[i]
+		s[i] = s[len(s)-1-i]
+		s[len(s)-1-i] = tmp
+	}
+	return string(s)
+}
+
+// ReverseVowels
+// no 345
+// 交换元音字符
+func ReverseVowels(s string) string {
+	if len(s) == 0 || len(s) == 1 {
+		return s
+	}
+	vowels := func(in byte) bool {
+		switch in {
+		case 'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U':
+			return true
+		}
+		return false
+	}
+	ret := []byte(s)
+	i, j := 0, len(s)-1
+	fmt.Println(i, j)
+	for i < j {
+
+		for i < j && !vowels(s[i]) {
+			i++
+		}
+		for i < j && !vowels(s[j]) {
+			j--
+		}
+
+		if vowels(s[i]) {
+			if vowels(s[j]) {
+				tmp := ret[i]
+				ret[i] = ret[j]
+				ret[j] = tmp
+			}
+		}
+		i++
+		j--
+
+	}
+	return string(ret)
 }
 
 // no 76

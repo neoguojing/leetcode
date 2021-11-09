@@ -18,3 +18,10 @@ func TestIsInterleave(t *testing.T) {
 	t.Log(ret)
 
 }
+
+func TestReverseVowels(t *testing.T) {
+
+	s := "hello"
+	ret := string.ReverseVowels(s)
+	t.Log(ret)
+}
