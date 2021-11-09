@@ -14,32 +14,44 @@ no 17 给一串数字，每个数可以代表数字键下的几个字母，返�
 */
 func LetterCombinations(digits string) []string {
 
-	var digitLetter = []string{"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"}
-	strings := make([]string, 0)
+	digitLetter := map[int][]string{
+		0: nil,
+		1: nil,
+		2: []string{"a", "b", "c"},
+		3: []string{"d", "e", "f"},
+		4: []string{"g", "h", "i"},
+		5: []string{"j", "k", "l"},
+		6: []string{"m", "n", "o"},
+		7: []string{"p", "q", "r", "s"},
+		8: []string{"t", "u", "v"},
+		9: []string{"w", "x", "y", "z"},
+	}
+	strings := make([][]string, len(digits))
 	for i := range digits {
-		index := digits[i] - '0'
-		strings = append(strings, digitLetter[index])
+		index := int(digits[i] - '0')
+		strings[i] = digitLetter[index]
 	}
 
 	if len(strings) == 0 {
 		return nil
 	}
 
-	if len(strings) == 1 {
-		return StringVectorMul("", strings[0])
-	}
-
-	ret := StringVectorMul(strings[0], strings[1])
-	for i := 2; i < len(strings); i++ {
-		var tmp []string
-		for _, v := range ret {
-			tmp = append(tmp, StringVectorMul(v, strings[i])...)
-		}
-		ret = tmp
-	}
-
+	ret := letterCombinations(strings)
 	return ret
 
+}
+
+func letterCombinations(in [][]string) []string {
+	if len(in) == 0 {
+		return []string{}
+	}
+
+	if len(in) == 1 {
+		return in[0]
+	}
+
+	ret := StringVectorMul1(in[0], letterCombinations(in[1:]))
+	return ret
 }
 
 //LetterCombinationsWithQueue ...
@@ -81,4 +93,47 @@ func LetterCombinationsWithQueue(digits string) []string {
 		ret = append(ret, q.Pop().(string))
 	}
 	return ret
+}
+
+//GenerateParenthesis
+// no 22 生成圆括号的组合，必须是合法的组合
+/*
+Input: n = 3
+Output: ["((()))","(()())","(())()","()(())","()()()"]
+*/
+
+const left = "("
+const right = ")"
+
+func GenerateParenthesis(n int) []string {
+
+	if n == 1 {
+		return []string{"()"}
+	}
+	var targets = []string{}
+	generateParenthesis(0, 0, n, "", &targets)
+	return targets
+}
+
+func generateParenthesis(l, r, n int, ret string, targets *[]string) {
+	if l < r || l > n || r > n {
+		return
+	}
+
+	if len(ret) == 2*n {
+		*targets = append(*targets, ret)
+		return
+	}
+
+	ret += left
+	l++
+	generateParenthesis(l, r, n, ret, targets)
+	if l-r > 1 {
+		l--
+		ret = ret[:len(ret)-1]
+		ret += right
+		r++
+		generateParenthesis(l, r, n, ret, targets)
+	}
+
 }

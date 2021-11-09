@@ -26,3 +26,23 @@ func StringVectorMul(a, b string) []string {
 
 	return ret
 }
+
+func StringVectorMul1(a, b []string) []string {
+	ret := make([]string, 0)
+	if len(a) == 0 {
+		return b
+	}
+
+	if len(b) == 0 {
+		return a
+	}
+
+	for _, v1 := range a {
+		for _, v2 := range b {
+			solu := v1 + v2
+			ret = append(ret, solu)
+		}
+	}
+
+	return ret
+}
