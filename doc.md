@@ -22,6 +22,32 @@
 - > 如何得到更大的面积？提高最短边的长度。从两侧分别遍历，交替提高短边的高度
 
 ## 回溯法：递归结束条件，剪枝约束条件和
+### 通用模式：
+```
+func Backword() []string{
+  backword(cond1,cond2,oneResult,&allResult)
+}
+
+<!-- cond1为回溯过滤条件；cond2为递归结束条件；oneResult为临时计算的值，allResult为所有计算的值 -->
+func backword(cond1,cond2,oneResult,*allResult){
+  <!--  填充本轮计算的值  -->
+  if cond2 {
+    *allResult = *append(allResult,oneResult)
+  }
+  <!--  n为每个位置可选择的值的个数，循环控制在每个位置依次尝试不同的值  -->
+  for i<n {
+    <!-- 过滤回溯条件   -->
+    if cond1 {
+     continue
+    }
+    <!--    选择i位置的值    -->
+    backword(cond1,cond2,oneResult,*allResult)
+     <!--    此处回滚上一步的操作，进行下一次尝试    -->
+  }
+}
+
+```
+### 算法题
 - 22 根据数字生成对应对数的圆括号的组合，圆括号必须合法，先左后右
 - > 问题：1.如何判定合法？即约束条件：已经放置的左括号数量大于右括号数量；2.结束条件，n对括号全部打印
 - > 子问题
