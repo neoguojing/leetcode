@@ -47,6 +47,50 @@ func changeBackward(amount, cur int, coins []int, tmp []int, target *int) {
 	}
 }
 
+// FindCheapestPrice
 // no 787
+// 找到最偏移的航班路线
+// n = 3, flights = [[0,1,100],[1,2,100],[0,2,500]], src = 0, dst = 2, k = 1
+// 深度优先遍历
+
+func FindCheapestPrice(n int, flights [][]int, src int, dst int, k int) int {
+	var minPrice = 0
+
+	dfs(n, flights, src, dst, k, minPrice, &minPrice)
+	return minPrice
+}
+
+func dfs(n int, flights [][]int, src int, dst int, k int, curPrice int, minPrice *int) {
+	if curPrice > *minPrice {
+		return
+	}
+
+	if k == 0 && src != dst {
+		return
+	}
+
+	if k >= 0 && curPrice < *minPrice && src == dst {
+		*minPrice = curPrice
+		return
+	}
+
+	for i := 0; i < n; i++ {
+
+		if flights[i][0] == src && flights[i][1] == dst {
+			curPrice += flights[i][2]
+			if curPrice < *minPrice {
+				*minPrice = curPrice
+			}
+			continue
+		}
+		if flights[i][0] == src {
+			k--
+			curPrice += flights[i][2]
+			dfs(n, flights, flights[i][1], dst, k, curPrice, minPrice)
+			k++
+			curPrice -= flights[i][2]
+		}
+	}
+}
 
 // 1524
