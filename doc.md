@@ -92,3 +92,8 @@ col :  row->n
 - 238 构建一个数组，值是除自己以外的其他数的乘积,要求O(n)，不使用除法
 - > 子问题：pro[i] = left[i-1] * right[i+1] ,分为左右两边求解，同42
 -> left[i] = num[i-1] * left[i-1]
+### 二维dp
+- no 518 回溯算法解决重复问题代价较大，寻找dp算法解决：amount = 5, coins = [1,2,5]
+- >子问题：dp[i][j] 为前i个coins组合成j的组合总数；
+- > dp[i][j] = dp[i-1][j] +dp[i][j-coins[i-1]] ; j>=coin[i-1]; 前i-1个硬币构成j的个数+前i个硬币构成j-coins[i-1]的个数
+- > j<coin[i-1];dp[i][j] = dp[i-1][j]; 前i个硬币构成j的个数等于前i-1个硬币构成j的个数
