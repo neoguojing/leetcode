@@ -61,12 +61,7 @@ func changeBackward(amount, cur int, coins []int, tmp []int, target *int) {
 */
 func FindCheapestPrice(n int, flights [][]int, src int, dst int, k int) int {
 	var minPrice = 100000
-	flightsMap := make(map[int][]int, 0)
-	for i := range flights {
-		flightsMap[i] = flights[i]
-	}
-
-	dfs(n, flightsMap, src, dst, k, 0, &minPrice)
+	dfs(findFlight(src, flights), flights, src, dst, k, 0, &minPrice)
 
 	if minPrice == 100000 {
 		minPrice = -1
@@ -74,7 +69,16 @@ func FindCheapestPrice(n int, flights [][]int, src int, dst int, k int) int {
 	return minPrice
 }
 
-func dfs(n int, flights map[int][]int, src int, dst int, k int, curPrice int, minPrice *int) {
+func findFlight(src int, flights [][]int) [][]int {
+	ret := make([][]int, 0)
+	for i := range flights {
+		if flights[i][0] == src {
+			ret = append(ret, flights[i])
+		}
+	}
+	return ret
+}
+func dfs(srcFlights [][]int, flights [][]int, src int, dst int, k int, curPrice int, minPrice *int) {
 	if curPrice > *minPrice {
 		return
 	}
@@ -88,18 +92,16 @@ func dfs(n int, flights map[int][]int, src int, dst int, k int, curPrice int, mi
 		return
 	}
 
-	for i, v := range flights {
+	for i := 0; i < len(srcFlights); i++ {
 
-		if v[0] == src {
-			if v[1] != dst {
+		if flights[i][0] == src {
+			if flights[i][1] != dst {
 				k--
 			}
-			curPrice += v[2]
-			delete(flights, i)
-			dfs(n, flights, v[1], dst, k, curPrice, minPrice)
-			curPrice -= v[2]
-			flights[i] = v
-			if v[1] != dst {
+			curPrice += flights[i][2]
+			dfs(findFlight(flights[i][1], flights), flights, flights[i][1], dst, k, curPrice, minPrice)
+			curPrice -= flights[i][2]
+			if flights[i][1] != dst {
 				k++
 			}
 		}
