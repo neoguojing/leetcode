@@ -1,6 +1,9 @@
 package array
 
-import "fmt"
+import (
+	"fmt"
+	"sort"
+)
 
 // no 518
 // coins:找到合适的组合满足硬币需要
@@ -52,58 +55,81 @@ func changeBackward(amount, cur int, coins []int, tmp []int, target *int) {
 // 找到最偏移的航班路线
 // n = 3, flights = [[0,1,100],[1,2,100],[0,2,500]], src = 0, dst = 2, k = 1
 // 深度优先遍历
-/*
-5
-[[1,2,10],[2,0,7],[1,3,8],[4,0,10],[3,4,2],[4,2,10],[0,3,3],[3,1,6],[2,4,5]]
-0
-4
-1
-*/
+
 func FindCheapestPrice(n int, flights [][]int, src int, dst int, k int) int {
-	var minPrice = 100000
-	flightsMap := make(map[int][]int, 0)
-	for i := range flights {
-		flightsMap[i] = flights[i]
+	sort.Sort(Flight(flights))
+	minPrice := flights[len(flights)-1][2] * (k + 1) / 2
+	if k == 0 {
+		minPrice = flights[len(flights)-1][2] * 2
 	}
 
-	dfs(n, flightsMap, src, dst, k, 0, &minPrice)
-
-	if minPrice == 100000 {
-		minPrice = -1
+	fmt.Println(minPrice)
+	path := map[int]int{}
+	ret := dfs(path, findFlight(src, flights), flights, src, dst, k, 0, &minPrice)
+	if !ret {
+		return -1
 	}
 	return minPrice
 }
 
-func dfs(n int, flights map[int][]int, src int, dst int, k int, curPrice int, minPrice *int) {
-	if curPrice > *minPrice {
-		return
+type Flight [][]int
+
+func (a Flight) Len() int           { return len(a) }
+func (a Flight) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+func (a Flight) Less(i, j int) bool { return a[i][2] < a[j][2] }
+
+func findFlight(src int, flights [][]int) [][]int {
+	ret := make([][]int, 0)
+	for i := range flights {
+		if flights[i][0] == src {
+			ret = append(ret, flights[i])
+		}
+	}
+	return ret
+}
+func dfs(path map[int]int, srcFlights [][]int, flights [][]int, src int, dst int, k int, curPrice int, minPrice *int) bool {
+	// 剪枝，防止路径上的环路
+	if _, ok := path[src]; !ok {
+		path[src] = 1
+	} else {
+		return false
 	}
 
-	if k < 0 && src != dst {
-		return
+	if k < 0 {
+		delete(path, src)
+		return false
+	}
+
+	if curPrice > *minPrice {
+		delete(path, src)
+		return false
 	}
 
 	if k >= 0 && curPrice < *minPrice && src == dst {
+		delete(path, src)
 		*minPrice = curPrice
-		return
+
+		return true
 	}
+	var ret bool = false
+	for i := 0; i < len(srcFlights); i++ {
 
-	for i, v := range flights {
-
-		if v[0] == src {
-			if v[1] != dst {
+		if srcFlights[i][0] == src && srcFlights[i][2] < *minPrice {
+			path[srcFlights[i][0]] = 1
+			if srcFlights[i][1] != dst {
 				k--
 			}
-			curPrice += v[2]
-			delete(flights, i)
-			dfs(n, flights, v[1], dst, k, curPrice, minPrice)
-			curPrice -= v[2]
-			flights[i] = v
-			if v[1] != dst {
+			curPrice += srcFlights[i][2]
+			tmp := dfs(path, findFlight(srcFlights[i][1], flights), flights, srcFlights[i][1], dst, k, curPrice, minPrice)
+			ret = ret || tmp
+			curPrice -= srcFlights[i][2]
+			if srcFlights[i][1] != dst {
 				k++
 			}
 		}
 	}
+	delete(path, src)
+	return ret
 }
 
 // 1524
