@@ -116,7 +116,7 @@ col :  row->n
   
 ## 图
 ### 广度优先
-### 最短路径算法（bellman-ford）：边的权重可以为负数，n为节点个数
+### 最短路径算法（动态规划）（bellman-ford）：边的权重可以为负数，n为节点个数
 - 输入：边集合：[i,j,w];点集合；距离集合Distant；起始点
 - Distant[i]:为源点到i点的最短距离；初始时设置 Distant[原点] = 0，其他的为无穷大
 - 松弛计算：对所有边，若Distant[j] > Distant[i] + w[i,j],则Distant[j]= Distant[i] + w[i,j]；
