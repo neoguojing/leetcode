@@ -52,23 +52,17 @@ func changeBackward(amount, cur int, coins []int, tmp []int, target *int) {
 
 // FindCheapestPrice
 // no 787
-// 找到最偏移的航班路线
+// 找到最便宜的航班路线
 // n = 3, flights = [[0,1,100],[1,2,100],[0,2,500]], src = 0, dst = 2, k = 1
 // 深度优先遍历
-
+// 超时-未解决
 func FindCheapestPrice(n int, flights [][]int, src int, dst int, k int) int {
 	sort.Sort(Flight(flights))
-	minPrice := flights[len(flights)-1][2] * (k + 1) / 2
-	if k == 0 {
-		minPrice = flights[len(flights)-1][2] * 2
-	}
-
-	fmt.Println(minPrice)
+	minPrice := -1
 	path := map[int]int{}
-	ret := dfs(path, findFlight(src, flights), flights, src, dst, k, 0, &minPrice)
-	if !ret {
-		return -1
-	}
+
+	dfs(path, findFlight(src, flights), flights, src, dst, k, 0, &minPrice)
+
 	return minPrice
 }
 
@@ -88,6 +82,9 @@ func findFlight(src int, flights [][]int) [][]int {
 	return ret
 }
 func dfs(path map[int]int, srcFlights [][]int, flights [][]int, src int, dst int, k int, curPrice int, minPrice *int) bool {
+	if len(flights) == 4851 {
+		fmt.Println(len(srcFlights))
+	}
 	// 剪枝，防止路径上的环路
 	if _, ok := path[src]; !ok {
 		path[src] = 1
@@ -100,21 +97,23 @@ func dfs(path map[int]int, srcFlights [][]int, flights [][]int, src int, dst int
 		return false
 	}
 
-	if curPrice > *minPrice {
+	if *minPrice != -1 && curPrice > *minPrice {
 		delete(path, src)
 		return false
 	}
 
-	if k >= 0 && curPrice < *minPrice && src == dst {
+	if src == dst && (curPrice < *minPrice || *minPrice == -1) {
 		delete(path, src)
 		*minPrice = curPrice
-
+		if len(flights) == 4851 {
+			fmt.Println(curPrice)
+		}
 		return true
 	}
 	var ret bool = false
 	for i := 0; i < len(srcFlights); i++ {
 
-		if srcFlights[i][0] == src && srcFlights[i][2] < *minPrice {
+		if srcFlights[i][0] == src && (srcFlights[i][2] < *minPrice || *minPrice == -1) {
 			path[srcFlights[i][0]] = 1
 			if srcFlights[i][1] != dst {
 				k--
