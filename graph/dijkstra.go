@@ -4,6 +4,7 @@ import "fmt"
 
 //FindCheapestPrice ...
 // no 787
+// 通过k剪枝未完成，未解决
 func FindCheapestPrice(n int, flights [][]int, src int, dst int, k int) int {
 
 	dist := make([]int, n)
@@ -38,18 +39,18 @@ func FindCheapestPrice(n int, flights [][]int, src int, dst int, k int) int {
 		}
 	}
 
-	minK := make([]int, k)
-	stop := 1
-	minK[0] = adj[src][dst]
 	for i := 0; i < n; i++ {
 		fmt.Println(dist)
 		min := INF
 		selectNode := 0
 		for j := 0; j < n; j++ {
 			if !set[j] && dist[j] < min {
+
 				min = dist[j]
 				selectNode = j
+
 			}
+
 		}
 
 		set[selectNode] = true
@@ -57,22 +58,20 @@ func FindCheapestPrice(n int, flights [][]int, src int, dst int, k int) int {
 			if !set[j] && min+adj[selectNode][j] < dist[j] {
 				dist[j] = min + adj[selectNode][j]
 				path[j] = selectNode
-			}
-			if j == dst {
-				minK[stop] = dist[dst]
-			}
-			if stop == k {
-				break
-			}
 
-			stop++
+			}
 		}
-
+		// stop++
 	}
 
 	if dist[dst] != INF {
+		outPut := fmt.Sprintf("%v", dst)
+		for i := path[dst]; i != src; i = path[i] {
+			outPut = fmt.Sprintf("%v->%v", i, outPut)
+		}
+		outPut = fmt.Sprintf("%v->%v", src, outPut)
+		fmt.Println(outPut)
 		return dist[dst]
 	}
-	fmt.Println(minK)
 	return -1
 }
