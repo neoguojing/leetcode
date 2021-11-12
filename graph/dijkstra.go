@@ -1,5 +1,7 @@
 package graph
 
+import "fmt"
+
 //FindCheapestPrice ...
 // no 787
 func FindCheapestPrice(n int, flights [][]int, src int, dst int, k int) int {
@@ -36,7 +38,11 @@ func FindCheapestPrice(n int, flights [][]int, src int, dst int, k int) int {
 		}
 	}
 
+	minK := make([]int, k)
+	stop := 1
+	minK[0] = adj[src][dst]
 	for i := 0; i < n; i++ {
+		fmt.Println(dist)
 		min := INF
 		selectNode := 0
 		for j := 0; j < n; j++ {
@@ -52,6 +58,14 @@ func FindCheapestPrice(n int, flights [][]int, src int, dst int, k int) int {
 				dist[j] = min + adj[selectNode][j]
 				path[j] = selectNode
 			}
+			if j == dst {
+				minK[stop] = dist[dst]
+			}
+			if stop == k {
+				break
+			}
+
+			stop++
 		}
 
 	}
@@ -59,6 +73,6 @@ func FindCheapestPrice(n int, flights [][]int, src int, dst int, k int) int {
 	if dist[dst] != INF {
 		return dist[dst]
 	}
-
+	fmt.Println(minK)
 	return -1
 }
