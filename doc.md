@@ -119,7 +119,7 @@ col :  row->n
 ### 最短路径算法（动态规划）（bellman-ford）：边的权重可以为负数，n为节点个数 时间复杂度O（VE）
 - 输入：边集合：[i,j,w];点集合；距离集合Distant；起始点
 - Distant[i]:为源点到i点的最短距离；初始时设置 Distant[原点] = 0，其他的为无穷大
-- 松弛计算：对所有边，若Distant[j] > Distant[i] + w[i,j],则Distant[j]= Distant[i] + w[i,j]；
+- 松弛计算：对所有边，若Distant[j] > Distant[i] + w[i,j],则Distant[j]= Distant[i] + w[i,j]；i为边的起点，j为边的终点
 - 计算最短路径：进行n-1轮的松弛计算；第一轮更新原点相隔一条表的节点；第二轮两条边可达的距离；n-1轮正好覆盖最差情况（n个节点串联）；若某轮没有更新Distant，则结束
 - 负环路：权值之和为负数的环路；存在则无法求出最短路径；遍历所有边，若依然存在Distant[j] > Distant[i] + w[i,j]，则有环路，无法求解最短路径
 
