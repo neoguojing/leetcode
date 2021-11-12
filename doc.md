@@ -128,6 +128,40 @@ col :  row->n
 - 输入：原点v；顶点集合；边集合包含点和权重[i,j,w]；dist[n] 原点到节点的距离；prev[]记录当前点的前一个节点；已计算的的点集合s[]
 - 初始化：初始化s[v] =1,其他为0；初始化prev和dist
 - 计算：遍历节点，找出未放入s的节点中，找到dist最小的，将节点放入s； 以新加入的点为起始，更新dist和prev
+- 通用模式
+```
+  dist := make([]int, n) //保存到原点距离
+	path := make([]int, n) //保存到原点path，可选
+	set := make(map[int]bool) // 判定点是否被选定
+  adj := make([][]int, n) //邻接矩阵，值为权重
+  // 初始化
+  adj[src]可发现的边初始化
+  set[src]初始化
+  dist和path初始化
+  // 计算
+  for i := 0; i < n; i++ {
+       min := INF //最小值保存
+		   selectNode := 0 //旋转节点保存
+      //寻找节点              
+      for j := 0; j < n; j++ {
+        if !set[j] && dist[j] < min {
+				min = dist[j]
+				selectNode = j
+			  }
+      }
+      // 保存节点                             
+      set[selectNode] = true
+      //从新选节点出发，更新        dist和path                     
+      for j := 0; j < n; j++ {
+        if !set[j] && min+adj[selectNode][j] < dist[j] {
+          dist[j] = min + adj[selectNode][j]
+          path[j] = selectNode
+			  }
+      }
+
+  }
+  
+```
 ### Floyd：任意两个节点间的最短路径 o(v^3) 在任何图中使用，包括有向图、带负权边的图;邻接矩阵来储存边
 - 思路： 对于每一对顶点 u 和 v，看看是否存在一个顶点 w 使得从 u 到 w 再到 v 比己知的路径更短
  ```
