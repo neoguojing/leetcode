@@ -17,6 +17,7 @@ func FindCheapestPriceBell(n int, flights [][]int, src int, dst int, k int) int 
 		}
 
 	}
+	// 限制路径长度
 	for i := 0; i <= k; i++ {
 		tmp := make([]int, n)
 		copy(tmp, dist)
