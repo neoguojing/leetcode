@@ -57,29 +57,21 @@ func changeBackward(amount, cur int, coins []int, tmp []int, target *int) {
 // 深度优先遍历
 // 超时-未解决
 func FindCheapestPrice(n int, flights [][]int, src int, dst int, k int) int {
-<<<<<<< HEAD
-	var minPrice = 100000
-	dfs(findFlight(src, flights), flights, src, dst, k, 0, &minPrice)
-=======
 	sort.Sort(Flight(flights))
 	minPrice := -1
 	path := map[int]int{}
 
 	dfs(path, findFlight(src, flights), flights, src, dst, k, 0, &minPrice)
->>>>>>> a5bd1d8cec45f19a96e7e5a9a52ea85c6b3e6e62
 
 	return minPrice
 }
 
-<<<<<<< HEAD
-=======
 type Flight [][]int
 
 func (a Flight) Len() int           { return len(a) }
 func (a Flight) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
 func (a Flight) Less(i, j int) bool { return a[i][2] < a[j][2] }
 
->>>>>>> a5bd1d8cec45f19a96e7e5a9a52ea85c6b3e6e62
 func findFlight(src int, flights [][]int) [][]int {
 	ret := make([][]int, 0)
 	for i := range flights {
@@ -89,11 +81,6 @@ func findFlight(src int, flights [][]int) [][]int {
 	}
 	return ret
 }
-<<<<<<< HEAD
-func dfs(srcFlights [][]int, flights [][]int, src int, dst int, k int, curPrice int, minPrice *int) {
-	if curPrice > *minPrice {
-		return
-=======
 func dfs(path map[int]int, srcFlights [][]int, flights [][]int, src int, dst int, k int, curPrice int, minPrice *int) bool {
 	if len(flights) == 4851 {
 		fmt.Println(len(srcFlights))
@@ -103,7 +90,6 @@ func dfs(path map[int]int, srcFlights [][]int, flights [][]int, src int, dst int
 		path[src] = 1
 	} else {
 		return false
->>>>>>> a5bd1d8cec45f19a96e7e5a9a52ea85c6b3e6e62
 	}
 
 	if k < 0 {
@@ -116,18 +102,6 @@ func dfs(path map[int]int, srcFlights [][]int, flights [][]int, src int, dst int
 		return false
 	}
 
-<<<<<<< HEAD
-	for i := 0; i < len(srcFlights); i++ {
-
-		if flights[i][0] == src {
-			if flights[i][1] != dst {
-				k--
-			}
-			curPrice += flights[i][2]
-			dfs(findFlight(flights[i][1], flights), flights, flights[i][1], dst, k, curPrice, minPrice)
-			curPrice -= flights[i][2]
-			if flights[i][1] != dst {
-=======
 	if src == dst && (curPrice < *minPrice || *minPrice == -1) {
 		delete(path, src)
 		*minPrice = curPrice
@@ -149,7 +123,6 @@ func dfs(path map[int]int, srcFlights [][]int, flights [][]int, src int, dst int
 			ret = ret || tmp
 			curPrice -= srcFlights[i][2]
 			if srcFlights[i][1] != dst {
->>>>>>> a5bd1d8cec45f19a96e7e5a9a52ea85c6b3e6e62
 				k++
 			}
 		}
