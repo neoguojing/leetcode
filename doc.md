@@ -92,6 +92,9 @@ col :  row->n
 - 238 构建一个数组，值是除自己以外的其他数的乘积,要求O(n)，不使用除法
 - > 子问题：pro[i] = left[i-1] * right[i+1] ,分为左右两边求解，同42
 -> left[i] = num[i-1] * left[i-1]
+- no 787 找到城市间最便宜的飞行需要多少钱？n = 3, flights = [[0,1,100],[1,2,100],[0,2,500]], src = 0, dst = 2, k = 1
+- > dfs或者回溯算法在大型测试集合时超时，暂时无法解决，寻求dp
+- > 状态转换：dp[i][j]表示i城市到j城市需要的最少的钱；
 ### 背包问题
 - 01背包：n个物品，w[i]为第i个物品的的重量，v[i]第i个物品的价值，背包承重w，要求放入的价值最大：
 - > 状态转换：dp[i][j] 为前i个物品放入重量为j的背包的最大价值：两种情况决定最大价值，i放入和不放入的最大值（i-1实际代表第i个物品）
@@ -110,4 +113,79 @@ col :  row->n
 - > 1. 不使用第i个硬币的组合j的情况：j<coin[i-1];dp[i][j] = dp[i-1][j];
 - > 2. 使用第i个硬币的情况，由于相同硬币可以重复使用（dp[i][j-coins[i-1]]第一维索引为i）：
 - >  j>=coin[i-1]；dp[i][j] = dp[i-1][j] +dp[i][j-coins[i-1]] ; j-coins[i-1] 表示j已经加入了一个硬币i
-                     
+  
+## 图
+### 广度优先
+### 最短路径算法（动态规划）（bellman-ford）：边的权重可以为负数，n为节点个数 时间复杂度O（VE）
+- 输入：边集合：[i,j,w];点集合；距离集合Distant；起始点
+- Distant[i]:为源点到i点的最短距离；初始时设置 Distant[原点] = 0，其他的为无穷大
+- 松弛计算：对所有边，若Distant[j] > Distant[i] + w[i,j],则Distant[j]= Distant[i] + w[i,j]；i为边的起点，j为边的终点
+- 计算最短路径：进行n-1轮的松弛计算；第一轮更新原点相隔一条表的节点；第二轮两条边可达的距离；n-1轮正好覆盖最差情况（n个节点串联）；若某轮没有更新Distant，则结束
+- 负环路：权值之和为负数的环路；存在则无法求出最短路径；遍历所有边，若依然存在Distant[j] > Distant[i] + w[i,j]，则有环路，无法求解最短路径
+```
+dist := make([][]int, n)//到原点的距离
+edges [][]int{起始点，终点，权重} //边集合，邻接矩阵
+	// n-1轮循环
+for i := 0; i < n-1; i++ {
+	    check := false
+		   // 遍历所有边，进行松弛
+	for _, v := range edges {
+		if dist[v[1]][0] > dist[v[0]][0]+v[2] {
+			dist[v[1]][0] = dist[v[0]][0] + v[2]
+			check = true
+		}
+	}
+
+	if !check {
+		break
+	}
+}	
+```
+### Dijkstra（贪心策略） ： 处理单源最短路径，边的权重不能为负数，适用于有向图和无向图，图可以包含环路 o（v^2）
+- 思路：每次选取未加入集合的，离原点最近的点；加入集合，并以该点为起点，更新到原点的距离
+- 输入：原点v；顶点集合；边集合包含点和权重[i,j,w]；dist[n] 原点到节点的距离；prev[]记录当前点的前一个节点；已计算的的点集合s[]
+- 初始化：初始化s[v] =1,其他为0；初始化prev和dist
+- 计算：遍历节点，找出未放入s的节点中，找到dist最小的，将节点放入s； 以新加入的点为起始，更新dist和prev
+- 通用模式
+```
+  dist := make([]int, n) //保存到原点距离
+	path := make([]int, n) //保存到原点path，可选
+	set := make(map[int]bool) // 判定点是否被选定
+  adj := make([][]int, n) //邻接矩阵，值为权重
+  // 初始化
+  adj[src]可发现的边初始化
+  set[src]初始化
+  dist和path初始化
+  // 计算
+  for i := 0; i < n; i++ {
+       min := INF //最小值保存
+		   selectNode := 0 //旋转节点保存
+      //寻找节点              
+      for j := 0; j < n; j++ {
+        if !set[j] && dist[j] < min {
+				min = dist[j]
+				selectNode = j
+			  }
+      }
+      // 保存节点                             
+      set[selectNode] = true
+      //从新选节点出发，更新        dist和path                     
+      for j := 0; j < n; j++ {
+        if !set[j] && min+adj[selectNode][j] < dist[j] {
+          dist[j] = min + adj[selectNode][j]
+          path[j] = selectNode
+			  }
+      }
+
+  }
+  
+```
+### Floyd：任意两个节点间的最短路径 o(v^3) 在任何图中使用，包括有向图、带负权边的图;邻接矩阵来储存边
+- 思路： 对于每一对顶点 u 和 v，看看是否存在一个顶点 w 使得从 u 到 w 再到 v 比己知的路径更短
+ ```
+  For k←1 to n do // k为“媒介节点”
+   For i←1 to n do
+      For j←1 to n do
+         if (dist(i,k) + dist(k,j) < dist(i,j)) then // 是否是更短的路径？
+            dist(i,j) = dist(i,k) + dist(k,j)
+ ```
