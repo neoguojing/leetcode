@@ -42,6 +42,9 @@ func FindCheapestPriceFloydWithKStop(n int, flights [][]int, src int, dst int, k
 			dist[m][i] = make([]int, n)
 			for j := 0; j < n; j++ {
 				dist[m][i][j] = INF
+				if i == j {
+					dist[m][i][j] = 0
+				}
 			}
 		}
 	}
