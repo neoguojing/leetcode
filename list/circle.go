@@ -51,3 +51,37 @@ func DetectCycle(head *ListNode) *ListNode {
 
 	return nil
 }
+
+// SwapNodes ...
+// no 1721 交换，从列表头开始数的第k个元素和从结尾开始的第k个元素,值交换
+func SwapNodes(head *ListNode, k int) *ListNode {
+	if head == nil {
+		return nil
+	}
+
+	s, p, e := head, head, head
+	cnt := 1
+
+	for p != nil {
+
+		if cnt == k {
+			s = p
+		}
+
+		if cnt > k {
+			e = e.Next
+		}
+		p = p.Next
+		cnt++
+	}
+
+	if cnt < k+1 {
+		return head
+	}
+
+	tmp := s.Val
+	s.Val = e.Val
+	e.Val = tmp
+
+	return head
+}
