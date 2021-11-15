@@ -121,3 +121,34 @@ func BoundPack(tw int, w []int, v []int, n []int) int {
 
 	return dp[tw]
 }
+
+// NumOfSubarraysDP 获取数组中所有子数组中和为奇数的子数组的个数 (子数组元素必须连续)
+// no 1524
+func NumOfSubarraysDP(arr []int) int {
+	var module int = 1e9 + 7
+
+	dp0 := make([]int, len(arr))
+	dp1 := make([]int, len(arr))
+	if arr[len(arr)-1]%2 == 0 {
+		dp0[len(arr)-1] = 1
+	} else {
+		dp1[len(arr)-1] = 1
+	}
+	for i := len(arr) - 2; i >= 0; i-- {
+		if arr[i]%2 == 0 {
+			dp0[i] = (dp0[i+1] + 1) % module
+			dp1[i] = dp1[i+1]
+		}
+
+		if arr[i]%2 == 1 {
+			dp0[i] = dp1[i+1]
+			dp1[i] = (1 + dp0[i+1]) % module
+		}
+	}
+	var sum int
+	for _, v := range dp1 {
+		sum = (sum + v) % module
+	}
+
+	return sum
+}

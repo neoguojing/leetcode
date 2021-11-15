@@ -25,3 +25,10 @@ func TestFindCheapestPrice(t *testing.T) {
 	ret = array.FindCheapestPrice(100, flights, 1, 99, 99)
 	t.Log(ret)
 }
+
+func TestNumOfSubarrays(t *testing.T) {
+	in := []int{1, 2, 3, 4, 5, 6, 7}
+	t.Log(array.NumOfSubarrays(in))
+	in = []int{2, 4, 6}
+	t.Log(array.NumOfSubarrays(in))
+}

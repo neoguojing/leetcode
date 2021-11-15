@@ -131,4 +131,32 @@ func dfs(path map[int]int, srcFlights [][]int, flights [][]int, src int, dst int
 	return ret
 }
 
-// 1524
+// NumOfSubarraysDFS ...
+// no 1524 获取数组中所有子数组中和为奇数的子数组的个数 (子数组元素必须连续)
+func NumOfSubarraysDFS(arr []int) int {
+	if arr == nil {
+		return 0
+	}
+	count := 0
+	for i := 0; i < len(arr); i++ {
+		count += subArray(i, arr, 0)
+	}
+	return count
+}
+
+func subArray(idx int, arr []int, curCount int) int {
+	var count int
+	if idx == len(arr) {
+		return 0
+	}
+
+	curCount += arr[idx]
+
+	if curCount%2 == 1 {
+		count += 1
+	}
+
+	count += subArray(idx+1, arr, curCount)
+
+	return count
+}

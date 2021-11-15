@@ -155,3 +155,27 @@ func SearchInsert(nums []int, target int) int {
 
 // 75
 // 给一个数组，含有的数只可能 0，1，2 中的一个，然后把这些数字从小到大排序。
+
+// NumOfSubarrays 获取数组中所有子数组中和为奇数的子数组的个数 (子数组元素必须连续)
+// no 1524
+// dp[j]
+func NumOfSubarrays(arr []int) int {
+	var module int = 1e9 + 7
+	odd, even, ret := 0, 0, 0
+
+	for _, v := range arr {
+		if v%2 == 0 {
+			// 遇到偶数，则原先是偶数的子数组还是偶数
+			even++
+		} else {
+			tmp := even
+			even = odd
+			odd = tmp
+			odd++
+		}
+
+		ret = (ret%module + odd%module) % module
+	}
+
+	return ret
+}

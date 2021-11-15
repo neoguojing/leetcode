@@ -56,23 +56,32 @@ q         p
 
 **/
 func RemoveNthFromEnd(head *ListNode, n int) *ListNode {
-	i := 0
-	nth := 0
-	p := head
-	q := head
-
-	for ; p != nil; p = p.Next {
-		if i-nth == n+1 {
-			nth++
+	if head == nil {
+		return nil
+	}
+	var p, q *ListNode
+	p, q = head, head
+	cnt := 1
+	for p.Next != nil {
+		p = p.Next
+		cnt++
+		if cnt > n+1 {
 			q = q.Next
 		}
-		i++
 	}
 
-	if q.Next != nil {
-		q.Next = q.Next.Next
+	// 正好n个元素，移除开头
+	if cnt == n {
+		head = head.Next
+		return head
 	}
 
+	// 小于n，返回nil
+	if cnt < n {
+		return nil
+	}
+	// q指向第n个元素的前一个元素
+	q.Next = q.Next.Next
 	return head
 }
 
