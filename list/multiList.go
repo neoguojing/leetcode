@@ -1,6 +1,8 @@
 package list
 
-func mergeKLists(lists []*ListNode) *ListNode {
+// MergeKLists ...
+// no 23 合并排序几个列表
+func MergeKLists(lists []*ListNode) *ListNode {
 	if len(lists) == 0 {
 		return nil
 	}
@@ -14,39 +16,49 @@ func mergeKLists(lists []*ListNode) *ListNode {
 	for ; i < len(lists); i += 2 {
 		ret = append(ret, mergeTwo(lists[i-1], lists[i]))
 	}
-	if i < len(lists) {
+	if i == len(lists) {
 		ret = append(ret, lists[i])
 	}
-	return mergeKLists(ret)
+	return MergeKLists(ret)
 }
 
+// mergeTwo ...
 func mergeTwo(a, b *ListNode) *ListNode {
+
+	if a == nil {
+		return b
+	}
+
+	if b == nil {
+		return a
+	}
 	var ret *ListNode
-	if a.Val > b.Val {
+	if a.Val.(int) > b.Val.(int) {
 		ret = b
 	} else {
 		ret = a
 	}
+	var prevA, prevB *ListNode
 	for a != nil && b != nil {
-		for a != nil && a.Val < b.Val {
+		for a != nil && b != nil && a.Val.(int) <= b.Val.(int) {
+			prevA = a
 			a = a.Next
 		}
+		if prevA != nil {
+			prevA.Next = b
+			prevA = nil
+		}
 
-		a.Next = b
-
-		for b != nil && b.Val < a.Val {
+		for b != nil && a != nil && b.Val.(int) <= a.Val.(int) {
+			prevB = b
 			b = b.Next
 		}
 
-		b.Next = a
+		if prevB != nil {
+			prevB.Next = a
+			prevB = nil
+		}
 	}
 
-	if a != nil {
-		b.Next = a
-	}
-
-	if b != nil {
-		a.Next = b
-	}
 	return ret
 }
