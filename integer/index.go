@@ -168,3 +168,9 @@ func IsUgly(n int) bool {
 
 	return true
 }
+
+// no 202
+// no 204
+// 1201
+// 313
+// 279
