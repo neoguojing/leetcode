@@ -179,8 +179,3 @@ func NumOfSubarrays(arr []int) int {
 
 	return ret
 }
-
-// no 264 返回第n个丑数
-func nthUglyNumber(n int) int {
-
-}

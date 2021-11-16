@@ -1,5 +1,7 @@
 package integer
 
+import "fmt"
+
 const MAX_INT32 = int32(^uint32(0) >> 1)
 const MIN_INT32 = ^MAX_INT32
 
@@ -82,4 +84,87 @@ OUT:
 	}
 
 	return ret
+}
+
+// NthUglyNumber ...
+// no 264 返回第n个丑数
+func NthUglyNumber(n int) int {
+	if n <= 0 {
+		return 0
+	}
+	if n == 1 {
+		return 1
+	}
+
+	dp := make([]int, n+1)
+	dp[1] = 1
+
+	idx := make(map[int]int, 3)
+	idx[2] = 1
+	idx[3] = 1
+	idx[5] = 1
+	for i := 2; i <= n; i++ {
+		fmt.Println(idx)
+		a := dp[idx[2]] * 2
+		b := dp[idx[3]] * 3
+		c := dp[idx[5]] * 5
+		min := a
+		if min > b {
+			min = b
+		}
+
+		if min > c {
+			min = c
+		}
+
+		dp[i] = min
+
+		if dp[i] == dp[idx[2]]*2 {
+			idx[2]++
+		}
+		if dp[i] == dp[idx[3]]*3 {
+			idx[3]++
+		}
+		if dp[i] == dp[idx[5]]*5 {
+			idx[5]++
+		}
+	}
+	fmt.Println(dp)
+	return dp[n]
+}
+
+// IsUgly pa'm
+// no 263
+//
+func IsUgly(n int) bool {
+	if n == 0 {
+		return false
+	}
+	if n == 1 {
+		return true
+	}
+	if n%2 != 0 && n%3 != 0 && n%5 != 0 {
+		return false
+	}
+
+	if n%5 == 0 {
+		for ; n%5 == 0; n = n / 5 {
+		}
+	}
+
+	if n%3 == 0 {
+		for ; n%3 == 0; n = n / 3 {
+		}
+	}
+
+	if n%2 == 0 {
+		for ; n%2 == 0; n = n / 2 {
+		}
+	}
+
+	if n != 1 {
+		return false
+	}
+
+	return true
 }
