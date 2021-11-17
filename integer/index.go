@@ -1,6 +1,9 @@
 package integer
 
-import "fmt"
+import (
+	"container/heap"
+	"fmt"
+)
 
 const MAX_INT32 = int32(^uint32(0) >> 1)
 const MIN_INT32 = ^MAX_INT32
@@ -172,5 +175,53 @@ func IsUgly(n int) bool {
 // no 202
 // no 204
 // 1201
+
+// NthSuperUglyNumber
 // 313
+// dp[i][j] 第i个primes在第j轮的值
+func NthSuperUglyNumber(n int, primes []int) int {
+	if n == 1 {
+		return 1
+	}
+
+	if len(primes) == 0 {
+		return 1
+	}
+
+	heapInt := make([]int, len(primes))
+	copy(heapInt, primes)
+	h := IntHeap(heapInt)
+	heap.Init(&h)
+	dp := make([][]int, n+1)
+	for i := 0; i <= n; i++ {
+		dp[i] = make([]int, n+1)
+		dp[i][0] = 0
+		dp[i][1] = 1
+	}
+
+	for i := 2; i <= n; i++ {
+		heap.Fix(&h, 0)
+	}
+
+	return dp[n]
+}
+
+type IntHeap []int
+
+func (h IntHeap) Len() int           { return len(h) }
+func (h IntHeap) Less(i, j int) bool { return h[i] < h[j] }
+func (h IntHeap) Swap(i, j int)      { h[i], h[j] = h[j], h[i] }
+func (h *IntHeap) Push(x interface{}) {
+	// Push and Pop use pointer receivers because they modify the slice's length,
+	// not just its contents.
+	*h = append(*h, x.(int))
+}
+func (h *IntHeap) Pop() interface{} {
+	old := *h
+	n := len(old)
+	x := old[n-1]
+	*h = old[0 : n-1]
+	return x
+}
+
 // 279
