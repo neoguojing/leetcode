@@ -187,7 +187,6 @@ func NthUglyNumber1(n int, a int, b int, c int) int {
 	dp[1] = 1
 
 	for i := 2; i <= n+1; i++ {
-
 		x := idx[a] * a
 		y := idx[b] * b
 		z := idx[c] * c
@@ -264,11 +263,8 @@ func CountPrimes(n int) int {
 	return cnt
 }
 
-// 1201
-
 // NthSuperUglyNumber
 // 313
-// dp[i][j] 第i个primes在第j轮的值
 func NthSuperUglyNumber(n int, primes []int) int {
 	if n == 1 {
 		return 1
@@ -278,33 +274,45 @@ func NthSuperUglyNumber(n int, primes []int) int {
 		return 1
 	}
 
-	heapInt := make([]int, len(primes))
-	copy(heapInt, primes)
+	heapInt := make([]Prime, len(primes))
+	idx := make([]int, len(primes))
+	for i, v := range primes {
+		heapInt[i] = Prime{Index: i, Val: v}
+		idx[i] = 1
+	}
+
 	h := IntHeap(heapInt)
 	heap.Init(&h)
-	dp := make([][]int, n+1)
-	for i := 0; i <= n; i++ {
-		dp[i] = make([]int, n+1)
-		dp[i][0] = 0
-		dp[i][1] = 1
-	}
+	dp := make([]int, n+1)
+	dp[1] = 1
 
 	for i := 2; i <= n; i++ {
-		heap.Fix(&h, 0)
-	}
 
+		dp[i] = heapInt[0].Val
+		for heapInt[0].Val == dp[i] {
+			index := heapInt[0].Index
+			idx[index]++
+			heapInt[0].Val = primes[index] * dp[idx[index]]
+			heap.Fix(&h, 0)
+		}
+
+	}
 	return dp[n]
 }
 
-type IntHeap []int
+type Prime struct {
+	Index int
+	Val   int
+}
+type IntHeap []Prime
 
 func (h IntHeap) Len() int           { return len(h) }
-func (h IntHeap) Less(i, j int) bool { return h[i] < h[j] }
+func (h IntHeap) Less(i, j int) bool { return h[i].Val < h[j].Val }
 func (h IntHeap) Swap(i, j int)      { h[i], h[j] = h[j], h[i] }
 func (h *IntHeap) Push(x interface{}) {
 	// Push and Pop use pointer receivers because they modify the slice's length,
 	// not just its contents.
-	*h = append(*h, x.(int))
+	*h = append(*h, x.(Prime))
 }
 func (h *IntHeap) Pop() interface{} {
 	old := *h
