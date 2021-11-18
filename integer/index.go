@@ -104,7 +104,6 @@ func NthUglyNumber(n int) int {
 	idx[3] = 1
 	idx[5] = 1
 	for i := 2; i <= n; i++ {
-		fmt.Println(idx)
 		a := dp[idx[2]] * 2
 		b := dp[idx[3]] * 3
 		c := dp[idx[5]] * 5
@@ -119,13 +118,13 @@ func NthUglyNumber(n int) int {
 
 		dp[i] = min
 
-		if dp[i] == dp[idx[2]]*2 {
+		if dp[i] == a {
 			idx[2]++
 		}
-		if dp[i] == dp[idx[3]]*3 {
+		if dp[i] == b {
 			idx[3]++
 		}
-		if dp[i] == dp[idx[5]]*5 {
+		if dp[i] == c {
 			idx[5]++
 		}
 	}
@@ -169,8 +168,102 @@ func IsUgly(n int) bool {
 	return true
 }
 
+// NthUglyNumber1：质数自己定义
+// no 1201
+func NthUglyNumber1(n int, a int, b int, c int) int {
+	if n < a && n < b && n < c {
+		return 0
+	}
+
+	idx := make(map[int]int, 3)
+	idx[a] = 1
+	idx[b] = 1
+	idx[c] = 1
+
+	dp := make([]int, n+2)
+	dp[1] = 1
+
+	for i := 2; i <= n+1; i++ {
+
+		x := idx[a] * a
+		y := idx[b] * b
+		z := idx[c] * c
+
+		min := x
+		if min > y {
+			min = y
+		}
+		if min > z {
+			min = z
+		}
+		fmt.Println(idx[a])
+		dp[i] = min
+		if dp[i] == x {
+			idx[a]++
+		}
+		if dp[i] == y {
+			idx[b]++
+		}
+		if dp[i] == z {
+			idx[c]++
+		}
+	}
+	fmt.Println(dp)
+	return dp[n+1]
+}
+
+// IsHappy
 // no 202
+func IsHappy(n int) bool {
+	if n == 1 {
+		return true
+	}
+	set := make(map[int]bool)
+	set[n] = true
+	for n != 1 {
+		tmp := 0
+		for n/10 != 0 {
+			tmp += (n % 10) * (n % 10)
+			n = n / 10
+		}
+		n = tmp + n*n
+		if _, ok := set[n]; ok {
+			return false
+		}
+		set[n] = true
+	}
+
+	return true
+}
+
+// CountPrimes 统计小于n的质数的个数
 // no 204
+func CountPrimes(n int) int {
+	if n <= 1 {
+		return 0
+	}
+	// table索引为质数本身，值为是否质数
+	table := make([]byte, n)
+	cnt := 0
+	for i := 2; i < n; i++ {
+
+		if table[i] == 0 {
+			cnt++
+			// k为倍数
+			k := 2
+			for i*k < n {
+				table[i*k] = 1
+				k++
+			}
+		}
+	}
+
+	return cnt
+}
+
 // 1201
 // 313
+// 279
+// 258
+// 1954
 // 279
