@@ -384,7 +384,52 @@ func nSum(n, tmp int, cur int, set []int, cnt *int) {
 	}
 }
 
+// 279
+func NumSquaresDP(n int) int {
+	if n <= 0 {
+		return 0
+	}
+	dp := make([]int, n+1)
+	for i := range dp {
+		dp[i] = 1000000
+	}
+	dp[0] = 0
+
+	for i := 1; i <= n; i++ {
+		for k := 1; k*k < i; k++ {
+			tmp := dp[i-k*k] + 1
+			if dp[i] > tmp {
+				dp[i] = tmp
+			}
+		}
+	}
+
+	return dp[n]
+}
+
+// AddDigits
 // 258
+func AddDigits(num int) int {
+	if num < 10 {
+		return num
+	}
+	tmp := 0
+	for num/10 != 0 {
+		tmp += num % 10
+		num = num / 10
+	}
+	tmp += num
+	fmt.Println(tmp)
+	return AddDigits(tmp)
+}
+
+func AddDigits1(num int) int {
+	if num == 0 {
+		return 0
+	}
+
+	return 1 + (num-1)%9
+
 // 1954
 // 372
 // 1131

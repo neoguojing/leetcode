@@ -16,4 +16,6 @@ func TestNthUglyNumber(t *testing.T) {
 func TestBase(t *testing.T) {
 	t.Log(integer.GCD(2, 3))
 	t.Log(integer.Sqrt(16))
+	t.Log(integer.AddDigits(38))
+	t.Log(2 / 10)
 }
