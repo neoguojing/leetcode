@@ -172,21 +172,20 @@ func IsUgly(n int) bool {
 }
 
 // NthUglyNumber1：质数自己定义
-// no 1201
+// no 1201 该解法超时
 func NthUglyNumber1(n int, a int, b int, c int) int {
 	if n < a && n < b && n < c {
 		return 0
 	}
+
+	next := 0
 
 	idx := make(map[int]int, 3)
 	idx[a] = 1
 	idx[b] = 1
 	idx[c] = 1
 
-	dp := make([]int, n+2)
-	dp[1] = 1
-
-	for i := 2; i <= n+1; i++ {
+	for i := 2; i <= n; i++ {
 		x := idx[a] * a
 		y := idx[b] * b
 		z := idx[c] * c
@@ -199,19 +198,40 @@ func NthUglyNumber1(n int, a int, b int, c int) int {
 			min = z
 		}
 		fmt.Println(idx[a])
-		dp[i] = min
-		if dp[i] == x {
+		next = min
+		if next == x {
 			idx[a]++
 		}
-		if dp[i] == y {
+		if next == y {
 			idx[b]++
 		}
-		if dp[i] == z {
+		if next == z {
 			idx[c]++
 		}
 	}
-	fmt.Println(dp)
-	return dp[n+1]
+	return next
+}
+
+// no 1201
+func NthUglyNumber2(n int, a int, b int, c int) int {
+	lo, hi := int64(1), int64(1e9)*2
+
+	A, B, C := int64(a), int64(b), int64(c)
+	AB := LCM(A, B)
+	BC := LCM(C, B)
+	AC := LCM(A, C)
+	ABC := LCM(A, BC)
+
+	for lo < hi {
+		mid := int64(lo + (hi-lo)/2)
+		cnt := mid/A + mid/C + mid/B - mid/AB - mid/AC - mid/BC + mid/ABC
+		if cnt < int64(n) {
+			lo = mid + 1
+		} else {
+			hi = mid
+		}
+	}
+	return int(lo)
 }
 
 // IsHappy
@@ -322,7 +342,50 @@ func (h *IntHeap) Pop() interface{} {
 	return x
 }
 
+// NumSquares 由数的平方相加等于n最少需要几个数字？
 // 279
+func NumSquares(n int) int {
+	sqrts := make([]int, 0)
+	var i int = 1
+	for ; i*i <= n; i++ {
+		sqrts = append(sqrts, i*i)
+	}
+	if i*i == n {
+		return 1
+	}
+	var count int = int(1e4)
+	nSum(n, 0, int(1e4), sqrts, &count)
+	return count
+}
+
+func nSum(n, tmp int, cur int, set []int, cnt *int) {
+	if cur > *cnt {
+		return
+	}
+
+	if tmp > n {
+		return
+	}
+
+	if tmp == n {
+		*cnt = cur
+		return
+	}
+
+	for i := len(set) - 1; i >= 0; i-- {
+
+		cur++
+		if cur < (*cnt) {
+			tmp += set[i]
+			nSum(n, tmp, cur, set, cnt)
+			tmp -= set[i]
+		}
+		cur--
+	}
+}
+
 // 258
 // 1954
-// 279
+// 372
+// 1131
+// 1185
