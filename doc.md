@@ -30,6 +30,8 @@
 - 
 - > 平方根算法：牛顿迭代：选取g一般等于n，若g*g和n之间的差距小于0.000001，则g为结果，否则g = （g + n/g）/2,其中n/g是必定小于真正的根
 - 
+- > no 258 对每1位相加，直到变为个位数：1 + (n-1)%9 https://en.wikipedia.org/wiki/Digital_root#Congruence_formula
+- 
 - no 264 返回第n个丑数：动态规划:每个质数都需要由自己的索引
 - > dp[i]个数为丑数：dp[2] = min(dp[1] * 2,dp[1]*3,dp[1]*5),dp[3] = min(dp[2] * 2,dp[1]*3,dp[1]*5)
 - > 如上，状态转换需要记录2，3，5所对应的索引： dp[i] = min(dp[m]*2,dp[n]*3,dp[o]*5) 1<i<=N, 1<=m,n,o<i
