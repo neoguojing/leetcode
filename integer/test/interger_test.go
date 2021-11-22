@@ -19,3 +19,8 @@ func TestBase(t *testing.T) {
 	t.Log(integer.AddDigits(38))
 	t.Log(2 / 10)
 }
+
+func TestMinimumPerimeter(t *testing.T) {
+	t.Log(integer.MinimumPerimeter(1000000000))
+
+}

@@ -3,6 +3,7 @@ package integer
 import (
 	"container/heap"
 	"fmt"
+	"math"
 )
 
 const MAX_INT32 = int32(^uint32(0) >> 1)
@@ -431,7 +432,26 @@ func AddDigits1(num int) int {
 	return 1 + (num-1)%9
 }
 
+// MinimumPerimeter 求目标苹果数量苹果的周长
 // 1954
+func MinimumPerimeter(neededApples int64) int64 {
+	if neededApples == 0 {
+		return 0
+	}
+	n := math.Sqrt(float64(neededApples/12)) + 1
+	dp := make([]int64, int(n)+1)
+	dp[0] = 0
+
+	for i := 1; i <= int(n); i++ {
+		dp[i] = dp[i-1] + int64(12*i*i)
+		if dp[i] >= neededApples {
+			return int64(8 * i)
+		}
+	}
+
+	return 0
+}
+
 // 372
 // 1131
 // 1185

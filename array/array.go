@@ -70,6 +70,12 @@ func SearchRange(nums []int, target int) []int {
 	return ret
 }
 
+// Search
+// no 704
+func Search(nums []int, target int) int {
+	return 0
+}
+
 //FindLeftBound ...
 //查找target的左侧边界
 func FindLeftBound(nums []int, target int) int {
