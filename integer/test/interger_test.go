@@ -22,5 +22,5 @@ func TestBase(t *testing.T) {
 
 func TestMinimumPerimeter(t *testing.T) {
 	t.Log(integer.MinimumPerimeter(1000000000))
-
+	t.Log(integer.DayOfTheWeek(1, 1, 1971))
 }

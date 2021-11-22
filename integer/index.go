@@ -452,6 +452,97 @@ func MinimumPerimeter(neededApples int64) int64 {
 	return 0
 }
 
+// MyPow 实现x的n次方
+// no 50
+// 递归
+func MyPow(x float64, n int) float64 {
+	if x == 0.0 {
+		return 0.0
+	}
+
+	if n == 0 {
+		return 1.0
+	}
+
+	if n < 0 {
+		n = -n
+		x = 1 / x
+	}
+
+	pow := 0.0
+	if n%2 == 0 {
+		pow = MyPow(x*x, n/2)
+	} else {
+		pow = x * MyPow(x*x, n/2)
+	}
+	return pow
+}
+
+// SuperPow mi以数组的形式表示，最高位在第0个位置
 // 372
+func SuperPow(a int, b []int) int {
+	if a == 1 {
+		return 1
+	}
+
+	if len(b) == 0 {
+		return 1
+	}
+
+	return PowMod(a, b[len(b)-1]) * PowMod(SuperPow(a, b[:len(b)-1]), 10) % 10
+}
+
+// 基于mod的pow
+func PowMod(a int, k int) int {
+	base := 1337
+
+	a = a % base
+
+	for i := 1; i < k; i++ {
+		a = a * a % base
+	}
+	return a
+}
+
 // 1131
+
+// DayOfTheWeek
 // 1185
+func DayOfTheWeek(day int, month int, year int) string {
+	weeks := []string{"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"}
+	monthDays := []int{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}
+	// originYear, originMoth, originDay, originWeek := 1971, 1, 1, 5
+
+	daysCount := 0
+	if isLeap(year) {
+		monthDays[1] = 29
+	}
+
+	for i := 0; i < month-1; i++ {
+		daysCount += monthDays[i]
+	}
+	daysCount += day
+
+	for i := 1971; i < year; i++ {
+		if isLeap(i) {
+			daysCount += 366
+		} else {
+			daysCount += 365
+		}
+	}
+	fmt.Println(daysCount)
+	mod := (daysCount - 1) % 7
+	idx := (5 + mod) % 7
+	return weeks[idx]
+}
+
+func isLeap(year int) bool {
+	isLeap := false
+	if year%100 == 0 && year%400 == 0 {
+		isLeap = true
+	} else if year%100 != 0 && year%4 == 0 {
+		isLeap = true
+	}
+
+	return isLeap
+}

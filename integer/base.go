@@ -23,14 +23,16 @@ func LCM(a, b int64) int64 {
 	return a * b / gcd
 }
 
-func Sqrt(n int64) int64 {
-	g := float64(n)
+// Sqrt
+// no 69
+func Sqrt(x int64) int64 {
+	g := float64(x)
 
-	for math.Abs(g*g-float64(n)) > 0.000001 {
-		g = (g + float64(n)/g) / 2
+	for math.Abs(g*g-float64(x)) > 0.000001 {
+		g = (g + float64(x)/g) / 2
 	}
 
-	if int64(g)*int64(g) == n {
+	if int64(g)*int64(g) == x {
 		return int64(g)
 	}
 
