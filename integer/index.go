@@ -429,6 +429,7 @@ func AddDigits1(num int) int {
 	}
 
 	return 1 + (num-1)%9
+}
 
 // 1954
 // 372
