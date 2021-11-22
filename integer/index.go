@@ -504,7 +504,11 @@ func PowMod(a int, k int) int {
 	return a
 }
 
-// 1131
+// MaxAbsValExpr
+// no 1131
+func MaxAbsValExpr(arr1 []int, arr2 []int) int {
+
+}
 
 // DayOfTheWeek
 // 1185
