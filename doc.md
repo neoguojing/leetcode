@@ -37,12 +37,13 @@ for i := 1; i < len(p); i++ { //控制next的索引
 ```
 - >2.快速构建法，子串和子串自己匹配,结构类似KMP主体
 ```
+// now 代表next[x-1]的值，即当有now个前缀和后缀相同
 for i < len(p) {
-	if p[now] == p[i] {
+	if p[now] == p[i] { //now代表另外一个相同的p，now和i位置相同，则公共前缀个数扩展一位
 		next[i] = now + 1
 		now++
 		i++
-	} else if now != 0 {
+	} else if now != 0 { 
 		now = next[now-1]
 	} else {
 		i++
