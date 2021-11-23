@@ -507,7 +507,35 @@ func PowMod(a int, k int) int {
 // MaxAbsValExpr
 // no 1131
 func MaxAbsValExpr(arr1 []int, arr2 []int) int {
+	n := len(arr1)
 
+	sum1 := make([]int, n)
+	sum2 := make([]int, n)
+	diff1 := make([]int, n)
+	diff2 := make([]int, n)
+	for i := 0; i < n; i++ {
+		sum1[i] = arr1[i] + arr2[i] + i
+		sum2[i] = arr1[i] + arr2[i] - i
+		diff1[i] = arr1[i] - arr2[i] + i
+		diff2[i] = arr1[i] - arr2[i] - i
+	}
+
+	maxMin := func(a []int) float64 {
+		max := a[0]
+		min := a[0]
+		for i := 1; i < n; i++ {
+			if max < a[i] {
+				max = a[i]
+			}
+
+			if min > a[i] {
+				min = a[i]
+			}
+		}
+		return float64(max - min)
+	}
+
+	return int(math.Max(math.Max(maxMin(sum1), maxMin(sum2)), math.Max(maxMin(diff1), maxMin(diff2))))
 }
 
 // DayOfTheWeek
