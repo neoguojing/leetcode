@@ -67,6 +67,18 @@
 ## 数组
 - 数组反转：；
 
+### 二分查找：数组必须有序
+- 模式
+```
+初始值： left, right := 0, len(nums)-1
+循环条件： for left <= right
+中值： mid := left + (right-left)/2
+条件1 ： nums[mid] < target 则left = mid + 1
+条件2：nums[mid] > target 则right = mid - 1
+条件3：nums[mid] == target ： 寻找左值：则压迫右值right = mid - 1，寻找右值则压迫左值：left = mid + 1
+未找到左值：left >= len(nums) || nums[left] != target ；未找到右值：right < 0 || nums[right] != target
+```
+- no 704 34 35
 ### 双索引法
 - 345 数组部分反转：操作快排，首尾同时遍历；条件满足则交换；否则需要继续移动坐标
 - 11 数组区间，求哪两个柱子之间可以灌最多的水？
@@ -102,7 +114,7 @@ func backword(cond1,cond2,oneResult,*allResult){
 ### 算法题
 - 22 根据数字生成对应对数的圆括号的组合，圆括号必须合法，先左后右
 - > 问题：1.如何判定合法？即约束条件：已经放置的左括号数量大于右括号数量；2.结束条件，n对括号全部打印
-- > 子问题
+- > 回溯/DFS，因为每个位置只有两种情况，因此不需要循环，而是递归两次即可
 - 
 ## 动态规划
 - dp二维数组的求解方向：画出矩阵，要求先计算的值能够为后面计算提供解：
