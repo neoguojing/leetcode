@@ -116,3 +116,39 @@ func CountSubstrings(s string) int {
 	}
 	return count
 }
+
+// ShortestPalindrome 在前面添加字符，使新的字符串为回文；且字符串最短
+// no 214
+// aacecaaa
+func ShortestPalindrome(s string) string {
+	rev := ""
+	for i := len(s) - 1; i >= 0; i-- {
+		rev += string(s[i])
+	}
+	tmp := s + rev
+	next := make([]int, len(tmp))
+	max := 0
+	next[0] = 0
+	i := 1
+	j := 0
+	for i < len(tmp) {
+		if tmp[j] == tmp[i] {
+			next[i] = j + 1
+			if next[i] > max {
+				max = next[i]
+			}
+			i++
+			j++
+		} else if j != 0 {
+			j = next[j-1]
+		} else {
+			i++
+		}
+	}
+	ret := s
+	for i := max*2 + 1; i < len(s); i++ {
+		ret = string(s[i]) + ret
+	}
+
+	return ""
+}

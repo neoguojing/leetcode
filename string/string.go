@@ -168,6 +168,72 @@ func StrStr(haystack string, needle string) int {
 	return j - len(needle)
 }
 
+func StrStrKMP(haystack string, needle string) int {
+	if needle == "" {
+		return 0
+	}
+
+	if len(haystack) == 0 && len(needle) != 0 {
+		fmt.Println("aaaaa")
+		return -1
+	}
+	i, j := 0, 0
+	next := fastNext(needle)
+	for j < len(haystack) {
+		if haystack[j] == needle[i] {
+			j++
+			i++
+		} else if i != 0 {
+			i = next[i-1]
+		} else {
+			j++
+		}
+		if i == len(needle) {
+			break
+		}
+	}
+	if j >= len(haystack) && i != len(needle) {
+		return -1
+	}
+	return j - i
+}
+
+// getNext o(m*m)
+func getNext(p string) []int {
+	next := make([]int, len(p))
+	next[0] = 0
+	for i := 1; i < len(p); i++ {
+		for k := 1; k <= i; k++ {
+			if string(p[0:k]) == string(p[i-k+1:i+1]) {
+				next[i] = k
+			}
+		}
+	}
+
+	return next
+}
+
+// fastNext
+func fastNext(p string) []int {
+	next := make([]int, len(p))
+	next[0] = 0
+	i := 1
+	now := 0
+
+	for i < len(p) {
+		if p[now] == p[i] {
+			next[i] = now + 1
+			now++
+			i++
+		} else if now != 0 {
+			now = next[now-1]
+		} else {
+			i++
+		}
+	}
+	return next
+}
+
 // no 76
 // 给两个字符串，S 和 T，在 S 中找出包含 T 中所有字母的最短字符串，不考虑顺序。
 // todo
