@@ -73,7 +73,22 @@ func SearchRange(nums []int, target int) []int {
 // Search
 // no 704
 func Search(nums []int, target int) int {
-	return 0
+	lo, hi := 0, len(nums)-1
+
+	for lo <= hi {
+		mid := lo + (hi-lo)/2
+		if nums[mid] < target {
+			lo = mid + 1
+		} else if nums[mid] > target {
+			hi = mid - 1
+		} else {
+			hi = mid - 1
+		}
+	}
+	if lo > len(nums)-1 || nums[lo] != target {
+		return -1
+	}
+	return lo
 }
 
 //FindLeftBound ...
@@ -126,29 +141,29 @@ func FindRightBound(nums []int, target int) int {
 //no 35
 //给定一个有序数组，依旧是二分查找，不同之处是如果没有找到指定数字，需要返回这个数字应该插入的位置。
 func SearchInsert(nums []int, target int) int {
-	start := 0
-	end := len(nums) - 1
+	lo := 0
+	hi := len(nums) - 1
 
-	for start <= end {
-		mid := start + (end-start)/2
+	for lo <= hi {
+		mid := lo + (hi-lo)/2
 		if nums[mid] < target {
-			start = mid + 1
+			lo = mid + 1
 		} else if nums[mid] > target {
-			end = mid - 1
+			hi = mid - 1
 		} else if nums[mid] == target {
 			return mid
 		}
 	}
 
-	if start == 0 {
+	if lo == 0 {
 		return 0
 	}
 
-	if end == len(nums)-1 {
+	if hi == len(nums)-1 {
 		return len(nums)
 	}
 
-	return start
+	return lo
 }
 
 // 53 MaxSubArray
