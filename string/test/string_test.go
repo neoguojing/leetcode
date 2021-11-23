@@ -25,3 +25,9 @@ func TestReverseVowels(t *testing.T) {
 	ret := string.ReverseVowels(s)
 	t.Log(ret)
 }
+
+func TestStrStr(t *testing.T) {
+
+	ret := string.StrStr("hello", "ll")
+	t.Log(ret)
+}

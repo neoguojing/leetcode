@@ -134,6 +134,40 @@ func ReverseVowels(s string) string {
 	return string(ret)
 }
 
+// StrStr 返回第一个出现的子串的起始位置
+// no 28
+func StrStr(haystack string, needle string) int {
+	if needle == "" {
+		return 0
+	}
+
+	if len(haystack) == 0 && len(needle) != 0 {
+		fmt.Println("aaaaa")
+		return -1
+	}
+
+	i, j := 0, 0
+	for j < len(haystack) {
+		if i >= len(needle) {
+			break
+		}
+
+		if haystack[j] == needle[i] {
+			i++
+			j++
+		} else {
+			j = j - i + 1
+			i = 0
+		}
+	}
+	fmt.Println(i, j)
+	if j >= len(haystack) && i != len(needle) {
+		return -1
+	}
+
+	return j - len(needle)
+}
+
 // no 76
 // 给两个字符串，S 和 T，在 S 中找出包含 T 中所有字母的最短字符串，不考虑顺序。
 // todo
