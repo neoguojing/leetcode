@@ -137,38 +137,58 @@ func IntervalIntersection(firstList [][]int, secondList [][]int) [][]int {
 	return ret
 }
 
-// 数组集合取并集
+// Union 数组集合取并集 集合无序
 // no 56
 func Union(intervals [][]int) [][]int {
 	if len(intervals) == 0 {
 		return intervals
 	}
 
-	ret := make([][]int, 0)
-	doUnion := false
-	i := 1
-	for ; i < len(intervals); i++ {
-		if intervals[i-1][1] >= intervals[i][0] && intervals[i-1][0] <= intervals[i][1] {
-			l := intervals[i-1][0]
-			if l > intervals[i][0] {
-				l = intervals[i][0]
+	// 冒泡排序，安装第一个坐标排序
+	for i := 0; i < len(intervals)-1; i++ {
+		hasSwap := false
+		for j := len(intervals) - 1; j > i; j-- {
+			if intervals[j][0] < intervals[j-1][0] {
+				tmp := intervals[j]
+				intervals[j] = intervals[j-1]
+				intervals[j-1] = tmp
+				hasSwap = true
 			}
-			r := intervals[i-1][1]
-			if r < intervals[i][1] {
-				r = intervals[i][1]
-			}
-			union := []int{l, r}
-			ret = append(ret, union)
-			doUnion = true
-		} else {
-			ret = append(ret, intervals[i-1])
+		}
+
+		if !hasSwap {
+			break
 		}
 	}
-	ret = append(ret, intervals[i-1])
-	fmt.Println(ret)
-	if !doUnion {
-		return ret
+	ret := [][]int{intervals[0]}
+	for i := 1; i < len(intervals); i++ {
+		union := HasUnion(ret[len(ret)-1], intervals[i])
+		if len(union) == 0 {
+			ret = append(ret, intervals[i])
+		} else {
+			ret[len(ret)-1] = union
+		}
+	}
+	return ret
+}
+
+func HasUnion(a, b []int) []int {
+	if a[1] < b[0] || a[0] > b[1] {
+		return []int{}
 	}
 
-	return Union(ret)
+	l := a[0]
+	if l > b[0] {
+		l = b[0]
+	}
+	r := a[1]
+	if r < b[1] {
+		r = b[1]
+	}
+	return []int{l, r}
 }
+
+// no 57
+// no 495
+// no 715
+// no 763

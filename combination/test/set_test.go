@@ -28,4 +28,14 @@ func TestUnion(t *testing.T) {
 	in := [][]int{{1, 3}, {2, 6}, {8, 10}, {15, 18}}
 	ret := combination.Union(in)
 	t.Log(ret)
+
+	in = [][]int{{2, 3}, {5, 5}, {2, 2}, {3, 4}, {3, 4}}
+	ret = combination.Union(in)
+	t.Log(ret)
+
+	in = [][]int{{1, 4}, {0, 2}, {3, 5}}
+	ret = combination.Union(in)
+	t.Log(ret)
+	t.Log(combination.HasUnion([]int{0, 4}, []int{3, 5}))
+
 }
