@@ -102,3 +102,73 @@ func subsetsWithDup(nums []int, index int, tmp []int, result *[][]int) {
 		tmp = tmp[0 : len(tmp)-1]
 	}
 }
+
+//IntervalIntersection  求两个排序集合的交集
+// no 986
+func IntervalIntersection(firstList [][]int, secondList [][]int) [][]int {
+	if len(firstList) == 0 || len(secondList) == 0 {
+		return [][]int{}
+	}
+
+	ret := make([][]int, 0)
+	i, j := 0, 0
+	for i < len(firstList) && j < len(secondList) {
+		if firstList[i][1] < secondList[j][0] {
+			i++
+		} else if firstList[i][0] > secondList[j][1] {
+			j++
+		} else {
+			l := firstList[i][0]
+			if firstList[i][0] < secondList[j][0] {
+				l = secondList[j][0]
+			}
+			r := firstList[i][1]
+			if firstList[i][1] > secondList[j][1] {
+				r = secondList[j][1]
+				j++
+			} else {
+				i++
+			}
+			new := []int{l, r}
+			ret = append(ret, new)
+		}
+	}
+
+	return ret
+}
+
+// 数组集合取并集
+// no 56
+func Union(intervals [][]int) [][]int {
+	if len(intervals) == 0 {
+		return intervals
+	}
+
+	ret := make([][]int, 0)
+	doUnion := false
+	i := 1
+	for ; i < len(intervals); i++ {
+		if intervals[i-1][1] >= intervals[i][0] && intervals[i-1][0] <= intervals[i][1] {
+			l := intervals[i-1][0]
+			if l > intervals[i][0] {
+				l = intervals[i][0]
+			}
+			r := intervals[i-1][1]
+			if r < intervals[i][1] {
+				r = intervals[i][1]
+			}
+			union := []int{l, r}
+			ret = append(ret, union)
+			doUnion = true
+		} else {
+			ret = append(ret, intervals[i-1])
+		}
+	}
+	ret = append(ret, intervals[i-1])
+	fmt.Println(ret)
+	if !doUnion {
+		return ret
+	}
+
+	return Union(ret)
+}

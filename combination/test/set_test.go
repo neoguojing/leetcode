@@ -23,3 +23,9 @@ func TestSubsetsWithDup(t *testing.T) {
 	ret := combination.SubsetsWithDup(in)
 	t.Log(ret)
 }
+
+func TestUnion(t *testing.T) {
+	in := [][]int{{1, 3}, {2, 6}, {8, 10}, {15, 18}}
+	ret := combination.Union(in)
+	t.Log(ret)
+}

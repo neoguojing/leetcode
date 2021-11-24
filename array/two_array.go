@@ -49,4 +49,41 @@ func Merge(nums1 []int, m int, nums2 []int, n int) {
 
 }
 
-// 977
+// SortedSquares ...
+// no 977
+func SortedSquares(nums []int) []int {
+	if len(nums) == 0 {
+		return nums
+	}
+	m := 0
+	for ; m < len(nums) && nums[m] < 0; m++ {
+	}
+	pos := nums[m:]
+	negs := nums[:m]
+	ret := make([]int, len(nums))
+	i := 0
+	j := len(negs) - 1
+	k := 0
+	for ; k < len(nums) && i < len(pos) && j >= 0; k++ {
+
+		if pos[i]*pos[i] < negs[j]*negs[j] {
+			ret[k] = pos[i] * pos[i]
+			i++
+		} else {
+			ret[k] = negs[j] * negs[j]
+			j--
+		}
+	}
+
+	for ; i < len(pos); i++ {
+		ret[k] = pos[i] * pos[i]
+		k++
+	}
+
+	for ; j >= 0; j-- {
+		ret[k] = negs[j] * negs[j]
+		k++
+	}
+
+	return ret
+}
