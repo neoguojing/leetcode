@@ -188,7 +188,57 @@ func HasUnion(a, b []int) []int {
 	return []int{l, r}
 }
 
+// Insert
 // no 57
+func Insert(intervals [][]int, newInterval []int) [][]int {
+	if len(intervals) == 0 {
+		return [][]int{newInterval}
+	}
+
+	start := 0
+	end := 0
+	for i := 0; i < len(intervals); i++ {
+		if intervals[i][0] < newInterval[0] {
+			continue
+		}
+		start = i
+		break
+
+	}
+
+	for i := start; i < len(intervals); i++ {
+		if intervals[i][1] < newInterval[1] {
+			continue
+		}
+		end = i
+		break
+	}
+
+	if start == len(intervals) && end == len(intervals) {
+		intervals = append(intervals, newInterval)
+		return intervals
+	} else if start == len(intervals) {
+
+	}
+
+	// 中间插入的情况
+	if intervals[start][1] < newInterval[0] && intervals[end][0] > newInterval[1] {
+		rear := append([][]int{}, intervals[end:]...)
+		intervals = append(intervals[:end], newInterval)
+		intervals = append(intervals, rear...)
+	}
+	if newInterval[0] > intervals[start][0] {
+		newInterval[0] = intervals[start][0]
+	}
+	if newInterval[1] < intervals[end][1] {
+		newInterval[1] = intervals[end][1]
+	}
+
+	intervals[start] = newInterval
+	intervals = append(intervals[:start+1], intervals[end:]...)
+	return intervals
+}
+
 // no 495
 // no 715
 // no 763
