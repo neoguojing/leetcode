@@ -195,48 +195,46 @@ func Insert(intervals [][]int, newInterval []int) [][]int {
 		return [][]int{newInterval}
 	}
 
-	start := 0
-	end := 0
+	start := -1
 	for i := 0; i < len(intervals); i++ {
 		if intervals[i][0] < newInterval[0] {
+			start = i
 			continue
 		}
-		start = i
+
 		break
-
 	}
-
-	for i := start; i < len(intervals); i++ {
-		if intervals[i][1] < newInterval[1] {
-			continue
+	fmt.Println(start)
+	ret := make([][]int, 0)
+	rear := make([][]int, 0)
+	if start == -1 {
+		union := HasUnion(newInterval, intervals[0])
+		if len(union) == 0 {
+			ret = append(ret, newInterval)
+			ret = append(ret, intervals...)
+			return ret
+		} else {
+			ret = append(ret, union)
+			rear = append(rear, intervals[1:]...)
 		}
-		end = i
-		break
+	} else {
+		ret = append(ret, intervals[:start+1]...)
+		rear = append(rear, newInterval)
+		rear = append(rear, intervals[start+1:]...)
 	}
 
-	if start == len(intervals) && end == len(intervals) {
-		intervals = append(intervals, newInterval)
-		return intervals
-	} else if start == len(intervals) {
+	fmt.Println(ret, rear)
 
-	}
-
-	// 中间插入的情况
-	if intervals[start][1] < newInterval[0] && intervals[end][0] > newInterval[1] {
-		rear := append([][]int{}, intervals[end:]...)
-		intervals = append(intervals[:end], newInterval)
-		intervals = append(intervals, rear...)
-	}
-	if newInterval[0] > intervals[start][0] {
-		newInterval[0] = intervals[start][0]
-	}
-	if newInterval[1] < intervals[end][1] {
-		newInterval[1] = intervals[end][1]
+	for i := 0; i < len(rear); i++ {
+		union := HasUnion(ret[len(ret)-1], rear[i])
+		if len(union) == 0 {
+			ret = append(ret, rear[i])
+		} else {
+			ret[len(ret)-1] = union
+		}
 	}
 
-	intervals[start] = newInterval
-	intervals = append(intervals[:start+1], intervals[end:]...)
-	return intervals
+	return ret
 }
 
 // no 495

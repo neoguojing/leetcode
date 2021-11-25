@@ -39,3 +39,16 @@ func TestUnion(t *testing.T) {
 	t.Log(combination.HasUnion([]int{0, 4}, []int{3, 5}))
 
 }
+func TestInsert(t *testing.T) {
+	in := [][]int{{1, 3}, {6, 9}}
+	ret := combination.Insert(in, []int{2, 5})
+	t.Log(ret)
+
+	in = [][]int{{1, 5}}
+	ret = combination.Insert(in, []int{6, 8})
+	t.Log(ret)
+
+	in = [][]int{{0, 5}, {9, 12}}
+	ret = combination.Insert(in, []int{7, 16})
+	t.Log(ret)
+}
