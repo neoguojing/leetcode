@@ -237,7 +237,7 @@ func Insert(intervals [][]int, newInterval []int) [][]int {
 	return ret
 }
 
-// FindPoisonedDuration 反复防毒，求敌人的总中毒时间
+// FindPoisonedDuration 反复放毒，求敌人的总中毒时间
 // no 495
 func FindPoisonedDuration(timeSeries []int, duration int) int {
 	if len(timeSeries) == 0 {
@@ -265,3 +265,5 @@ func FindPoisonedDuration(timeSeries []int, duration int) int {
 
 // no 715
 // no 763
+// 605
+// 649
