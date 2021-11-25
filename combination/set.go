@@ -174,7 +174,7 @@ func Union(intervals [][]int) [][]int {
 
 func HasUnion(a, b []int) []int {
 	if a[1] < b[0] || a[0] > b[1] {
-		return []int{}
+		return nil
 	}
 
 	l := a[0]
@@ -237,6 +237,31 @@ func Insert(intervals [][]int, newInterval []int) [][]int {
 	return ret
 }
 
+// FindPoisonedDuration 反复防毒，求敌人的总中毒时间
 // no 495
+func FindPoisonedDuration(timeSeries []int, duration int) int {
+	if len(timeSeries) == 0 {
+		return 0
+	}
+
+	sets := make([][]int, 1)
+	sets[0] = []int{timeSeries[0], timeSeries[0] + duration}
+
+	for i := 1; i < len(timeSeries); i++ {
+		union := HasUnion(sets[len(sets)-1], []int{timeSeries[i], timeSeries[i] + duration})
+		if union == nil {
+			sets = append(sets, []int{timeSeries[i], timeSeries[i] + duration})
+		} else {
+			sets[len(sets)-1] = union
+		}
+	}
+	ret := 0
+	for _, v := range sets {
+		ret += v[1] - v[0]
+	}
+
+	return ret
+}
+
 // no 715
 // no 763
