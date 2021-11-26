@@ -56,9 +56,7 @@ func TestInsert(t *testing.T) {
 func TestRangeModule(t *testing.T) {
 	rm := (combination.Constructor())
 	(&rm).AddRange(10, 20)
-	rm.Print()
 	(&rm).RemoveRange(14, 16)
-	rm.Print()
 	t.Log((&rm).QueryRange(10, 14))
 	t.Log((&rm).QueryRange(13, 15))
 	t.Log((&rm).QueryRange(16, 17))

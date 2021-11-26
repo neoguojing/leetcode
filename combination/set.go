@@ -351,81 +351,54 @@ func (this *RangeModule) QueryRange(left int, right int) bool {
 }
 
 func (this *RangeModule) RemoveRange(left int, right int) {
-	fmt.Print("remove--", []int{left, right})
+	fmt.Println("remove--", []int{left, right})
 	if len(this.data) == 0 {
 		return
 	}
 	defer this.Print()
-	start := 0
-	end := 0
+	if left >= this.data[len(this.data)-1][1] {
+		return
+	}
+	if right < this.data[0][0] {
+		return
+	}
+
 	i := 0
 	for ; i < len(this.data); i++ {
 		if left >= this.data[i][1] {
 			continue
 		}
-		start = i
 		break
 	}
-	if i == len(this.data) {
-		start = len(this.data) - 1
-	}
-
-	j := start
-	for ; j < len(this.data); j++ {
-		if right > this.data[j][1] {
-			continue
-		}
-		end = j
-		break
-	}
-	if j == len(this.data) {
-		end = len(this.data) - 1
-	}
-
-	fmt.Println(start, end)
-	if start > end {
-		end = start
-	}
-	if start == end {
-		inter := this.hasInterSection(this.data[start], []int{left, right})
-		if inter == nil {
-			return
-		} else {
-			divSection := this.calDivSection(this.data[start], inter)
-			if len(divSection) == 0 {
-				this.data = append(this.data[:start], this.data[start+1:]...)
-				return
-			} else if len(divSection) == 1 {
-				this.data[start] = divSection[0]
-				return
-			} else {
-				rear := append([][]int{}, this.data[start+1:]...)
-				this.data = append([][]int{}, this.data[:start]...)
-				this.data = append(this.data, divSection[0], divSection[1])
-				this.data = append(this.data, rear...)
-				return
+	fmt.Println(i)
+	count := 0
+	end := 0
+	for j := i; j < len(this.data); j++ {
+		// 完全删除的情况
+		set, ok := this.calDivSection(this.data[j], []int{left, right})
+		if ok {
+			if len(set) == 0 {
+				count++
+				end = j
+			} else if len(set) == 1 {
+				this.data[j] = set[0]
+			} else { //只有一种情况会裂变，只循环一次，所以修改数组没问题
+				rear := set
+				rear = append(rear, this.data[j+1:]...)
+				this.data = append(this.data[:j], rear...)
 			}
-		}
-	} else {
-		divSection := this.calDivSection(this.data[start], []int{left, right})
-		if len(divSection) == 0 {
-			// this.data = append(this.data[:start], this.data[start+1:]...)
 		} else {
-			this.data[start] = divSection[0]
+			break
 		}
-
-		divSection = this.calDivSection(this.data[end], []int{left, right})
-		if len(divSection) == 0 {
-
-		} else {
-			this.data[end] = divSection[0]
-		}
-
-		rear := this.data[end:]
-		new := append([][]int{}, this.data[:start+1]...)
-		this.data = new
-		this.data = append(this.data, rear...)
 	}
+
+	start := end - count + 1
+	if end == len(this.data)-1 {
+		this.data = this.data[:start]
+	} else {
+		this.data = append(this.data[:start], this.data[end+1:]...)
+	}
+
 }
 
 func (this *RangeModule) hasUnionSection(a []int, b []int) []int {
@@ -460,22 +433,26 @@ func (this *RangeModule) hasInterSection(a []int, b []int) []int {
 	return []int{l, r}
 }
 
-func (this *RangeModule) calDivSection(target []int, div []int) [][]int {
+func (this *RangeModule) calDivSection(target []int, div []int) ([][]int, bool) {
+	if div[0] >= target[1] || div[1] <= target[0] {
+		return nil, false
+	}
+
 	ret := make([][]int, 0)
-	if div[0] <= target[0] && div[1] < target[1] {
-		tmp := []int{div[1], target[1]}
-		ret = append(ret, tmp)
+	if div[0] <= target[0] && div[1] >= target[1] {
+		return ret, true
 	} else if div[0] > target[0] && div[1] >= target[1] {
 		tmp := []int{target[0], div[0]}
 		ret = append(ret, tmp)
-	} else if div[0] < target[0] && div[1] >= target[1] {
-		return ret
+	} else if div[0] < target[0] && div[1] < target[1] {
+		tmp := []int{div[1], target[1]}
+		ret = append(ret, tmp)
 	} else {
 		ret = append(ret, []int{target[0], div[0]})
 		ret = append(ret, []int{div[1], target[1]})
 	}
 
-	return ret
+	return ret, true
 }
 
 func (this *RangeModule) Print() {
