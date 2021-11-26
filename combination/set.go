@@ -283,6 +283,18 @@ func (this *RangeModule) AddRange(left int, right int) {
 		return
 	}
 
+	rear := make([][]int, 0)
+	if right < this.data[0][0] {
+		rear = this.data
+		this.data = append([][]int{}, set)
+		this.data = append(this.data, rear...)
+		return
+	}
+
+	if left > this.data[len(this.data)-1][1] {
+		this.data = append(this.data, set)
+	}
+
 	start := -1
 	for i := 0; i < len(this.data); i++ {
 		if this.data[i][0] < set[0] {
@@ -292,19 +304,11 @@ func (this *RangeModule) AddRange(left int, right int) {
 		break
 	}
 
-	rear := make([][]int, 0)
 	if start == -1 {
 		union := this.hasUnionSection(set, this.data[0])
-		if len(union) == 0 {
-			rear = this.data
-			this.data = append([][]int{}, set)
-			this.data = append(this.data, rear...)
-			return
-		} else {
-			rear = append(rear, this.data[1:]...)
-			this.data = [][]int{union}
+		rear = append(rear, this.data[1:]...)
+		this.data = [][]int{union}
 
-		}
 	} else {
 		rear = append(rear, set)
 		rear = append(rear, this.data[start+1:]...)
