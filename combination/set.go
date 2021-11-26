@@ -264,6 +264,224 @@ func FindPoisonedDuration(timeSeries []int, duration int) int {
 }
 
 // no 715
+type RangeModule struct {
+	data [][]int
+}
+
+func Constructor() RangeModule {
+	return RangeModule{
+		data: make([][]int, 0),
+	}
+}
+
+func (this *RangeModule) AddRange(left int, right int) {
+	fmt.Println("add--", []int{left, right})
+	defer this.Print()
+	set := []int{left, right}
+	if len(this.data) == 0 {
+		this.data = append(this.data, set)
+		return
+	}
+
+	start := -1
+	for i := 0; i < len(this.data); i++ {
+		if this.data[i][0] < set[0] {
+			start = i
+			continue
+		}
+		break
+	}
+
+	rear := make([][]int, 0)
+	if start == -1 {
+		union := this.hasUnionSection(set, this.data[0])
+		if len(union) == 0 {
+			rear = this.data
+			this.data = append([][]int{}, set)
+			this.data = append(this.data, rear...)
+			return
+		} else {
+			rear = append(rear, this.data[1:]...)
+			this.data = [][]int{union}
+
+		}
+	} else {
+		rear = append(rear, set)
+		rear = append(rear, this.data[start+1:]...)
+		this.data = append([][]int{}, this.data[:start+1]...)
+	}
+
+	for i := 0; i < len(rear); i++ {
+		union := this.hasUnionSection(this.data[len(this.data)-1], rear[i])
+		if len(union) == 0 {
+			this.data = append(this.data, rear[i])
+		} else {
+			this.data[len(this.data)-1] = union
+		}
+	}
+
+}
+
+func (this *RangeModule) QueryRange(left int, right int) bool {
+	fmt.Println("query--", []int{left, right})
+	if len(this.data) == 0 {
+		return false
+	}
+	// set := []int{left, right}
+	i := 0
+	for ; i < len(this.data); i++ {
+		if left >= this.data[i][1] {
+			continue
+		}
+		break
+	}
+	if i == 0 {
+		if left >= this.data[i][0] && right <= this.data[i][1] {
+			return true
+		}
+	} else if i == len(this.data) {
+		return false
+	} else {
+		if left >= this.data[i][0] && right <= this.data[i][1] {
+			return true
+		}
+	}
+
+	return false
+}
+
+func (this *RangeModule) RemoveRange(left int, right int) {
+	fmt.Print("remove--", []int{left, right})
+	if len(this.data) == 0 {
+		return
+	}
+	defer this.Print()
+	start := 0
+	end := 0
+	i := 0
+	for ; i < len(this.data); i++ {
+		if left >= this.data[i][1] {
+			continue
+		}
+		start = i
+		break
+	}
+	if i == len(this.data) {
+		start = len(this.data) - 1
+	}
+
+	j := start
+	for ; j < len(this.data); j++ {
+		if right > this.data[j][1] {
+			continue
+		}
+		end = j
+		break
+	}
+	if j == len(this.data) {
+		end = len(this.data) - 1
+	}
+
+	fmt.Println(start, end)
+	if start > end {
+		end = start
+	}
+	if start == end {
+		inter := this.hasInterSection(this.data[start], []int{left, right})
+		if inter == nil {
+			return
+		} else {
+			divSection := this.calDivSection(this.data[start], inter)
+			if len(divSection) == 0 {
+				this.data = append(this.data[:start], this.data[start+1:]...)
+				return
+			} else if len(divSection) == 1 {
+				this.data[start] = divSection[0]
+				return
+			} else {
+				rear := append([][]int{}, this.data[start+1:]...)
+				this.data = append([][]int{}, this.data[:start]...)
+				this.data = append(this.data, divSection[0], divSection[1])
+				this.data = append(this.data, rear...)
+				return
+			}
+		}
+	} else {
+		divSection := this.calDivSection(this.data[start], []int{left, right})
+		if len(divSection) == 0 {
+			// this.data = append(this.data[:start], this.data[start+1:]...)
+		} else {
+			this.data[start] = divSection[0]
+		}
+
+		divSection = this.calDivSection(this.data[end], []int{left, right})
+		if len(divSection) == 0 {
+
+		} else {
+			this.data[end] = divSection[0]
+		}
+
+		rear := this.data[end:]
+		new := append([][]int{}, this.data[:start+1]...)
+		this.data = new
+		this.data = append(this.data, rear...)
+	}
+}
+
+func (this *RangeModule) hasUnionSection(a []int, b []int) []int {
+	if a[1] < b[0] || a[0] > b[1] {
+		return nil
+	}
+
+	l := a[0]
+	if l > b[0] {
+		l = b[0]
+	}
+	r := a[1]
+	if r < b[1] {
+		r = b[1]
+	}
+	return []int{l, r}
+}
+
+func (this *RangeModule) hasInterSection(a []int, b []int) []int {
+	if a[1] < b[0] || a[0] >= b[1] {
+		return nil
+	}
+
+	l := a[0]
+	if l < b[0] {
+		l = b[0]
+	}
+	r := a[1]
+	if r > b[1] {
+		r = b[1]
+	}
+	return []int{l, r}
+}
+
+func (this *RangeModule) calDivSection(target []int, div []int) [][]int {
+	ret := make([][]int, 0)
+	if div[0] <= target[0] && div[1] < target[1] {
+		tmp := []int{div[1], target[1]}
+		ret = append(ret, tmp)
+	} else if div[0] > target[0] && div[1] >= target[1] {
+		tmp := []int{target[0], div[0]}
+		ret = append(ret, tmp)
+	} else if div[0] < target[0] && div[1] >= target[1] {
+		return ret
+	} else {
+		ret = append(ret, []int{target[0], div[0]})
+		ret = append(ret, []int{div[1], target[1]})
+	}
+
+	return ret
+}
+
+func (this *RangeModule) Print() {
+	fmt.Println("result--", this.data)
+}
+
 // no 763
 // 605
 // 649

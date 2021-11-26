@@ -52,3 +52,14 @@ func TestInsert(t *testing.T) {
 	ret = combination.Insert(in, []int{7, 16})
 	t.Log(ret)
 }
+
+func TestRangeModule(t *testing.T) {
+	rm := (combination.Constructor())
+	(&rm).AddRange(10, 20)
+	rm.Print()
+	(&rm).RemoveRange(14, 16)
+	rm.Print()
+	t.Log((&rm).QueryRange(10, 14))
+	t.Log((&rm).QueryRange(13, 15))
+	t.Log((&rm).QueryRange(16, 17))
+}
