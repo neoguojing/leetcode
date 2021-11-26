@@ -463,6 +463,9 @@ func (this *RangeModule) Print() {
 	fmt.Println("result--", this.data)
 }
 
-// no 763
 // 605
 // 649
+
+// 1386
+
+// 1540
