@@ -470,34 +470,24 @@ func CanPlaceFlowers(flowerbed []int, n int) bool {
 		return true
 	}
 
+	if len(flowerbed) == 0 {
+		return false
+	}
+
 	if n > (len(flowerbed)/2 + len(flowerbed)%2) {
 		return false
 	}
 
-	start := 0
-	if flowerbed[0] == 1 {
-		start = 2
-	}
-
-	canGrow := 0
-
-	for i := start; i < len(flowerbed); i++ {
-		if flowerbed[i] == 1 {
-			count := i - start + 1
-			canGrow += count/2 + count%2 - 1
-			start = i + 2
-			i = start
-			if start >= len(flowerbed) {
-				break
-			}
+	count := 0
+	for i := 0; i < len(flowerbed); i++ {
+		if flowerbed[i] == 0 && (i == 0 || flowerbed[i-1] == 0) && (i == len(flowerbed)-1 || flowerbed[i+1] == 0) {
+			flowerbed[i] = 1
+			count++
 		}
 	}
 
-	fmt.Println(canGrow)
-	if canGrow >= n {
-		return true
-	}
-	return false
+	return count >= n
+
 }
 
 // 649
@@ -505,3 +495,4 @@ func CanPlaceFlowers(flowerbed []int, n int) bool {
 // 1386
 
 // 1540
+// 735
