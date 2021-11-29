@@ -490,9 +490,48 @@ func CanPlaceFlowers(flowerbed []int, n int) bool {
 
 }
 
-// 649
-
+// MaxNumberOfFamilies 电影院座位分配
 // 1386
+func MaxNumberOfFamilies(n int, reservedSeats [][]int) int {
+	if reservedSeats == nil {
+		return n * 2
+	}
+	count := n * 2
+
+	setMap := map[int][]byte{}
+	for j := 0; j < len(reservedSeats); j++ {
+		_, ok := setMap[reservedSeats[j][0]]
+		if !ok {
+			setMap[reservedSeats[j][0]] = []byte{0, 0, 0, 0}
+		}
+
+		if reservedSeats[j][1] >= 2 && reservedSeats[j][1] <= 3 {
+			setMap[reservedSeats[j][0]][0] = 1
+		} else if reservedSeats[j][1] >= 4 && reservedSeats[j][1] <= 5 {
+			setMap[reservedSeats[j][0]][1] = 1
+		} else if reservedSeats[j][1] >= 6 && reservedSeats[j][1] <= 7 {
+			setMap[reservedSeats[j][0]][2] = 1
+		} else if reservedSeats[j][1] >= 8 && reservedSeats[j][1] <= 9 {
+			setMap[reservedSeats[j][0]][3] = 1
+		}
+
+	}
+
+	for _, v := range setMap {
+		if (v[0] == 1 && v[2] == 1) ||
+			(v[1] == 1 && v[3] == 1) ||
+			(v[1] == 1 && v[2] == 1) {
+			count -= 2
+			continue
+		} else if v[0] == 0 && v[1] == 0 && v[2] == 0 && v[3] == 0 {
+
+		} else {
+			count -= 1
+		}
+	}
+
+	return count
+}
 
 // 1540
 // 735

@@ -66,3 +66,9 @@ func TestCanPlaceFlowers(t *testing.T) {
 	t.Log(combination.CanPlaceFlowers([]int{1, 0, 1, 0, 1, 0, 1}, 1))
 
 }
+
+func TestMaxNumberOfFamilies(t *testing.T) {
+	in := [][]int{{1, 2}, {1, 3}, {1, 8}, {2, 6}, {3, 1}, {3, 10}}
+	t.Log(combination.MaxNumberOfFamilies(3, in))
+
+}
