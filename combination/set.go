@@ -2,7 +2,6 @@ package combination
 
 import (
 	"fmt"
-	"math"
 	"sort"
 )
 
@@ -485,6 +484,10 @@ func CanPlaceFlowers(flowerbed []int, n int) bool {
 			flowerbed[i] = 1
 			count++
 		}
+
+		if count >= n {
+			return true
+		}
 	}
 
 	return count >= n
@@ -541,58 +544,37 @@ func AsteroidCollision(asteroids []int) []int {
 		return asteroids
 	}
 
-	p := 0
-	for ; p < len(asteroids); p++ {
-		if asteroids[p] > 0 {
-			break
-		}
-	}
-
-	if p >= len(asteroids)-1 {
-		return asteroids
-	}
-
-	i, j := p, p+1
-	for j < len(asteroids) {
-		if float64(asteroids[i])/float64(asteroids[j]) < 0.0 {
-			break
-		}
-		i++
-		j++
-	}
-
-	if j >= len(asteroids) {
-		return asteroids
-	}
-
-	for i >= p && j < len(asteroids) {
-		if float64(asteroids[i])/float64(asteroids[j]) < 0.0 && math.Abs(float64(asteroids[i])) < math.Abs(float64(asteroids[j])) {
-			i--
-		} else if float64(asteroids[i])/float64(asteroids[j]) < 0.0 && math.Abs(float64(asteroids[i])) > math.Abs(float64(asteroids[j])) {
-			j++
-		} else if -asteroids[i] == asteroids[j] {
-			i--
-			j++
-		} else {
-			asteroids[i+1] = asteroids[j]
-			i++
-			j++
-		}
-	}
-
 	ret := []int{}
-	if p > 0 {
-		ret = append([]int{}, asteroids[:p]...)
+	for i := 0; i < len(asteroids); i++ {
+		if len(ret) == 0 {
+			ret = append(ret, asteroids[i])
+			continue
+		}
+		if ret[len(ret)-1] > 0 && asteroids[i] < 0 {
+			if ret[len(ret)-1] > -asteroids[i] {
+			} else if ret[len(ret)-1] < -asteroids[i] {
+				j := len(ret) - 1
+				for ; j >= 0 && ret[j] > 0 && ret[j] < -asteroids[i]; j-- {
+				}
+				if j < 0 {
+					ret = []int{asteroids[i]}
+				} else if ret[j] == -asteroids[i] {
+					ret = append([]int{}, ret[:j]...)
+				} else if ret[j] < 0 {
+					ret = append([]int{}, ret[:j+1]...)
+					ret = append(ret, asteroids[i])
+				} else {
+					ret = append([]int{}, ret[:j+1]...)
+				}
+
+			} else {
+				ret = append([]int{}, ret[:len(ret)-1]...)
+			}
+		} else {
+			ret = append(ret, asteroids[i])
+		}
 	}
 
-	if i < p {
-		ret = append(ret, asteroids[j:]...)
-		return ret
-	}
-
-	if j >= len(asteroids) {
-		ret = append(ret, asteroids[:i+1]...)
-		return ret
-	}
 	return ret
+
 }
