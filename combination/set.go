@@ -2,6 +2,7 @@ package combination
 
 import (
 	"fmt"
+	"math"
 	"sort"
 )
 
@@ -533,5 +534,65 @@ func MaxNumberOfFamilies(n int, reservedSeats [][]int) int {
 	return count
 }
 
-// 1540
+// AsteroidCollision 小行星碰撞
 // 735
+func AsteroidCollision(asteroids []int) []int {
+	if len(asteroids) <= 1 {
+		return asteroids
+	}
+
+	p := 0
+	for ; p < len(asteroids); p++ {
+		if asteroids[p] > 0 {
+			break
+		}
+	}
+
+	if p >= len(asteroids)-1 {
+		return asteroids
+	}
+
+	i, j := p, p+1
+	for j < len(asteroids) {
+		if float64(asteroids[i])/float64(asteroids[j]) < 0.0 {
+			break
+		}
+		i++
+		j++
+	}
+
+	if j >= len(asteroids) {
+		return asteroids
+	}
+
+	for i >= p && j < len(asteroids) {
+		if float64(asteroids[i])/float64(asteroids[j]) < 0.0 && math.Abs(float64(asteroids[i])) < math.Abs(float64(asteroids[j])) {
+			i--
+		} else if float64(asteroids[i])/float64(asteroids[j]) < 0.0 && math.Abs(float64(asteroids[i])) > math.Abs(float64(asteroids[j])) {
+			j++
+		} else if -asteroids[i] == asteroids[j] {
+			i--
+			j++
+		} else {
+			asteroids[i+1] = asteroids[j]
+			i++
+			j++
+		}
+	}
+
+	ret := []int{}
+	if p > 0 {
+		ret = append([]int{}, asteroids[:p]...)
+	}
+
+	if i < p {
+		ret = append(ret, asteroids[j:]...)
+		return ret
+	}
+
+	if j >= len(asteroids) {
+		ret = append(ret, asteroids[:i+1]...)
+		return ret
+	}
+	return ret
+}
