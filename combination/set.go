@@ -466,8 +466,28 @@ func (this *RangeModule) Print() {
 // CanPlaceFlowers 种花，相邻的位置不能种花，传入n，问是否可以全部种植
 // 605
 func CanPlaceFlowers(flowerbed []int, n int) bool {
+	if n == 0 {
+		return true
+	}
 
-	return false
+	if len(flowerbed) == 0 {
+		return false
+	}
+
+	if n > (len(flowerbed)/2 + len(flowerbed)%2) {
+		return false
+	}
+
+	count := 0
+	for i := 0; i < len(flowerbed); i++ {
+		if flowerbed[i] == 0 && (i == 0 || flowerbed[i-1] == 0) && (i == len(flowerbed)-1 || flowerbed[i+1] == 0) {
+			flowerbed[i] = 1
+			count++
+		}
+	}
+
+	return count >= n
+
 }
 
 // 649
@@ -475,3 +495,4 @@ func CanPlaceFlowers(flowerbed []int, n int) bool {
 // 1386
 
 // 1540
+// 735
