@@ -61,3 +61,8 @@ func TestRangeModule(t *testing.T) {
 	t.Log((&rm).QueryRange(13, 15))
 	t.Log((&rm).QueryRange(16, 17))
 }
+
+func TestCanPlaceFlowers(t *testing.T) {
+	t.Log(combination.CanPlaceFlowers([]int{1, 0, 1, 0, 1, 0, 1}, 1))
+
+}
