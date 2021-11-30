@@ -1,6 +1,8 @@
 package bits
 
-import "strconv"
+import (
+	"strconv"
+)
 
 // HammingWeight ...
 // no 191
@@ -74,3 +76,53 @@ func AddBinary(a string, b string) string {
 
 	return ret
 }
+
+// Divide
+// no 29
+const MAX_INT = int32(^uint32(0) >> 1)
+const MIN_INT = ^MAX_INT
+
+func Divide(dividend int, divisor int) int {
+	if divisor == 0 {
+		return dividend
+	}
+
+	var count int64 = 0
+	var sign int64 = 1
+	var divd, divr int64 = int64(dividend), int64(divisor)
+	if dividend < 0 && divisor > 0 {
+		sign = -1
+		divd = -divd
+	} else if dividend > 0 && divisor < 0 {
+		sign = -1
+		divr = -divr
+	} else if dividend < 0 && divisor < 0 {
+		divr = -divr
+		divd = -divd
+	}
+
+	if divd-divr < 0 {
+		return 0
+	}
+
+	if divr == 1 {
+		count = divd
+	} else {
+		for tmp := divr; divd-tmp >= 0; tmp += divr {
+			count++
+		}
+	}
+
+	if count*sign > int64(MAX_INT) {
+		return int(MAX_INT)
+	}
+
+	if count*sign < int64(MIN_INT) {
+		return int(MIN_INT)
+	}
+	return int(count * sign)
+}
+
+// no 187
+// no 260
+// no 861
