@@ -578,3 +578,10 @@ func isLeap(year int) bool {
 
 	return isLeap
 }
+
+// no 187
+// MatrixScore
+// no 861
+func matrixScore(grid [][]int) int {
+
+}

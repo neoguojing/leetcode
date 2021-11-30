@@ -123,6 +123,51 @@ func Divide(dividend int, divisor int) int {
 	return int(count * sign)
 }
 
-// no 187
+// SingleNumber3 o(n) o(1) 有两个出现一次，其他出现两次
 // no 260
-// no 861
+func SingleNumber3(nums []int) []int {
+	mask := 0
+	for i := 0; i < len(nums); i++ {
+		mask ^= nums[i]
+	}
+	lowBit := mask & (-mask)
+
+	x := 0
+	for i := 0; i < len(nums); i++ {
+		if nums[i]&lowBit != 0 {
+			x ^= nums[i]
+		}
+	}
+	return []int{x, mask ^ x}
+}
+
+// SingleNumber2 o(n) o(1) 仅1个出现1次，其他出现3次
+// no 137
+func SingleNumber2(nums []int) int {
+	// 出现3次，计数器为11（二进制），则需要两个int。分别表示计数器
+	x1, x2, mask := 0, 0, 0
+	for i := range nums {
+		// x1为1，新来一个数，则x2需要进1
+		x2 ^= x1 & nums[i]
+
+		// 相同为0，不同为1
+		x1 ^= nums[i]
+		// mask作用，是当相同的数累计三次之后，清零计数器；值为0或1
+		mask = ^(x1 & x2)
+		// 清理计数器
+		x1 = x1 & mask
+		x2 = x2 & mask
+	}
+	return x1
+}
+
+// SingleNumber o(n) o(1) 仅1个出现1次，其他出现2次
+// no 136
+// 亦或
+func SingleNumber(nums []int) int {
+	ret := nums[0]
+	for i := 1; i < len(nums); i++ {
+		ret ^= nums[i]
+	}
+	return ret
+}
