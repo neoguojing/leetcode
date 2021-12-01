@@ -307,9 +307,44 @@ func searchInRotate2(nums []int, lo, hi, target int) int {
 // FindMin
 // no 153
 func FindMin(nums []int) int {
-	return -1
+	if len(nums) == 0 {
+		return -1
+	}
+
+	if len(nums) == 1 {
+		return nums[0]
+	}
+
+	lo, hi := 0, len(nums)-1
+	mid := lo + (hi-lo)/2
+	return searchMinInRotate(nums, lo, hi, mid)
 }
 
+func searchMinInRotate(nums []int, lo, hi, mid int) int {
+	if lo == hi {
+		return nums[lo]
+	}
+
+	if nums[mid] >= nums[lo] && nums[mid] <= nums[hi] {
+		return nums[lo]
+	}
+
+	if nums[mid] >= nums[lo] && nums[mid] > nums[hi] {
+		lo = mid + 1
+		mid := lo + (hi-lo)/2
+		return searchMinInRotate(nums, lo, hi, mid)
+	}
+
+	if nums[mid] <= nums[lo] && nums[mid] <= nums[hi] {
+		hi = mid
+		mid := lo + (hi-lo)/2
+		return searchMinInRotate(nums, lo, hi, mid)
+	}
+
+	return nums[lo]
+}
+
+// 154
 // 322
 // 1329
 // 1798
