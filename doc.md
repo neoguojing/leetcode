@@ -205,6 +205,31 @@ for i := 1; i < len(arr); i++ { //从1开始遍历元数据
 未找到左值：left >= len(nums) || nums[left] != target ；未找到右值：right < 0 || nums[right] != target
 ```
 - no 704 34 35
+#### 有序的旋转数组查找 o(logn)
+- 利用二分查找，数组按照mid切分后，有一半一定可以使用二分查找查找，另一半递归调用本函数
+```
+if lo > hi { //递归结束条件
+	return -1
+}
+mid := lo + (hi-lo)/2 //寻找中值
+if nums[mid] == target { //正好找到，则返回
+	return mid
+} else if nums[mid] > target { //值可能落在左区间
+	if nums[mid] >= nums[lo] { //左区间是递增
+		binarySearch 失败则递归主函数，查找右区间
+	} else { //左区间不是递增，则值一定落在左区间，递归调用
+		lo -> mid -1
+	}
+} else { //值可能落在右区间
+	if nums[mid] <= nums[hi] { //右区间递增
+		binarySearch 失败则递归主函数，查找左区间
+	} else {//右区间不是递增，则值一定落在右区间，递归调用
+		mid+1 -> hi
+	}
+}							
+```
+								
+- no 33
 ### 双索引法
 - 345 数组部分反转：操作快排，首尾同时遍历；条件满足则交换；否则需要继续移动坐标
 - 11 数组区间，求哪两个柱子之间可以灌最多的水？
