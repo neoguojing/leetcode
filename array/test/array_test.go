@@ -47,3 +47,21 @@ func TestRemoveElement(t *testing.T) {
 	ret = array.RemoveElement(in, 2)
 	t.Log(ret)
 }
+
+func TestSearchInRotateArray(t *testing.T) {
+
+	ret := array.SearchInRotateArray([]int{4, 5, 6, 7, 8, 1, 2, 3}, 8)
+	t.Log(ret)
+	ret = array.SearchInRotateArray([]int{4, 5, 6, 7, 0, 1, 2}, 0)
+	t.Log(ret)
+	ret = array.SearchInRotateArray([]int{4, 5, 6, 7, 0, 1, 2}, 3)
+	t.Log(ret)
+	ret = array.SearchInRotateArray([]int{1}, 0)
+	t.Log(ret)
+
+	ret1 := array.SearchInRotateArray2([]int{1, 0, 1, 1, 1}, 0)
+	t.Log(ret1)
+	ret1 = array.SearchInRotateArray2([]int{1, 2, 1, 1, 1}, 2)
+	t.Log(ret1)
+
+}

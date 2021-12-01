@@ -166,6 +166,150 @@ func SearchInsert(nums []int, target int) int {
 	return lo
 }
 
+// SearchInRotateArray
+// no 33
+func SearchInRotateArray(nums []int, target int) int {
+	if nums == nil {
+		return -1
+	}
+
+	lo, hi := 0, len(nums)-1
+
+	return searchInRotate(nums, lo, hi, target)
+}
+
+func searchInRotate(nums []int, lo, hi, target int) int {
+	if lo > hi {
+		return -1
+	}
+
+	mid := lo + (hi-lo)/2
+
+	if nums[mid] == target {
+		return mid
+	} else if nums[mid] > target {
+		if nums[mid] >= nums[lo] {
+			ret := binarySearch(nums, lo, mid-1, target)
+			if ret != -1 {
+				return ret
+			} else {
+				return searchInRotate(nums, mid+1, hi, target)
+			}
+		} else {
+			return searchInRotate(nums, lo, mid-1, target)
+		}
+	} else {
+		if nums[mid] <= nums[hi] {
+			ret := binarySearch(nums, mid+1, hi, target)
+			if ret != -1 {
+				return ret
+			} else {
+				return searchInRotate(nums, lo, mid-1, target)
+			}
+		} else {
+			return searchInRotate(nums, mid+1, hi, target)
+		}
+	}
+
+}
+
+func binarySearch(nums []int, lo, hi, target int) int {
+	for lo <= hi {
+		mid := lo + (hi-lo)/2
+		if nums[mid] < target {
+			lo = mid + 1
+		} else if nums[mid] > target {
+			hi = mid - 1
+		} else {
+			hi = mid - 1
+		}
+	}
+
+	if lo >= len(nums) || nums[lo] != target {
+		return -1
+	}
+
+	return lo
+}
+
+//SearchInRotateArray2 num中包含重复元素
+// no 81
+/*
+[1,0,1,1,1]
+0
+*/
+func SearchInRotateArray2(nums []int, target int) bool {
+	if nums == nil {
+		return false
+	}
+
+	lo, hi := 0, len(nums)-1
+
+	return searchInRotate2(nums, lo, hi, target) != -1
+}
+
+func searchInRotate2(nums []int, lo, hi, target int) int {
+	if lo > hi {
+		return -1
+	}
+
+	mid := lo + (hi-lo)/2
+
+	if nums[mid] == target {
+		return mid
+	}
+
+	if nums[mid] == nums[lo] && nums[mid] == nums[hi] {
+		ret := searchInRotate2(nums, lo, mid-1, target)
+		if ret != -1 {
+			return ret
+		} else {
+			return searchInRotate2(nums, mid+1, hi, target)
+		}
+	}
+
+	if nums[mid] > target {
+		if nums[mid] == nums[hi] && nums[mid] > nums[lo] {
+			return searchInRotate2(nums, lo, mid-1, target)
+		}
+
+		if nums[mid] >= nums[lo] {
+			ret := binarySearch(nums, lo, mid-1, target)
+			if ret != -1 {
+				return ret
+			} else {
+				return searchInRotate2(nums, mid+1, hi, target)
+			}
+		} else if nums[mid] < nums[lo] {
+			return searchInRotate2(nums, lo, mid-1, target)
+		}
+	} else {
+
+		if nums[mid] == nums[lo] && nums[mid] < nums[hi] {
+			return searchInRotate2(nums, mid+1, hi, target)
+		}
+
+		if nums[mid] <= nums[hi] {
+			ret := binarySearch(nums, mid+1, hi, target)
+			if ret != -1 {
+				return ret
+			} else {
+				return searchInRotate2(nums, lo, mid-1, target)
+			}
+		} else if nums[mid] > nums[hi] {
+			return searchInRotate2(nums, mid+1, hi, target)
+		}
+	}
+
+	return -1
+}
+
+// FindMin
+// no 153
+func FindMin(nums []int) int {
+	return -1
+}
+
 // 53 MaxSubArray
 // 给一个数组，找出一个连续的子数组，长度任意，和最大
 // todo
