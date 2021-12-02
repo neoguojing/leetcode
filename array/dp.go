@@ -152,3 +152,36 @@ func NumOfSubarraysDP(arr []int) int {
 
 	return sum
 }
+
+//CoinChange 银币组成amount，每种面额均无限
+// 322
+// dp[i][j] = min(dp[i-1][j],dp[i][j-coin[i]]+1 )
+func CoinChange(coins []int, amount int) int {
+	dp := make([]int, amount+1)
+	for i:=range dp {
+		dp[i] = amount
+	}
+
+	dp[0] = 0
+	for _, coin := range coins {
+		for j := coin; j <= amount; j++ {
+			dp[j] = dp[j]
+			if dp[j] > dp[j-coin]+1 {
+				dp[j] = dp[j-coin] + 1
+			}
+		}
+	}
+
+	if dp[amount] > amount {
+		return -1
+	}
+	return dp[amount]
+}
+	vector<int> A(amount+1, amount+1);
+    A[0] = 0;
+    for (int coin : coins) {
+        for (int i = coin; i <= amount; i++) {
+            A[i] = min(A[i], A[i - coin] + 1);
+        }
+    }
+    return A[amount] > amount ? -1 : A[amount];

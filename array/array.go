@@ -396,8 +396,6 @@ func FindMin2(nums []int) int {
 			lo = mid + 1
 		} else if nums[mid] < nums[hi] {
 			hi = mid
-		} else {
-
 		}
 	}
 
@@ -467,7 +465,6 @@ func FindMinWithDup(nums []int) int {
 	return nums[lo]
 }
 
-// 322
 // 1329
 // 1798
 // 53 MaxSubArray
