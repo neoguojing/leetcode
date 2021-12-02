@@ -168,6 +168,40 @@ func SearchInsert(nums []int, target int) int {
 
 // SearchInRotateArray
 // no 33
+func SearchInRotateArraySimple(nums []int, target int) int {
+	if nums == nil {
+		return -1
+	}
+
+	lo, hi := 0, len(nums)-1
+	for lo <= hi {
+		mid := lo + (hi-lo)/2
+		if nums[mid] > nums[hi] {
+			lo = mid + 1
+		} else if nums[mid] < nums[hi] {
+			hi = mid
+		} else {
+			hi--
+		}
+	}
+
+	rot := lo //等价于一个偏移，即旋转的次数
+	lo, hi = 0, len(nums)-1
+	for lo <= hi {
+		mid := lo + (hi-lo)/2
+		realMid := (mid + rot) % len(nums)
+		if nums[realMid] == target {
+			return realMid
+		} else if nums[realMid] < target {
+			lo = mid + 1
+		} else {
+			hi = mid - 1
+		}
+	}
+
+	return -1
+}
+
 func SearchInRotateArray(nums []int, target int) int {
 	if nums == nil {
 		return -1
@@ -238,6 +272,41 @@ func binarySearch(nums []int, lo, hi, target int) int {
 [1,0,1,1,1]
 0
 */
+func SearchInRotateArrayWithDup(nums []int, target int) bool {
+	if nums == nil {
+		return false
+	}
+
+	lo, hi := 0, len(nums)-1
+
+	for lo <= hi {
+		mid := lo + (hi-lo)/2
+		if nums[mid] == target {
+			return true
+		}
+
+		if nums[mid] == nums[lo] && nums[mid] == nums[hi] {
+			hi--
+			lo++
+		} else if nums[mid] <= nums[hi] {
+			// mid和target相比较的两种情况
+			if nums[mid] < target && nums[hi] >= target {
+				lo = mid + 1
+			} else {
+				hi = mid - 1
+			}
+		} else {
+			if nums[mid] > target && nums[lo] <= target {
+				hi = mid - 1
+			} else {
+				lo = mid + 1
+			}
+		}
+
+	}
+
+	return false
+}
 func SearchInRotateArray2(nums []int, target int) bool {
 	if nums == nil {
 		return false
@@ -306,6 +375,35 @@ func searchInRotate2(nums []int, lo, hi, target int) int {
 
 // FindMin
 // no 153
+func FindMin2(nums []int) int {
+	if len(nums) == 0 {
+		return -1
+	}
+
+	if len(nums) == 1 {
+		return nums[0]
+	}
+
+	lo, hi := 0, len(nums)-1
+	mid := 0
+	for lo <= hi {
+		mid = lo + (hi-lo)/2
+		if nums[mid] >= nums[lo] && nums[mid] <= nums[hi] {
+			return nums[lo]
+		}
+
+		if nums[mid] > nums[hi] {
+			lo = mid + 1
+		} else if nums[mid] < nums[hi] {
+			hi = mid
+		} else {
+
+		}
+	}
+
+	return nums[lo]
+}
+
 func FindMin(nums []int) int {
 	if len(nums) == 0 {
 		return -1
@@ -345,6 +443,30 @@ func searchMinInRotate(nums []int, lo, hi, mid int) int {
 }
 
 // 154
+func FindMinWithDup(nums []int) int {
+	if len(nums) == 0 {
+		return -1
+	}
+
+	if len(nums) == 1 {
+		return nums[0]
+	}
+	lo, hi, mid := 0, len(nums)-1, 0
+
+	for lo <= hi {
+		mid = lo + (hi-lo)/2
+		if nums[mid] > nums[hi] {
+			lo = mid + 1
+		} else if nums[mid] < nums[hi] {
+			hi = mid
+		} else {
+			hi--
+		}
+	}
+
+	return nums[lo]
+}
+
 // 322
 // 1329
 // 1798
