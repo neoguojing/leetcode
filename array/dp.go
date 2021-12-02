@@ -158,7 +158,7 @@ func NumOfSubarraysDP(arr []int) int {
 // dp[i][j] = min(dp[i-1][j],dp[i][j-coin[i]]+1 )
 func CoinChange(coins []int, amount int) int {
 	dp := make([]int, amount+1)
-	for i:=range dp {
+	for i := range dp {
 		dp[i] = amount
 	}
 
@@ -177,11 +177,3 @@ func CoinChange(coins []int, amount int) int {
 	}
 	return dp[amount]
 }
-	vector<int> A(amount+1, amount+1);
-    A[0] = 0;
-    for (int coin : coins) {
-        for (int i = coin; i <= amount; i++) {
-            A[i] = min(A[i], A[i - coin] + 1);
-        }
-    }
-    return A[amount] > amount ? -1 : A[amount];
