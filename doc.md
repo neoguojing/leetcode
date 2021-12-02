@@ -206,51 +206,71 @@ for i := 1; i < len(arr); i++ { //从1开始遍历元数据
 ```
 - no 704 34 35
 #### 有序的旋转数组查找 o(logn)
-- 数组无重复元素：利用二分查找，数组按照mid切分后，有一半一定可以使用二分查找查找，另一半递归调用本函数
-- 若数组中有重复元素：则判断是否可以进行二分查找的条件将会失败；如本例：[1,0,1,1,1]；具体处理如下
+- 旋转数组特性： 
+- > 1.任意取中间值，则至少右一半的区间是递增区间
+- > 2.均可采用二分查重处理
+- > 3.使用中间值和最右（最左）比较，是算法的核心
 ```
-if lo > hi { //递归结束条件
-	return -1
+//最小值算法：中间值与最右值比较								
+lo, hi, mid := 0, len(nums)-1, 0
+for lo <= hi {
+	mid = lo + (hi-lo)/2 
+	if nums[mid] > nums[hi] { //中间值大于最右值，则右边非递增区间，最小值落在右边区域
+		lo = mid + 1
+	} else if nums[mid] < nums[hi] { //中间值小于最右值，则最小值值一定在左边，且有可能就是中间值
+		hi = mid
+	} else { //对于中间值等于最右值的情况是因为数组中有重复元素；此时不确定在哪边，则最右索引减一
+		hi--
+	}
 }
-mid := lo + (hi-lo)/2 //寻找中值
-if nums[mid] == target { //正好找到，则返回
-	return mid
-} 
-if nums[mid] == nums[lo] && nums[mid] == nums[hi] { //有重复元素处理
-	递归主函数分别查找左右区间
+return nums[lo]	
+//查询目标值算法，无重复值
+//首先上面算法查到最小值的索引，即偏移，将算法转换为二分查找				      
+rot := lo //等价于一个偏移，即旋转的次数				    
+lo, hi = 0, len(nums)-1
+for lo <= hi {
+	mid := lo + (hi-lo)/2
+	realMid := (mid + rot) % len(nums)
+	if nums[realMid] == target {
+		return realMid
+	} else if nums[realMid] < target {
+		lo = mid + 1
+	} else {
+		hi = mid - 1
+	}
 }
-	
-if nums[mid] > target { //值可能落在左区间
-	if nums[mid] == nums[hi] && nums[mid] > nums[lo] { //有重复元素：右区间全是相同的数字，可以忽略，只搜索左区间
-			递归主函数搜索左区间
-	}
-	
-	if nums[mid] >= nums[lo] { //左区间是递增
-		binarySearch 失败则递归主函数，查找右区间
-	} else { //左区间不是递增，则值一定落在左区间，递归调用
-		lo -> mid -1
-	}
-} else { //值可能落在右区间
-	if nums[mid] == nums[lo] && nums[mid] < nums[hi] { //有重复元素：左区间全是相同的数字，可以忽略，只搜索右区间
-		return searchInRotate2(nums, mid+1, hi, target)
-	}
-							
-	if nums[mid] <= nums[hi] { //右区间递增
-		binarySearch 失败则递归主函数，查找左区间
-	} else {//右区间不是递增，则值一定落在右区间，递归调用
-		mid+1 -> hi
-	}
-}							
-```
-- 旋转数组查询值（最小最大值）：
-- > 未旋转的必要条件：中间数即大于等于最左边的数,同时还小于等于最右边的数：最左边的数为最大值
-- > 数组已经旋转：
-- > 中间值落在大值区间的必要条件：中间值大于等于最左值，小于最右值： 递归搜索右半个数组
-- > 中间值落在小值区间的必要条件：中间值小于等于最左值和小于等于最右值：递归计算左半个数组包括中间值（因为中间值可能就是最小值）
 
+// 查询目标值算法：标准解法，适用于重复和不重复的
+for lo <= hi {
+	mid := lo + (hi-lo)/2
+	if nums[mid] == target { //遇到相等则返回
+		return true
+	}
+
+	if nums[mid] == nums[lo] && nums[mid] == nums[hi] { //处理重复值的场景：中间值等于左右的值，则不确定在哪个区间
+		hi--
+		lo++
+	} else if nums[mid] <= nums[hi] { //中间值小于最右值，则表示，mid-> hi是一个递增区间，适合二分查找
+
+		if nums[mid] < target && nums[hi] >= target { //目标落在递增区间
+			lo = mid + 1
+		} else {                         //不在递增区间，则在另一半
+			hi = mid - 1
+		}
+	} else { //右边不是递增区间，则左边是递增区间
+		if nums[mid] > target && nums[lo] <= target { //目标在递增区间
+			hi = mid - 1
+		} else {   //目标不在递增区间
+			lo = mid + 1
+		}
+	}
+
+}					
+```
 - no 33 数组无重复元素
 - no 81 数组有重复元素
 - no 153 在旋转数组中查找最小值，无重复元素，要求o（logn），
+- no 154 在旋转数组中查找最小值，有重复元素，要求o（logn）
 ### 双索引法
 - 345 数组部分反转：操作快排，首尾同时遍历；条件满足则交换；否则需要继续移动坐标
 - 11 数组区间，求哪两个柱子之间可以灌最多的水？
