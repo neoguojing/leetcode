@@ -22,3 +22,12 @@ func TestJump(t *testing.T) {
 	t.Log(ret)
 
 }
+
+func TestCanReach(t *testing.T) {
+
+	ret := array.CanReach("01101110", 2, 3)
+	t.Log(ret)
+	ret = array.CanReach("0000000000", 2, 5)
+	t.Log(ret)
+
+}

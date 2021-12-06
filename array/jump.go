@@ -134,3 +134,26 @@ func Jump3(nums []int) int {
 
 // no 1036
 // no 1871
+// Input: s = "01101110", minJump = 2, maxJump = 3
+func CanReach(s string, minJump int, maxJump int) bool {
+	if len(s) == 1 {
+		return true
+	}
+
+	if s[len(s)-1] != '0' {
+		return false
+	}
+	start, end := 0, 0
+	i := 0
+	for i < len(s) {
+		start = i + minJump
+		end = i + maxJump
+		for j := i + 1; j < len(s); j++ {
+			if s[j] == '0' && j >= start && j <= end {
+				i = j
+			}
+		}
+	}
+
+	return i == len(s)-1
+}
