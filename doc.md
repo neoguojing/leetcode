@@ -520,4 +520,17 @@ for i := 0; i < positon; i++ { //一个循环里负责遍历i的同时动态更�
 ```
 - > 解法二：动态规划：dp[i] 表示能到达最后；从后往前;初始化：dp[n-1]=true; dp[i] = dp[i+k] && i+k<n（从后向前遍历nums）；0<=k<=nums[i](一重循环遍历nump[i]的值) ; 结论：dp[0] == true
 - > 解法三：贪心策略：找到每个位置能够跳到的最远的位置；若最远的位置比当前的位置还小(这个条件不好找)，则返回false；farest = max(farest,nums[i]+i)
-	
+- no 45 求最少的跳数
+-> 解法一：从后往前，每次找到最远的位置
+```
+for positon != 0 {
+	for i := 0; i < positon; i++ {
+		if nums[i] >= (positon - i) { //i 从0开始，保证每次找到了跳的最远的位置
+			positon = i
+			steps++
+			break
+		}
+	}
+}
+```
+-> 解法二： 动态规划：dp[i]为i到达末尾的最小跳数;dp[i] = min(dp[i+k]+1,dp[i]) i+k<len(nums) && 0=<k<=nums[i]；结论：dp[0]
