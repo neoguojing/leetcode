@@ -34,9 +34,11 @@ func CanJump2(nums []int) bool {
 	far := 0
 
 	for i := 0; i < len(nums); i++ {
+		// 若最远距离比当前步数还小，表示无法继续跳
 		if far < i {
 			return false
 		}
+		// 更新能跳的最远距离
 		if far < nums[i]+i {
 			far = nums[i] + i
 		}
@@ -91,13 +93,21 @@ func Jump(nums []int) int {
 
 // 贪心策略
 func Jump2(nums []int) int {
-	least := int(^uint32(0) >> 1)
+	jump, curEnd, curFartest := 0, 0, 0
 
-	for i := 0; i < len(nums); i++ {
-
+	for i := 0; i < len(nums)-1; i++ {
+		// 当前能够跳的最远距离（每步的最优解）
+		if curFartest < i+nums[i] {
+			curFartest = i + nums[i]
+		}
+		// 一旦到了当前的end，则继续下一个目标
+		if i == curEnd {
+			jump++
+			curEnd = curFartest
+		}
 	}
 
-	return least
+	return jump
 }
 
 // 动态规划
