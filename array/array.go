@@ -505,3 +505,129 @@ func NumOfSubarrays(arr []int) int {
 // 2055
 // 278
 // 2089
+
+// no 41 在无序数组中，找到丢失的最小正整数 o(n) o(1)
+func FirstMissingPositive(nums []int) int {
+
+	for i := 0; i < len(nums); i++ {
+		for nums[i]-1 >= 0 && nums[i]-1 < len(nums) && nums[nums[i]-1] != nums[i] {
+			fmt.Println(nums)
+			tmp := nums[nums[i]-1]
+			nums[nums[i]-1] = nums[i]
+			nums[i] = tmp
+		}
+
+	}
+
+	for j := 0; j < len(nums); j++ {
+		if nums[j] != j+1 {
+			return j + 1
+		}
+	}
+
+	return len(nums) + 1
+}
+
+//no 268
+func MissingNumber(nums []int) int {
+	for i := 0; i < len(nums); i++ {
+		for nums[i] >= 0 && nums[i] < len(nums) && nums[nums[i]] != nums[i] {
+			fmt.Println(i, nums[i])
+			tmp := nums[nums[i]]
+			nums[nums[i]] = nums[i]
+			nums[i] = tmp
+		}
+
+		if len(nums) == nums[i] {
+			nums[i] = -1
+		}
+	}
+
+	for i := 0; i < len(nums); i++ {
+		if nums[i] == -1 {
+			return i
+		}
+	}
+
+	return len(nums)
+}
+
+func MissingNumber2(nums []int) int {
+	ret := len(nums)
+	for i := 0; i < len(nums); i++ {
+		ret = ret ^ i ^ nums[i]
+	}
+
+	return ret
+}
+
+// no 287
+func FindDuplicate(nums []int) int {
+
+	for i := 0; i < len(nums); i++ {
+		for nums[nums[i]] != nums[i] {
+			fmt.Println(i, nums[i])
+			tmp := nums[nums[i]]
+			nums[nums[i]] = nums[i]
+			nums[i] = tmp
+		}
+	}
+	return 0
+}
+
+// no 448
+func FindDisappearedNumbers(nums []int) []int {
+	ret := []int{}
+	for i := 0; i < len(nums); i++ {
+		for nums[i]-1 >= 0 && nums[i]-1 < len(nums) {
+
+			if nums[nums[i]-1] != nums[i] {
+				tmp := nums[nums[i]-1]
+				nums[nums[i]-1] = nums[i]
+				nums[i] = tmp
+			} else if nums[i] != i+1 && nums[nums[i]-1] == nums[i] {
+				nums[i] = -1
+			} else {
+				break
+			}
+
+		}
+	}
+
+	for i := 0; i < len(nums); i++ {
+		if nums[i] == -1 {
+			ret = append(ret, i+1)
+		}
+	}
+
+	return ret
+}
+
+func FindDisappearedNumbers2(nums []int) []int {
+	ret := []int{}
+	for i := 0; i < len(nums); i++ {
+		for nums[i]-1 >= 0 && nums[i]-1 < len(nums) {
+
+			if nums[nums[i]-1] != nums[i] {
+				tmp := nums[nums[i]-1]
+				nums[nums[i]-1] = nums[i]
+				nums[i] = tmp
+			} else if nums[i] != i+1 && nums[nums[i]-1] == nums[i] {
+				nums[i] = -1
+			} else {
+				break
+			}
+
+		}
+	}
+
+	for i := 0; i < len(nums); i++ {
+		if nums[i] == -1 {
+			ret = append(ret, i+1)
+		}
+	}
+
+	return ret
+}
+
+// 765

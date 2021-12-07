@@ -65,3 +65,10 @@ func TestSearchInRotateArray(t *testing.T) {
 	t.Log(ret1)
 
 }
+
+func TestFirstMissingPositive(t *testing.T) {
+	ret := array.FirstMissingPositive([]int{3, 4, -1, 1})
+	t.Log(ret)
+	ret = array.MissingNumber([]int{3, 0, 1})
+	t.Log(ret)
+}

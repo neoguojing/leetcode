@@ -31,3 +31,9 @@ func TestStrStr(t *testing.T) {
 	ret := string.StrStr("hello", "ll")
 	t.Log(ret)
 }
+
+func TestCountAndSay(t *testing.T) {
+
+	ret := string.CountAndSay(5)
+	t.Log(ret)
+}

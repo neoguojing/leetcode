@@ -1,6 +1,9 @@
 package string
 
-import "fmt"
+import (
+	"fmt"
+	"strconv"
+)
 
 // IsInterleave ...
 // no 97
@@ -244,3 +247,34 @@ func fastNext(p string) []int {
 
 // no 93
 // todo
+
+// no 38
+func CountAndSay(n int) string {
+	if n == 1 {
+		return "1"
+	}
+	if n == 2 {
+		return "11"
+	}
+
+	var ret string
+	tmp := CountAndSay(n - 1)
+	fmt.Println(tmp)
+	count := 1
+	i := 1
+	for ; i < len(tmp); i++ {
+		if tmp[i] == tmp[i-1] {
+			count++
+		} else {
+			ret += strconv.Itoa(count) + string(tmp[i-1])
+			count = 1
+		}
+	}
+
+	if i == len(tmp) {
+		ret += strconv.Itoa(count) + string(tmp[i-1])
+	}
+
+	return ret
+
+}
