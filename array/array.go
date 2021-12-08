@@ -1,6 +1,8 @@
 package array
 
-import "fmt"
+import (
+	"fmt"
+)
 
 /*RemoveDuplicates ...
  no 26
@@ -561,53 +563,36 @@ func MissingNumber2(nums []int) int {
 	return ret
 }
 
-// no 287
-func FindDuplicate(nums []int) int {
-
-	for i := 0; i < len(nums); i++ {
-		for nums[nums[i]] != nums[i] {
-			fmt.Println(i, nums[i])
-			tmp := nums[nums[i]]
-			nums[nums[i]] = nums[i]
-			nums[i] = tmp
-		}
-	}
-	return 0
-}
-
 // no 448
 func FindDisappearedNumbers(nums []int) []int {
 	ret := []int{}
 	for i := 0; i < len(nums); i++ {
-		for nums[i]-1 >= 0 && nums[i]-1 < len(nums) {
 
-			if nums[nums[i]-1] != nums[i] {
-				tmp := nums[nums[i]-1]
-				nums[nums[i]-1] = nums[i]
-				nums[i] = tmp
-			} else if nums[i] != i+1 && nums[nums[i]-1] == nums[i] {
-				nums[i] = -1
-			} else {
-				break
-			}
+		nums[abs(nums[i])-1] = -abs(nums[abs(nums[i])-1])
 
-		}
 	}
 
 	for i := 0; i < len(nums); i++ {
-		if nums[i] == -1 {
-			ret = append(ret, i+1)
+		if nums[i] > 0 {
+			ret = append(ret, nums[i])
 		}
 	}
 
 	return ret
+}
+
+func abs(a int) int {
+	if a < 0 {
+		return -a
+	}
+
+	return a
 }
 
 func FindDisappearedNumbers2(nums []int) []int {
 	ret := []int{}
 	for i := 0; i < len(nums); i++ {
 		for nums[i]-1 >= 0 && nums[i]-1 < len(nums) {
-
 			if nums[nums[i]-1] != nums[i] {
 				tmp := nums[nums[i]-1]
 				nums[nums[i]-1] = nums[i]
@@ -630,4 +615,11 @@ func FindDisappearedNumbers2(nums []int) []int {
 	return ret
 }
 
+// no 442
+// no 287
+func FindDuplicate(nums []int) int {
+
+}
+
 // 765
+// 1980
