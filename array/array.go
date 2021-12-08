@@ -54,6 +54,19 @@ func RemoveElement(nums []int, val int) int {
 	fmt.Println(nums)
 	return end
 }
+func RemoveElement2(nums []int, val int) int {
+	start := len(nums) - 1
+	for i := len(nums) - 1; i >= 0; i-- {
+		if val == nums[i] {
+			tmp := nums[start]
+			nums[start] = nums[i]
+			nums[i] = tmp
+			start--
+		}
+	}
+
+	return start + 1
+}
 
 /*SearchRange ...
 no 34

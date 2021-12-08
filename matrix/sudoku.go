@@ -36,7 +36,10 @@ func IsValidSudoku(board [][]byte) bool {
 	rowMap := make(map[string]bool)
 
 	for i := 0; i < len(board); i++ {
-		for j := 0; i < len(board[0]); j++ {
+		for j := 0; j < len(board[0]); j++ {
+			if board[i][j] == '.' {
+				continue
+			}
 			rowVal := fmt.Sprintf("row:%d:%d", i, board[i][j])
 			if _, ok := rowMap[rowVal]; ok {
 				return false
