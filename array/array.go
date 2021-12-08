@@ -631,8 +631,28 @@ func FindDisappearedNumbers2(nums []int) []int {
 // no 442
 // no 287
 func FindDuplicate(nums []int) int {
-
+	return 0
 }
 
 // 765
 // 1980
+
+// PlusOne
+// no 66
+func PlusOne(digits []int) []int {
+	i := len(digits) - 1
+	for ; i >= 0; i-- {
+		if digits[i]+1 == 10 {
+			digits[i] = 0
+		} else {
+			digits[i] += 1
+			break
+		}
+	}
+
+	if i < 0 {
+		digits = append([]int{1}, digits...)
+	}
+
+	return digits
+}

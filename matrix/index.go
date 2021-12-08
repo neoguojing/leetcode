@@ -76,3 +76,63 @@ func SetZeroes(matrix [][]int) {
 	}
 
 }
+
+// Rotate 原地顺时针旋转矩阵90度
+// no 48
+// 转置加对称变换
+func Rotate(matrix [][]int) {
+	transpose(matrix)
+	reflect(matrix)
+
+}
+
+func transpose(matrix [][]int) {
+	for i := 0; i < len(matrix); i++ {
+		for j := i; j < len(matrix[0]); j++ {
+			tmp := matrix[i][j]
+			matrix[i][j] = matrix[j][i]
+			matrix[j][i] = tmp
+		}
+	}
+}
+
+// 从左到右 （顺时针90度）
+func reflect(matrix [][]int) {
+	for j := 0; j < len(matrix[0])/2; j++ {
+		for i := 0; i < len(matrix); i++ {
+			tmp := matrix[i][j]
+			matrix[i][j] = matrix[i][len(matrix[0])-1-j]
+			matrix[i][len(matrix[0])-1-j] = tmp
+		}
+	}
+}
+
+// FindRotation 确定矩阵是否可以通过旋转得到
+// no 1886
+// 坐标旋转
+func FindRotation(mat [][]int, target [][]int) bool {
+	var ret = [4]bool{true, true, true, true}
+	n := len(mat)
+	for i := 0; i < len(mat); i++ {
+		for j := 0; j < len(mat[0]); j++ {
+			if mat[i][j] != target[i][j] {
+				ret[0] = false
+			}
+
+			if mat[i][j] != target[j][n-i-1] {
+				ret[1] = false
+			}
+
+			if mat[i][j] != target[n-i-1][n-j-1] {
+				ret[2] = false
+			}
+
+			if mat[i][j] != target[n-j-1][i] {
+				ret[3] = false
+			}
+
+		}
+	}
+
+	return ret[0] || ret[1] || ret[2] || ret[3]
+}
