@@ -136,3 +136,44 @@ func FindRotation(mat [][]int, target [][]int) bool {
 
 	return ret[0] || ret[1] || ret[2] || ret[3]
 }
+
+// no 54 矩阵的顺时针螺旋排序输出
+func SpiralOrder(matrix [][]int) []int {
+	if len(matrix) == 0 {
+		return []int{}
+	}
+	ret := []int{}
+
+	rEnd := len(matrix) - 1
+	cEnd := len(matrix[0]) - 1
+	rBegin, cBegin := 0, 0
+	for rBegin <= rEnd && cBegin <= cEnd {
+		//向右
+		for j := cBegin; j <= cEnd; j++ {
+			ret = append(ret, matrix[rBegin][j])
+		}
+		rBegin++
+		//向下
+		for i := rBegin; i <= rEnd; i++ {
+			ret = append(ret, matrix[i][cEnd])
+		}
+		cEnd--
+		//向左
+		if rBegin <= rEnd {
+			for j := cEnd; j >= cBegin; j-- {
+				ret = append(ret, matrix[rEnd][j])
+			}
+			rEnd--
+		}
+
+		if cBegin <= cEnd {
+			//向上
+			for i := rEnd; i >= rBegin; i-- {
+				ret = append(ret, matrix[i][cBegin])
+			}
+			cBegin++
+		}
+	}
+
+	return ret
+}

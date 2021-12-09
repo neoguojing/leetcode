@@ -2,6 +2,7 @@ package string
 
 import (
 	"fmt"
+	"sort"
 	"strconv"
 )
 
@@ -277,4 +278,62 @@ func CountAndSay(n int) string {
 
 	return ret
 
+}
+
+// GroupAnagrams
+// no 49 将由相同字母组成的单词分类
+//  ["eat","tea","tan","ate","nat","bat"]
+func GroupAnagrams(strs []string) [][]string {
+	if strs == nil {
+		return [][]string{}
+	}
+	set := map[string][]string{}
+	ret := [][]string{}
+
+	for _, str := range strs {
+		letters := []string{}
+		for _, letter := range str {
+			letters = append(letters, string(letter))
+		}
+		sort.Strings(letters)
+		sortStr := ""
+		for _, str := range letters {
+			sortStr += str
+		}
+		if _, ok := set[sortStr]; !ok {
+			set[sortStr] = []string{}
+		}
+		set[sortStr] = append(set[sortStr], str)
+	}
+
+	for _, v := range set {
+		ret = append(ret, v)
+	}
+
+	return ret
+}
+
+// IsAnagram
+// no 242
+func IsAnagram(s string, t string) bool {
+	letters := []string{}
+	for _, letter := range s {
+		letters = append(letters, string(letter))
+	}
+	sort.Strings(letters)
+	s1 := ""
+	for _, str := range letters {
+		s1 += str
+	}
+	letters1 := []string{}
+	for _, letter := range t {
+		letters1 = append(letters1, string(letter))
+	}
+	sort.Strings(letters1)
+	t1 := ""
+	for _, str := range letters1 {
+		t1 += str
+	}
+
+	return s1 == t1
 }
