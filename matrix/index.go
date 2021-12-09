@@ -147,31 +147,140 @@ func SpiralOrder(matrix [][]int) []int {
 	rEnd := len(matrix) - 1
 	cEnd := len(matrix[0]) - 1
 	rBegin, cBegin := 0, 0
+	dir := 0
 	for rBegin <= rEnd && cBegin <= cEnd {
 		//向右
-		for j := cBegin; j <= cEnd; j++ {
-			ret = append(ret, matrix[rBegin][j])
-		}
-		rBegin++
-		//向下
-		for i := rBegin; i <= rEnd; i++ {
-			ret = append(ret, matrix[i][cEnd])
-		}
-		cEnd--
-		//向左
-		if rBegin <= rEnd {
+		if dir == 0 {
+
+			for j := cBegin; j <= cEnd; j++ {
+				ret = append(ret, matrix[rBegin][j])
+			}
+			rBegin++
+			dir = 1
+		} else if dir == 1 {
+			for i := rBegin; i <= rEnd; i++ {
+				ret = append(ret, matrix[i][cEnd])
+			}
+			cEnd--
+			dir = 2
+		} else if dir == 2 {
 			for j := cEnd; j >= cBegin; j-- {
 				ret = append(ret, matrix[rEnd][j])
 			}
 			rEnd--
-		}
-
-		if cBegin <= cEnd {
+			dir = 3
+		} else if dir == 3 {
 			//向上
 			for i := rEnd; i >= rBegin; i-- {
 				ret = append(ret, matrix[i][cBegin])
 			}
 			cBegin++
+			dir = 0
+		}
+	}
+
+	return ret
+}
+
+// GenerateMatrix 1-n平方的数填到n*n的矩阵里
+// no 59
+func GenerateMatrix(n int) [][]int {
+	if n == 0 {
+		return [][]int{{1}}
+	}
+	matrix := make([][]int, n)
+	for i := range matrix {
+		matrix[i] = make([]int, n)
+	}
+
+	rs, re, cs, ce := 0, n-1, 0, n-1
+	dir := 0
+	i := 0
+	for rs <= re && cs <= ce {
+		switch dir {
+		case 0:
+			for c := cs; c <= ce; c++ {
+				matrix[rs][c] = i
+				i++
+			}
+			rs++
+			dir = 1
+		case 1:
+			for r := rs; r <= re; r++ {
+				matrix[r][ce] = i
+				i++
+			}
+			ce--
+			dir = 2
+		case 2:
+			for c := ce; c >= cs; c-- {
+				matrix[re][c] = i
+				i++
+			}
+			re--
+			dir = 3
+		case 3:
+			for r := re; r >= rs; r-- {
+				matrix[r][cs] = i
+				i++
+			}
+			cs++
+			dir = 0
+		}
+	}
+
+	return matrix
+}
+
+// SpiralMatrixIII 从起点顺时针螺旋遍历矩阵；步长按圈，每次半径加1
+// no 885
+func SpiralMatrixIII(rows int, cols int, rStart int, cStart int) [][]int {
+	ret := make([][]int, rows*cols)
+	ret[0] = []int{rStart, cStart}
+
+	dir := 0
+	rb, re, cb, ce := rStart-1, rStart+1, cStart-1, cStart+1
+	i := 1
+	for rb >= 0 || re < rows || cb >= 0 || ce < cols {
+		switch dir {
+		case 0: //向下
+			for r := rStart; r <= re; r++ {
+				if r >= 0 && r < rows && ce >= 0 && ce < cols {
+					ret[i] = []int{r, ce}
+					i++
+				}
+			}
+			dir = 1
+		case 1: //向左
+			for c := ce - 1; c >= cb; c-- {
+				if c >= 0 && c < cols && re >= 0 && re < rows {
+					ret[i] = []int{re, c}
+					i++
+				}
+			}
+			dir = 2
+		case 2: //向上
+			for r := re - 1; r >= rb; r-- {
+				if r >= 0 && r < rows && cb >= 0 && cb < cols {
+					ret[i] = []int{r, cb}
+					i++
+				}
+			}
+			dir = 3
+		case 3: //向右
+			for c := cb + 1; c <= ce; c++ {
+				if c >= 0 && c < cols && rb >= 0 && rb < rows {
+					ret[i] = []int{rb, c}
+					i++
+				}
+			}
+
+			dir = 0
+			rStart = rb
+			rb--
+			re++
+			cb--
+			ce++
 		}
 	}
 
