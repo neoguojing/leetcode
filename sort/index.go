@@ -1,5 +1,7 @@
 package sort
 
+import "sort"
+
 /*
 基数排序有两种方法：
 
@@ -163,5 +165,48 @@ func BubbleSort(in []int) {
 		if !flag {
 			break
 		}
+	}
+}
+
+// SortColors
+// no 75
+//  数组中相同的元素排在一起 [2,0,2,1,1,0]
+func SortColors(nums []int) {
+	if len(nums) == 0 || len(nums) == 1 {
+		return
+	}
+
+	i, j := 0, len(nums)-1
+
+	for p := i; p <= j; {
+		if nums[p] == 2 {
+			nums[p], nums[j] = nums[j], nums[p]
+			j--
+		}
+
+		if nums[p] == 0 {
+			nums[p], nums[i] = nums[i], nums[p]
+			i++
+			p++
+		} else if nums[p] == 1 {
+			p++
+		}
+	}
+}
+
+// no 128 列表排序
+
+// no 324 小大小大排序 集合一定有解 o(n) 或者o(1)
+// [1,1,1,1,4,5,6,7] => [1,4,1,5,1,6,1,7]
+func WiggleSort(nums []int) {
+	if len(nums) == 0 || len(nums) == 1 {
+		return
+	}
+	sort.Ints(nums)
+
+	j := len(nums) - 1
+	for i := 1; i < len(nums); i += 2 {
+		nums[i], nums[j] = nums[j], nums[i]
+		j--
 	}
 }
