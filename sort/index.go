@@ -194,8 +194,6 @@ func SortColors(nums []int) {
 	}
 }
 
-// no 128 列表排序
-
 // no 324 小大小大排序 集合一定有解 o(n) 或者o(1)
 // [1,1,1,1,4,5,6,7] => [1,4,1,5,1,6,1,7]
 func WiggleSort(nums []int) {
