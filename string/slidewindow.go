@@ -68,3 +68,50 @@ func MinWindow(s string, t string) string {
 
 	return s[winSet[1]:winSet[2]]
 }
+
+//MinSubArrayLen 求数组中和大于等于target的最小连续子数组长度
+// no 209
+// 2,3,1,2,4,3   7
+// 11 [1,2,3,4,5]
+func MinSubArrayLen(target int, nums []int) int {
+	if len(nums) == 0 {
+		return 0
+	}
+
+	i, j := 0, 0
+	curSum := 0
+	minWindow := 0
+	for j < len(nums) {
+		curSum += nums[j]
+		j++
+		if curSum < target {
+			continue
+		}
+
+		if minWindow == 0 || j-i < minWindow {
+			minWindow = j - i
+		}
+
+		for i < j {
+			curSum -= nums[i]
+			i++
+			if curSum < target {
+				break
+			} else {
+				if minWindow == 0 || j-i < minWindow {
+					minWindow = j - i
+				}
+			}
+		}
+	}
+
+	return minWindow
+}
+
+// 30
+// 239
+// 567
+// 632
+// 718
+// 1658
+// 2090
