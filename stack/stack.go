@@ -1,5 +1,7 @@
 package stack
 
+import "fmt"
+
 // LargestRectangleArea 求柱状表能够表示的最大面积
 // no 84
 //  heights = [2,1,5,6,2,3] 返回 2 * 5 = 10 在5和6的位置得到最大值
@@ -95,8 +97,86 @@ func Trap(height []int) int {
 }
 
 // 85
+// NextGreaterElement 暴力法
 // no 496
+func NextGreaterElement(nums1 []int, nums2 []int) []int {
+	for i, v := range nums1 {
+		foundV := false
+		j := 0
+		for ; j < len(nums2); j++ {
+			if nums2[j] == v {
+				foundV = true
+			}
+
+			if foundV && nums2[j] > v {
+				nums1[i] = nums2[j]
+				break
+			}
+		}
+
+		if j == len(nums2) {
+			nums1[i] = -1
+		}
+	}
+
+	return nums1
+}
+
+func NextGreaterElementStack(nums1 []int, nums2 []int) []int {
+
+	stack := make(Stack, 0)
+	nextMap := map[int]int{}
+
+	for i := 0; i < len(nums2); i++ {
+		for len(stack) != 0 && nums2[i] > stack.Top() {
+			nextMap[stack.Pop()] = nums2[i]
+		}
+		stack.Push(nums2[i])
+	}
+
+	fmt.Println(nextMap)
+
+	for i := 0; i < len(nums1); i++ {
+		if v, ok := nextMap[nums1[i]]; !ok {
+			nums1[i] = -1
+		} else {
+			nums1[i] = v
+		}
+	}
+
+	return nums1
+}
+
+// NextGreaterElementsWithCircle 同上，但是nums是可以从末尾跳到第一个继续遍历的
 // 503
+func NextGreaterElementsWithCircle(nums []int) []int {
+	target := make([]int, len(nums)*2)
+	copy(target, nums)
+	copy(target[len(nums):], nums)
+
+	stack := make(Stack, 0)
+	nextMap := map[int]int{}
+
+	for i := 0; i < len(target); i++ {
+		for len(stack) != 0 && target[i] > stack.Top() {
+			nextMap[stack.Pop()] = target[i]
+		}
+		if i < len(nums) {
+			stack.Push(target[i])
+		}
+	}
+
+	for i := 0; i < len(nums); i++ {
+		if v, ok := nextMap[nums[i]]; !ok {
+			nums[i] = -1
+		} else {
+			nums[i] = v
+		}
+	}
+
+	return nums
+}
+
 // 316
 // 402
 // no 739

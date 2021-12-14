@@ -585,3 +585,9 @@ func isLeap(year int) bool {
 func matrixScore(grid [][]int) int {
 
 }
+
+// NextGreaterElements 找打比n大的最小数，同时包含n中所有数字
+// 556
+func NextGreaterElements(n int) int {
+
+}
