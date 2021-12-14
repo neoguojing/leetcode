@@ -3,11 +3,27 @@ package stack
 // LargestRectangleArea 求柱状表能够表示的最大面积
 // no 84
 //  heights = [2,1,5,6,2,3] 返回 2 * 5 = 10 在5和6的位置得到最大值
-// 遇到比top大的，入栈，实际上是保存最大的右边比自己大的值
-//
-//
 func LargestRectangleArea(heights []int) int {
-	return 0
+
+	stack := make(Stack, 0)
+	heights = append(heights, 0)
+	maxArea := 0
+	for i := 0; i < len(heights); i++ {
+		for len(stack) != 0 && heights[i] < heights[stack.Top()] {
+			cur := stack.Pop()
+			width := i - 1 - stack.Top() //是i-1当前元素的右边界（因为小与当前元素），stack.Top()是左边界（栈递增，所以是top小于当前元素）
+			if len(stack) == 0 {         // 栈为空，则元素没有左边界或者 实际等价于左边界是-1  i-1-（-1），
+				width = i
+			}
+			area := width * heights[cur]
+			if area > maxArea {
+				maxArea = area
+			}
+		}
+
+		stack.Push(i)
+	}
+	return maxArea
 }
 
 // dp[i] 表示每个位置能拿到的最大值；dp[i] = right-left -1
@@ -48,6 +64,34 @@ func LargestRectangleAreaDP(heights []int) int {
 	}
 
 	return maxArea
+}
+
+// Trap
+// no 42 栈解法
+// [0,1,0,2,1,0,1,3,2,1,2,1]
+// 能够接住的最多的雨水
+// 需要找到当前柱子i,左右两边大于i对应值的最近的值
+// 遇到大的值出栈，所以是一个递减的栈
+// 左右接不了水，所以不考虑
+func Trap(height []int) int {
+	stack := make(Stack, 0)
+	total := 0
+	for i := 0; i < len(height); i++ {
+		for len(stack) != 0 && height[i] > height[stack.Top()] {
+			cur := stack.Pop()
+			if len(stack) == 0 {
+				break
+			}
+			smaller := height[i]
+			if height[i] > height[stack.Top()] {
+				smaller = height[stack.Top()]
+			}
+			total += (smaller - height[cur]) * (i - 1 - stack.Top())
+		}
+		stack.Push(i)
+	}
+
+	return total
 }
 
 // 85
