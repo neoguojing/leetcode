@@ -240,7 +240,33 @@ func fastNext(p string) []int {
 
 // no 91
 // 每个数字对应一个字母，给一串数字，问有几种解码方式。例如 226 可以有三种，2|2|6，22|6，2|26。
-// todo
+// 1->A  26->Z 12 -> AB,L
+// 问题：求解字符串有多少种组合组合方式
+// 字符串有
+func NumDecodings(s string) int {
+	if s == "" || s == "0" {
+		return 0
+	}
+
+	dp := make([]int, len(s)+1)
+	dp[0] = 1 // 0个字符，也只有一种编码方法
+	if s[0] == '0' {
+		dp[1] = 0
+	} else {
+		dp[1] = 1
+	}
+
+	for i := 2; i <= len(s); i++ {
+		if s[i-1] >= '1' && s[i-1] <= '9' {
+			dp[i] += dp[i-1]
+		}
+		if s[i-2] == '1' || (s[i-2] == '2' && s[i-1] < '7') {
+			dp[i] += dp[i-2]
+		}
+
+	}
+	return dp[len(s)]
+}
 
 // no 93
 // todo

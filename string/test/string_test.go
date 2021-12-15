@@ -37,3 +37,9 @@ func TestCountAndSay(t *testing.T) {
 	ret := string.CountAndSay(5)
 	t.Log(ret)
 }
+
+func TestNumDecodings(t *testing.T) {
+
+	ret := string.NumDecodings("")
+	t.Log(ret)
+}
