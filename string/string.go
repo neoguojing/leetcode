@@ -268,6 +268,18 @@ func NumDecodings(s string) int {
 	return dp[len(s)]
 }
 
+// NumDecodings2
+// no 639
+func NumDecodings2(s string) int {
+	return 0
+}
+
+// NumberOfCombinations
+// no 1977
+func NumberOfCombinations(num string) int {
+	return 0
+}
+
 // no 93
 // todo
 
