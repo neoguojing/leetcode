@@ -150,31 +150,24 @@ func NextGreaterElementStack(nums1 []int, nums2 []int) []int {
 // NextGreaterElementsWithCircle 同上，但是nums是可以从末尾跳到第一个继续遍历的
 // 503
 func NextGreaterElementsWithCircle(nums []int) []int {
-	target := make([]int, len(nums)*2)
-	copy(target, nums)
-	copy(target[len(nums):], nums)
+	if nums == nil {
+		return nums
+	}
 
 	stack := make(Stack, 0)
-	nextMap := map[int]int{}
-
-	for i := 0; i < len(target); i++ {
-		for len(stack) != 0 && target[i] > stack.Top() {
-			nextMap[stack.Pop()] = target[i]
-		}
-		if i < len(nums) {
-			stack.Push(target[i])
-		}
+	res := make([]int, len(nums))
+	for i := 0; i < len(res); i++ {
+		res[i] = -1
 	}
 
-	for i := 0; i < len(nums); i++ {
-		if v, ok := nextMap[nums[i]]; !ok {
-			nums[i] = -1
-		} else {
-			nums[i] = v
+	for i := 0; i < len(nums)*2; i++ {
+		for len(stack) != 0 && nums[stack.Top()] < nums[i%len(nums)] {
+			res[stack.Pop()] = nums[i%len(nums)]
 		}
+		stack.Push(i % len(nums))
 	}
 
-	return nums
+	return res
 }
 
 // 316
