@@ -552,5 +552,36 @@ func (this *BSTIterator) HasNext() bool {
 	return false
 }
 
-// 589
-// 590
+// BinaryLevelOrder 层序遍历
+// 102
+func BinaryLevelOrder(root *TreeNode) [][]int {
+	if root == nil {
+		return [][]int{}
+	}
+
+	q := utils.NewQueue()
+	q.Push(root)
+	ret := [][]int{}
+	for !q.Empty() {
+		row := []int{}
+		level := []*TreeNode{}
+		for !q.Empty() {
+			tmp := q.Pop().(*TreeNode)
+			row = append(row, tmp.Val.(int))
+			if tmp.Left != nil {
+				level = append(level, tmp.Left)
+			}
+
+			if tmp.Right != nil {
+				level = append(level, tmp.Right)
+			}
+
+		}
+		for _, v := range level {
+			q.Push(v)
+		}
+		ret = append(ret, row)
+	}
+
+	return ret
+}
