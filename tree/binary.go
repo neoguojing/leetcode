@@ -1,6 +1,7 @@
 package tree
 
 import (
+	"container/list"
 	"leetcode/utils"
 )
 
@@ -466,3 +467,90 @@ func rightSideView(root *TreeNode, level int, ret *[]int) {
 	rightSideView(root.Right, level+1, ret)
 	rightSideView(root.Left, level+1, ret)
 }
+
+// InorderTraversal 二叉树 中序遍历
+// 94
+func InorderTraversal(root *TreeNode) []int {
+	if root == nil {
+		return []int{}
+	}
+
+	ret := InorderTraversal(root.Left)
+	ret = append(ret, root.Val.(int))
+	ret = append(ret, InorderTraversal(root.Right)...)
+
+	return ret
+}
+
+// PreorderTraversal
+// 144
+func PreorderTraversal(root *TreeNode) []int {
+	if root == nil {
+		return []int{}
+	}
+
+	ret := []int{root.Val.(int)}
+	ret = append(ret, PreorderTraversal(root.Left)...)
+	ret = append(ret, PreorderTraversal(root.Right)...)
+
+	return ret
+}
+
+// PostorderTraversal
+// 145
+func PostorderTraversal(root *TreeNode) []int {
+	if root == nil {
+		return []int{}
+	}
+
+	ret := PostorderTraversal(root.Right)
+	ret = append(ret, PostorderTraversal(root.Left)...)
+	ret = append(ret, root.Val.(int))
+
+	return ret
+}
+
+// BSTIterator 实现树的迭代器，中序
+// 173
+type BSTIterator struct {
+	stack *list.List
+	cur   *TreeNode
+}
+
+func Constructor(root *TreeNode) BSTIterator {
+	iter := BSTIterator{
+		stack: list.New(),
+		cur:   root,
+	}
+	(&iter).pushLeft(root)
+
+	return iter
+}
+
+func (this *BSTIterator) pushLeft(node *TreeNode) {
+	for node != nil {
+		this.stack.PushBack(node)
+		node = node.Left
+	}
+
+	this.cur = this.stack.Back().Value.(*TreeNode)
+}
+
+func (this *BSTIterator) Next() int {
+	ret := this.cur.Val
+	this.cur = this.stack.Remove(this.stack.Back()).(*TreeNode)
+	this.cur = this.cur.Right
+	this.pushLeft(this.cur)
+	return ret.(int)
+}
+
+func (this *BSTIterator) HasNext() bool {
+	if this.cur != nil {
+		return true
+	}
+
+	return false
+}
+
+// 589
+// 590

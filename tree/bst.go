@@ -107,8 +107,8 @@ func generateBSTrees(start int, end int) []*TreeNode {
 // 解法二：递归：根节点取值任意，左节点取值范围为（-inf，根的值），同理
 func IsValidBST(root *TreeNode) bool {
 
-	min := math.MinInt64
-	max := math.MaxInt64
+	min := math.MinInt32
+	max := math.MaxInt32
 	return isValidBSTHelper(root, min, max)
 
 }
@@ -235,3 +235,13 @@ func sortedListToBST(head *list.ListNode, start, end int) *TreeNode {
 
 	return root
 }
+
+//
+// 501
+func findMode(root *TreeNode) []int {
+
+}
+
+// 230
+
+// 783
