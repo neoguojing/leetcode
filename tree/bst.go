@@ -239,7 +239,31 @@ func sortedListToBST(head *list.ListNode, start, end int) *TreeNode {
 // LowestCommonAncestorForBst 求p和q的最近的共同祖先节点，可以是p或q本身
 // 235
 func LowestCommonAncestorForBst(root, p, q *TreeNode) *TreeNode {
+	if (root.Val.(int) >= p.Val.(int) && root.Val.(int) <= q.Val.(int)) ||
+		(root.Val.(int) <= p.Val.(int) && root.Val.(int) >= q.Val.(int)) {
+		return root
+	}
 
+	if root.Val.(int) > p.Val.(int) && root.Val.(int) > q.Val.(int) {
+		root = LowestCommonAncestorForBst(root.Left, p, q)
+	} else {
+		root = LowestCommonAncestorForBst(root.Right, p, q)
+	}
+
+	return root
+}
+
+// 使用遍历
+func LowestCommonAncestorForBst2(root, p, q *TreeNode) *TreeNode {
+	for (root.Val.(int)-p.Val.(int))*(root.Val.(int)-q.Val.(int)) > 0 {
+		if root.Val.(int) > p.Val.(int) {
+			root = root.Left
+		} else {
+			root = root.Right
+		}
+	}
+
+	return root
 }
 
 //

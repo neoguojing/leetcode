@@ -695,6 +695,30 @@ func LowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
 	return uSet[p].Parent
 }
 
+func LowestCommonAncestorSimple(root, p, q *TreeNode) *TreeNode {
+	if root == nil || root == p || root == q {
+		return root
+	}
+
+	left := LowestCommonAncestorSimple(root.Left, p, q)
+	right := LowestCommonAncestorSimple(root.Right, p, q)
+
+	if left == nil && right == nil {
+		return nil
+	}
+
+	if left != nil && right != nil {
+		return root
+	}
+
+	if left == nil {
+		return right
+	}
+
+	return left
+}
+
+// 2096
 // 107
 
 //1022

@@ -11,7 +11,7 @@ func NumIslands(grid [][]int) int {
 	for i := range grid {
 		for j := range grid[i] {
 			//为1的值创建集合
-			if grid[i][j] == 1 {
+			if grid[i][j] == '1' {
 				elem := i*n + j
 				trees.NewElem(elem)
 				nums++
@@ -19,7 +19,7 @@ func NumIslands(grid [][]int) int {
 		}
 	}
 
-	for k, v := range trees.Set {
+	for k, v := range trees {
 		if v == nil {
 			continue
 		}
@@ -30,39 +30,42 @@ func NumIslands(grid [][]int) int {
 		j := elem % n
 
 		//左面的值为1，且不属于一个集合，则合并
-		if i*n+j-1 > 0 && trees.Set[i*n+j-1] != nil {
-			if v.Parent.Val != trees.Set[i*n+j-1].Parent.Val {
-				trees.Union(k.(int), trees.Set[i*n+j-1].Val)
+		if j-1 >= 0 && j-1 < n && trees[i*n+j-1] != nil {
+			if v.Parent.Val != trees[i*n+j-1].Parent.Val {
+				trees.Union(k.(int), trees[i*n+j-1].Val)
 				nums--
 			}
 
 		}
 		//上面的值为1
-		if (i-1)*n+j > 0 && trees.Set[(i-1)*n+j] != nil {
-			if v.Parent.Val != trees.Set[(i-1)*n+j].Parent.Val {
-				trees.Union(k.(int), trees.Set[(i-1)*n+j].Val)
+		if i-1 >= 0 && i-1 < m && trees[(i-1)*n+j] != nil {
+			if v.Parent.Val != trees[(i-1)*n+j].Parent.Val {
+				trees.Union(k.(int), trees[(i-1)*n+j].Val)
 				nums--
 			}
 		}
 		// 右面的值为1
-		if i*n+j+1 < m*n && trees.Set[i*n+j+1] != nil {
-			if v.Parent.Val != trees.Set[i*n+j+1].Parent.Val {
+		if j+1 >= 0 && j+1 < n && trees[i*n+j+1] != nil {
+			if v.Parent.Val != trees[i*n+j+1].Parent.Val {
 
-				trees.Union(k.(int), trees.Set[i*n+j+1].Val)
+				trees.Union(k.(int), trees[i*n+j+1].Val)
 				nums--
 			}
 		}
 		// 下面的只为1
-		if (i+1)*n+j < m*n && trees.Set[(i+1)*n+j] != nil {
-			if v.Parent.Val != trees.Set[(i+1)*n+j].Parent.Val {
+		if i+1 >= 0 && i+1 < m && trees[(i+1)*n+j] != nil {
+			if v.Parent.Val != trees[(i+1)*n+j].Parent.Val {
 
-				trees.Union(k.(int), trees.Set[(i+1)*n+j].Val)
+				trees.Union(k.(int), trees[(i+1)*n+j].Val)
 				nums--
 			}
 		}
 	}
-
-	return nums
+	set := map[int]int{}
+	for _, v := range trees {
+		set[v.Parent.Val] = 1
+	}
+	return len(set)
 }
 
 // Solve ...

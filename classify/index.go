@@ -1,15 +1,11 @@
 package classify
 
 // UnionFindSet ...
-type UnionFindSet struct {
-	Set map[interface{}]*UnionFind
-}
+type UnionFindSet map[interface{}]*UnionFind
 
 // MakeSet ...
-func MakeSet() *UnionFindSet {
-	return &UnionFindSet{
-		Set: make(map[interface{}]*UnionFind),
-	}
+func MakeSet() UnionFindSet {
+	return make(UnionFindSet)
 }
 
 // UnionFind ...
@@ -22,22 +18,22 @@ type UnionFind struct {
 
 //NewElem ...
 // 创建单元素集合
-func (s *UnionFindSet) NewElem(x int) *UnionFind {
+func (s UnionFindSet) NewElem(x int) *UnionFind {
 	ret := &UnionFind{
 		Val:  x,
 		Rank: 0,
 	}
 
 	ret.Parent = ret
-	s.Set[x] = ret
+	s[x] = ret
 
 	return ret
 }
 
 // Find ...
 // 确定元素属于哪一个子集。它可以被用来确定两个元素是否属于同一子集。
-func (s *UnionFindSet) Find(x int) *UnionFind {
-	elem := s.Set[x]
+func (s UnionFindSet) Find(x int) *UnionFind {
+	elem := s[x]
 	if elem == nil {
 		return nil
 	}
@@ -52,7 +48,7 @@ func (s *UnionFindSet) Find(x int) *UnionFind {
 
 // UnionByRank ...
 //将两个子集合并成同一个集合
-func (s *UnionFindSet) UnionByRank(x int, y int) *UnionFind {
+func (s UnionFindSet) UnionByRank(x int, y int) *UnionFind {
 	xRoot := s.Find(x)
 	yRoot := s.Find(y)
 
@@ -69,7 +65,7 @@ func (s *UnionFindSet) UnionByRank(x int, y int) *UnionFind {
 
 // Union ...
 // y->x
-func (s *UnionFindSet) Union(x int, y int) *UnionFind {
+func (s UnionFindSet) Union(x int, y int) *UnionFind {
 	xRoot := s.Find(x)
 	yRoot := s.Find(y)
 
