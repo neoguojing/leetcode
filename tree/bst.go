@@ -2,6 +2,7 @@ package tree
 
 import (
 	"leetcode/list"
+	"leetcode/utils"
 	"math"
 )
 
@@ -234,6 +235,74 @@ func sortedListToBST(head *list.ListNode, start, end int) *TreeNode {
 	root.Right = right
 
 	return root
+}
+
+// LowestCommonAncestor 求p和q的最近的共同祖先节点，可以是p或q本身
+// 235
+func LowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
+	if root == nil {
+		return nil
+	}
+	type Elem struct {
+		Parent *TreeNode
+		Level  int
+	}
+	uSet := map[*TreeNode]*Elem{}
+	queue := utils.NewQueue()
+	queue.Push(root)
+
+	qSize := queue.Len()
+	level := 0
+	uSet[root] = &Elem{
+		Parent: root,
+		Level:  level,
+	}
+	for !queue.Empty() {
+		for i := 0; i < qSize; i++ {
+			tmp := queue.Pop().(*TreeNode)
+
+			if tmp.Left != nil {
+				queue.Push(tmp.Left)
+				uSet[tmp.Left] = &Elem{
+					Parent: tmp,
+					Level:  level,
+				}
+			}
+
+			if tmp.Right != nil {
+				queue.Push(tmp.Right)
+				uSet[tmp.Right] = &Elem{
+					Parent: tmp,
+					Level:  level,
+				}
+			}
+		}
+		level++
+		if uSet[p] != nil && uSet[q] != nil {
+			break
+		}
+	}
+
+	for uSet[p].Parent != q && uSet[q].Parent != p && uSet[p].Parent != uSet[q].Parent {
+		if uSet[p].Level > uSet[q].Level {
+			uSet[p] = uSet[uSet[p].Parent]
+		} else if uSet[p].Level < uSet[q].Level {
+			uSet[q] = uSet[uSet[q].Parent]
+		} else {
+			uSet[p] = uSet[uSet[p].Parent]
+			uSet[q] = uSet[uSet[q].Parent]
+		}
+	}
+
+	if uSet[p].Parent == q {
+		return q
+	}
+
+	if uSet[q].Parent == p {
+		return p
+	}
+
+	return uSet[p].Parent
 }
 
 //

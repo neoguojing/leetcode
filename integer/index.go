@@ -591,3 +591,5 @@ func matrixScore(grid [][]int) int {
 func NextGreaterElements(n int) int {
 
 }
+
+// 967

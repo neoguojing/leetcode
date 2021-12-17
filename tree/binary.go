@@ -588,5 +588,48 @@ func BinaryLevelOrder(root *TreeNode) [][]int {
 
 // 993
 // 637
+// ZigzagLevelOrder z型遍历
 // 103
+func ZigzagLevelOrder(root *TreeNode) [][]int {
+	if root == nil {
+		return [][]int{}
+	}
+
+	q := utils.NewQueue()
+	q.Push(root)
+	ret := [][]int{}
+	zigzag := false
+	qSize := q.Len()
+	for !q.Empty() {
+		row := make([]int, qSize)
+		for i := 0; i < qSize; i++ {
+			tmp := q.Pop().(*TreeNode)
+			if !zigzag {
+				row[i] = tmp.Val.(int)
+			} else {
+				row[qSize-i-1] = tmp.Val.(int)
+			}
+
+			if tmp.Left != nil {
+				q.Push(tmp.Left)
+			}
+			if tmp.Right != nil {
+				q.Push(tmp.Right)
+			}
+		}
+
+		zigzag = !zigzag
+
+		ret = append(ret, row)
+
+	}
+
+	return ret
+}
+
 // 107
+
+//1022
+
+// 675
+// 778

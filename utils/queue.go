@@ -24,6 +24,15 @@ func (queue *Queue) Pop() interface{} {
 	return nil
 }
 
+func (queue *Queue) PopBack() interface{} {
+	e := queue.list.Back()
+	if e != nil {
+		queue.list.Remove(e)
+		return e.Value
+	}
+	return nil
+}
+
 func (queue *Queue) Peak() interface{} {
 	e := queue.list.Front()
 	if e != nil {
