@@ -625,6 +625,16 @@ func Generate(numRows int) [][]int {
 	return ret
 }
 
+// GetRow 获取杨辉三角某一行的值
+// 119
 func getRow(rowIndex int) []int {
-	return []int{}
+	ret := make([]int, rowIndex+1)
+
+	ret[0] = 1
+	for i := 1; i < rowIndex+1; i++ {
+		for j := i; j >= 1; j-- {
+			ret[j] += ret[j-1]
+		}
+	}
+	return ret
 }
