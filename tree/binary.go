@@ -294,13 +294,10 @@ func isSymmetric(left *TreeNode, right *TreeNode) bool {
 // 3,9,20,15,7
 // 9 3 15 20 7
 func BuildTree(preorder []int, inorder []int) *TreeNode {
-	if preorder == nil || inorder == nil {
-		return nil
-	}
-
 	if len(preorder) == 0 || len(inorder) == 0 {
 		return nil
 	}
+
 	root := &TreeNode{}
 	root.Val = preorder[0]
 	mid := 0
@@ -324,9 +321,6 @@ func BuildTree(preorder []int, inorder []int) *TreeNode {
 // 3,9,20,15,7
 // 9 3 15 20 7
 func BuildTreeByPost(inorder []int, postorder []int) *TreeNode {
-	if postorder == nil || inorder == nil {
-		return nil
-	}
 
 	if len(postorder) == 0 || len(inorder) == 0 {
 		return nil
