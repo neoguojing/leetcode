@@ -341,6 +341,12 @@ func BuildTreeByPost(inorder []int, postorder []int) *TreeNode {
 	return root
 }
 
+// ConstructFromPrePost
+// 889
+func ConstructFromPrePost(preorder []int, postorder []int) *TreeNode {
+	return nil
+}
+
 //Flatten ...
 // no 114
 // 题目其实就是将二叉树通过右指针，组成一个链表。

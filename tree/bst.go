@@ -236,6 +236,27 @@ func sortedListToBST(head *list.ListNode, start, end int) *TreeNode {
 	return root
 }
 
+func sortedListToBSTByFastSlow(head *list.ListNode, tail *list.ListNode) *TreeNode {
+	slow := head
+	fast := head
+
+	if head == tail {
+		return nil
+	}
+
+	for fast != tail && fast.Next != tail {
+		fast = fast.Next.Next
+		slow = slow.Next
+	}
+
+	root := &TreeNode{}
+	root.Val = slow.Val
+
+	root.Left = sortedListToBSTByFastSlow(head, slow)
+	root.Right = sortedListToBSTByFastSlow(slow.Next, tail)
+	return root
+}
+
 // LowestCommonAncestorForBst 求p和q的最近的共同祖先节点，可以是p或q本身
 // 235
 func LowestCommonAncestorForBst(root, p, q *TreeNode) *TreeNode {
@@ -275,3 +296,4 @@ func findMode(root *TreeNode) []int {
 // 230
 // 658
 // 783
+// 99
