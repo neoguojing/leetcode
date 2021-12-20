@@ -343,8 +343,23 @@ func BuildTreeByPost(inorder []int, postorder []int) *TreeNode {
 
 // ConstructFromPrePost
 // 889
+// preorder = [1,2,4,5,3,6,7], postorder = [4,5,2,6,7,3,1] Output: [1,2,3,4,5,6,7]
+var preIdx, postIdx = 0, 0
+
 func ConstructFromPrePost(preorder []int, postorder []int) *TreeNode {
-	return nil
+	root := &TreeNode{}
+	root.Val = preorder[preIdx]
+	preIdx++
+	if root.Val != postorder[postIdx] {
+		root.Left = ConstructFromPrePost(preorder, postorder)
+	}
+
+	if root.Val != postorder[postIdx] {
+		root.Right = ConstructFromPrePost(preorder, postorder)
+	}
+
+	postIdx++
+	return root
 }
 
 //Flatten ...
