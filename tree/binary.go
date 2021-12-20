@@ -733,6 +733,15 @@ func LowestCommonAncestorSimple(root, p, q *TreeNode) *TreeNode {
 	return left
 }
 
+// MaxPathSum二叉树中的权重最长的路径 路径不一定经过根
+// 124
+func MaxPathSum(root *TreeNode) int {
+	if root == nil {
+		return 0
+	}
+
+}
+
 // 2096
 // 107
 

@@ -583,13 +583,48 @@ func isLeap(year int) bool {
 // MatrixScore
 // no 861
 func matrixScore(grid [][]int) int {
-
+	return 0
 }
 
 // NextGreaterElements 找打比n大的最小数，同时包含n中所有数字
 // 556
 func NextGreaterElements(n int) int {
-
+	return 0
 }
 
 // 967
+
+// Generate
+// 118
+// 杨辉三角
+func Generate(numRows int) [][]int {
+	if numRows == 0 {
+		return [][]int{}
+	}
+	if numRows == 1 {
+		return [][]int{[]int{1}}
+	}
+
+	if numRows == 2 {
+		return [][]int{[]int{1}, []int{1, 1}}
+	}
+	ret := [][]int{[]int{1}, []int{1, 1}}
+
+	for i := 3; i <= numRows; i++ {
+		row := []int{1}
+		for j := 0; j < i-2; j++ {
+			tmp := ret[i-2][j] + ret[i-2][j+1]
+			fmt.Println(tmp)
+			row = append(row, tmp)
+		}
+		row = append(row, 1)
+		fmt.Println(row)
+		ret = append(ret, row)
+	}
+
+	return ret
+}
+
+func getRow(rowIndex int) []int {
+
+}

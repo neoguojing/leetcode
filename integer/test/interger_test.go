@@ -24,3 +24,7 @@ func TestMinimumPerimeter(t *testing.T) {
 	t.Log(integer.MinimumPerimeter(1000000000))
 	t.Log(integer.DayOfTheWeek(1, 1, 1971))
 }
+
+func TestGenerate(t *testing.T) {
+	t.Log(integer.Generate(5))
+}
