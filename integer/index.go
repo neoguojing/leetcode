@@ -626,5 +626,5 @@ func Generate(numRows int) [][]int {
 }
 
 func getRow(rowIndex int) []int {
-
+	return []int{}
 }
