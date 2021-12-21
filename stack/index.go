@@ -1,9 +1,6 @@
 package stack
 
-import (
-	"container/list"
-	"math"
-)
+import "math"
 
 type Stack []int
 
@@ -29,40 +26,34 @@ func (s *Stack) Top() int {
 }
 
 type MinStack struct {
-	min  int
-	list *list.List
+	head *Element
+}
+
+type Element struct {
+	Val  int
+	Min  int
+	Next *Element
 }
 
 func Constructor() MinStack {
-	return MinStack{
-		list: list.New(),
-		min:  math.MaxInt64,
-	}
+	return MinStack{}
 }
 
 func (this *MinStack) Push(val int) {
-	if val < this.min {
-		this.min = val
+	if this.head != nil {
+		this.head = &Element{Val: val, Min: int(math.Min(float64(val), float64(this.head.Min))), Next: this.head}
+	} else {
+		this.head = &Element{Val: val, Min: val, Next: nil}
 	}
-	this.list.PushBack(val)
 }
-
 func (this *MinStack) Pop() {
-	e := this.list.Back()
-	if e != nil {
-		this.list.Remove(e)
-	}
+	this.head = this.head.Next
 }
 
 func (this *MinStack) Top() int {
-	e := this.list.Back()
-	if e != nil {
-		return -1
-	}
-
-	return e.Value.(int)
+	return this.head.Val
 }
 
 func (this *MinStack) GetMin() int {
-	return this.min
+	return this.head.Min
 }
