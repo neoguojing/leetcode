@@ -157,3 +157,10 @@ func CanReach(s string, minJump int, maxJump int) bool {
 
 	return i == len(s)-1
 }
+
+// ScheduleCourse 课程调度，求能够上的最多课程
+// 630 [课程持续时间，课程截止时间]
+// courses = [[100,200],[200,1300],[1000,1250],[2000,3200]]
+func ScheduleCourse(courses [][]int) int {
+	return 0
+}
