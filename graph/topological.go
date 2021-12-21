@@ -29,10 +29,10 @@ func CanFinish(numCourses int, prerequisites [][]int) bool {
 
 	for !q.Empty() {
 		point := q.Pop()
+		cnt++
 		for _, edge := range prerequisites {
 			if edge[1] == point {
 				ins[edge[0]]--
-				cnt++
 				if ins[edge[0]] == 0 {
 					q.Push(edge[0])
 				}
@@ -42,3 +42,55 @@ func CanFinish(numCourses int, prerequisites [][]int) bool {
 
 	return cnt == numCourses
 }
+
+// FindOrder 排序
+// 210
+func FindOrder(numCourses int, prerequisites [][]int) []int {
+	ret := []int{}
+	if len(prerequisites) == 0 {
+		for i := 0; i < numCourses; i++ {
+			ret = append(ret, i)
+		}
+		return ret
+	}
+
+	ins := make([]int, numCourses)
+
+	for _, edge := range prerequisites {
+		ins[edge[0]]++
+	}
+
+	q := utils.NewQueue()
+	cnt := 0
+	for i, in := range ins {
+		if in == 0 {
+			q.Push(i)
+		}
+	}
+
+	if q.Empty() {
+		return ret
+	}
+
+	for !q.Empty() {
+		point := q.Pop()
+		cnt++
+		ret = append(ret, point.(int))
+		for _, edge := range prerequisites {
+			if edge[1] == point {
+				ins[edge[0]]--
+				if ins[edge[0]] == 0 {
+					q.Push(edge[0])
+				}
+			}
+		}
+	}
+
+	if cnt != numCourses {
+		return []int{}
+	}
+	return ret
+}
+
+// 630
+// 310
