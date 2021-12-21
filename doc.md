@@ -503,8 +503,78 @@ for i := 0; i < n-1; i++ {
             dist(i,j) = dist(i,k) + dist(k,j)
  ```
 ### 拓扑排序 适用于DAG 有向无环图
-- Kahn算法：优先将入度为0的节点从图上删除，排列，直到所有节点均排列完成；需要所有点的入度和一个队列；可通过已经访问的节点数是否大于总节点数来判断是否有环
-- DFS算法
+- Kahn算法：优先将入度为0的节点从图上删除，排列，直到所有节点均排列完成；需要所有点的入度和一个队列；每次出对计数一次；若最终计数不等于总的节点数，则有环
+```
+q := NewQueue()
+cnt := 0
+//入度为0，入队
+for i, in := range ins {
+	if in == 0 {
+		q.Push(i)
+	}
+}
+<!-- 没有则有环 -->
+if q.Empty() {
+	return ret
+}
+
+for !q.Empty() {
+	point := q.Pop()
+	//cnt，统计访问次数
+	cnt++
+	ret = append(ret, point.(int))
+	for _, edge := range prerequisites {
+		if edge[1] == point {
+			ins[edge[0]]--
+			if ins[edge[0]] == 0 {
+				q.Push(edge[0])
+			}
+		}
+	}
+}
+<!-- 节点数和访问次数不相等，有环  -->
+if cnt != numCourses {
+	return []int{}
+}
+return ret
+```
+- DFS算法： 优先访问出度为0的节点
+- > 1.建立数据的邻接表；2.建立已访问节点集合；3.遍历所有节点，调用dfs；4.dfs优先判断节点状态：0未访问，1 正在访问（该状态有环，直接返回false），2该节点的所有边都被访问（返回true）；5.dfs中遍历该节点的所有边，递归调用dfs；6.dfs中设置节点状态为2，并将当前节点放入结果集；7.结果集的逆向为顺序
+```
+主函数
+res := []int{}
+for i := 0; i < Vnum; i++ {
+	if !dfs(graph, visited, i, &res) {
+		return []int{}
+	}
+}
+result := make([]int, 0)
+for i := numCourses - 1; i >= 0; i-- {
+	result = append(result, res[i])
+}
+	
+dfs
+func dfs(graph, visited []int, cur int, res *[]int) bool {
+	if visited[cur] == 1 {
+		return false
+	} else if visited[cur] == 2 {
+		return true
+	} else {
+		visited[cur] = 1
+	}
+
+	for i := 0; i < len(graph[cur]); i++ {
+		if !dfs(graph, visited, graph[cur][i], res) {
+			return false
+		}
+	}
+
+	*res = append(*res, course)
+	visited[cur] = 2
+	return true
+}
+```
+- no 207 210
 ## 链表
 > 修改链表结构，需要保存prev指针
 ### 快慢指针
