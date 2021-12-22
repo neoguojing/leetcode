@@ -1,6 +1,8 @@
 package utils
 
-import "container/list"
+import (
+	"container/list"
+)
 
 type Queue struct {
 	list *list.List
@@ -48,4 +50,26 @@ func (queue *Queue) Len() int {
 
 func (queue *Queue) Empty() bool {
 	return queue.list.Len() == 0
+}
+
+type PriorityQueue []int
+
+func (pq PriorityQueue) Len() int { return len(pq) }
+func (pq PriorityQueue) Less(i, j int) bool {
+	// We want Pop to give us the highest, not lowest, priority so we use greater than here.
+	return i > j
+}
+func (pq PriorityQueue) Swap(i, j int) {
+	pq[i], pq[j] = pq[j], pq[i]
+}
+
+func (pq *PriorityQueue) Push(x interface{}) {
+	*pq = append(*pq, x.(int))
+}
+func (pq *PriorityQueue) Pop() interface{} {
+	old := *pq
+	n := len(old)
+	x := old[n-1]
+	*pq = old[0 : n-1]
+	return x
 }

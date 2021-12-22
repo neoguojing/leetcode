@@ -1,5 +1,11 @@
 package array
 
+import (
+	"container/heap"
+	"leetcode/utils"
+	"sort"
+)
+
 // CanJump ...
 // no 55
 //从数组的第 0 个位置开始跳，跳的距离小于等于数组上对应的数.判断是否能跳到最后一个位置
@@ -161,6 +167,51 @@ func CanReach(s string, minJump int, maxJump int) bool {
 // ScheduleCourse 课程调度，求能够上的最多课程
 // 630 [课程持续时间，课程截止时间]
 // courses = [[100,200],[200,1300],[1000,1250],[2000,3200]]
+// 课程不能上
 func ScheduleCourse(courses [][]int) int {
-	return 0
+	count, max := 0, 0
+	courseMap := map[int][]int{}
+	for i := range courses {
+		courseMap[i] = courses[i]
+	}
+	backward(courseMap, 0, count, &max)
+	return max
 }
+func backward(courseMap map[int][]int, timeline int, count int, max *int) {
+
+	for i, v := range courseMap {
+		if v[0]+timeline <= v[1] {
+			count++
+			tmp := courseMap[i]
+			delete(courseMap, i)
+			backward(courseMap, timeline+v[0], count, max)
+			courseMap[i] = tmp
+			count--
+		}
+	}
+
+	if count > *max {
+		*max = count
+	}
+}
+
+func ScheduleCourseGreedy(courses [][]int) int {
+	sort.Sort(Range(courses))
+	priQ := utils.PriorityQueue{}
+	heap.Init(&priQ)
+	timeline := 0
+	for i := range courses {
+		timeline += courses[i][0]
+		priQ.Push(courses[i][0])
+		if timeline > courses[i][1] {
+			timeline -= priQ.Pop().(int)
+		}
+	}
+	return priQ.Len()
+}
+
+type Range [][]int
+
+func (a Range) Len() int           { return len(a) }
+func (a Range) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+func (a Range) Less(i, j int) bool { return a[i][1] < a[j][1] }
