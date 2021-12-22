@@ -133,3 +133,38 @@ func ShortestPalindrome(s string) string {
 	}
 	return ""
 }
+
+// IsPalindrome
+// 125
+func IsPalindrome(s string) bool {
+	i, j := 0, len(s)-1
+
+	for i < j {
+		if s[i] < '0' || (s[i] < 'A' && s[i] > '9') || (s[i] > 'Z' && s[i] < 'a') || s[i] > 'z' {
+			i++
+			continue
+		}
+
+		if s[j] < '0' || (s[j] < 'A' && s[j] > '9') || (s[j] > 'Z' && s[j] < 'a') || s[j] > 'z' {
+			j--
+			continue
+		}
+
+		a := s[i]
+		if a < 'a' {
+			a = s[i] + ('a' - 'A')
+		}
+		b := s[j]
+		if b < 'a' {
+			b = s[j] + ('a' - 'A')
+		}
+
+		if a != b {
+			return false
+		}
+		i++
+		j--
+	}
+
+	return true
+}
