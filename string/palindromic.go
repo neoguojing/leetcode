@@ -214,9 +214,10 @@ func Partition(s string) [][]string {
 func backward(idx int, s string, one []string, ret *[][]string) {
 	if idx >= len(s) {
 		*ret = append(*ret, one)
+		return
 	}
 
-	for i := range s[idx:] {
+	for i := idx; i < len(s); i++ {
 		if isPalindrome(s, 0, i) {
 			one = append(one, s[0:i])
 			backward(i+1, s, one, ret)
