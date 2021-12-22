@@ -168,3 +168,35 @@ func IsPalindrome(s string) bool {
 
 	return true
 }
+
+// ValidPalindrome 去掉最多一个字符能否构成回文
+// 680
+// abca
+// aguokepatgbnvfqmg m l cupuufxoohdfpgjdmysgvhmvffcnqxjjxqncffvmhvgsymdjgpfdhooxfuupucu l m gmqfvnbgtapekouga
+func ValidPalindrome(s string) bool {
+	i, j := 0, len(s)-1
+
+	for i < j {
+		if s[i] == s[j] {
+			i++
+			j--
+		} else {
+			return isPalindrome(s, i+1, j) || isPalindrome(s, i, j-1)
+		}
+	}
+
+	return true
+}
+
+func isPalindrome(s string, l, r int) bool {
+
+	for l < r {
+		if s[l] != s[r] {
+			return false
+		}
+		l++
+		r--
+	}
+
+	return true
+}
