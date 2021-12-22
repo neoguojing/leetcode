@@ -200,3 +200,27 @@ func isPalindrome(s string, l, r int) bool {
 
 	return true
 }
+
+//Partition 将字符串分组，使得所有的分组都是回文，返回所有可能
+// 131
+// 回溯 + dp
+func Partition(s string) [][]string {
+
+	ret := [][]string{}
+	backward(0, s, []string{}, &ret)
+	return ret
+}
+
+func backward(idx int, s string, one []string, ret *[][]string) {
+	if idx >= len(s) {
+		*ret = append(*ret, one)
+	}
+
+	for i := range s[idx:] {
+		if isPalindrome(s, 0, i) {
+			one = append(one, s[0:i])
+			backward(i+1, s, one, ret)
+			one = one[:len(one)-1]
+		}
+	}
+}
