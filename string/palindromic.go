@@ -259,6 +259,34 @@ func backwardWithDP(start int, s string, one []string, ret *[][]string, dp *[][]
 // MinCut
 // 132 求将字符串切为回文需要的最少切割
 // 回溯算法超时，使用dp
+// cut[i] 存储0-i的最小切割次数
+// 若i->j 是回文，则切割次数为0
+//
+func MinCutDP(s string) int {
+	dp := make([][]bool, len(s))
+	for i := 0; i < len(s); i++ {
+		dp[i] = make([]bool, len(s))
+	}
+	cut := make([]int, len(s))
+	for j := 0; j < len(s); j++ {
+		min := j
+		for i := 0; i <= j; i++ {
+			if s[i] == s[j] && (j-i <= 2 || dp[i+1][j-1]) {
+				dp[i][j] = true
+				if i == 0 {
+					min = 0
+				} else {
+					if cut[i-1]+1 < min {
+						min = cut[i-1] + 1
+					}
+				}
+			}
+		}
+		cut[j] = min
+	}
+
+	return cut[len(s)-1]
+}
 func MinCut(s string) int {
 	min := math.MaxInt32
 	dp := make([][]bool, len(s))
