@@ -51,3 +51,47 @@ func MinDistance(word1 string, word2 string) int {
 
 	return dp[m][n]
 }
+
+// LadderLength word ladder 即有一个字符不一样的单词，从beginword开始，从wordList选仅一个字符不一样的word，直到endWord命中
+// 127
+// BFS + editdistance
+func LadderLength(beginWord string, endWord string, wordList []string) int {
+	wordMap := map[string]bool{}
+	for _, v := range wordList {
+		wordMap[v] = false
+	}
+
+	if _, ok := wordMap[endWord]; !ok {
+		return 0
+	}
+
+	q := utils.NewQueue()
+	q.Push(beginWord)
+	count := 1
+	for !q.Empty() {
+		qsize := q.Len()
+		for i := 0; i < qsize; i++ {
+			p := q.Pop().(string)
+			if p == endWord {
+				return count
+			}
+
+			for i := 0; i < len(p); i++ {
+				strByte := []byte(p)
+				for k := 0; k < 26; k++ {
+					strByte[i] = byte('a' + k)
+					newStr := string(strByte)
+					if _, ok := wordMap[newStr]; ok {
+						delete(wordMap, newStr)
+						q.Push(newStr)
+					}
+				}
+
+			}
+		}
+
+		count++
+	}
+
+	return 0
+}
