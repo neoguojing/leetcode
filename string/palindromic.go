@@ -1,6 +1,9 @@
 package string
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
 //LongestPalindrome ...
 // no 5
@@ -249,6 +252,34 @@ func backwardWithDP(start int, s string, one []string, ret *[][]string, dp *[][]
 			one = append(one, s[start:i+1])
 			backwardWithDP(i+1, s, one, ret, dp)
 			one = one[:len(one)-1]
+		}
+	}
+}
+
+func minCut(s string) int {
+	min := math.MaxInt32
+	dp := make([][]bool, len(s))
+	for i := 0; i < len(s); i++ {
+		dp[i] = make([]bool, len(s))
+	}
+	backwardDPForMin(0, 0, s, &min, &dp)
+	return min
+}
+
+func backwardDPForMin(start int, curCount int, s string, min *int, dp *[][]bool) {
+
+	if start >= len(s) {
+		if curCount < *min {
+			*min = curCount
+		}
+	}
+
+	for i := start; i < len(s); i++ {
+		if s[start] == s[i] && (i-start <= 2 || (*dp)[start+1][i-1]) {
+			(*dp)[start][i] = true
+			curCount++
+			backwardDPForMin(i+1, curCount, s, min, dp)
+			curCount--
 		}
 	}
 }
