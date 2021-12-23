@@ -95,3 +95,75 @@ func LadderLength(beginWord string, endWord string, wordList []string) int {
 
 	return 0
 }
+
+func findiff1(a string, words map[string]bool) []string {
+	ret := []string{}
+	for i := 0; i < len(a); i++ {
+		strByte := []byte(a)
+		for k := 0; k < 26; k++ {
+			strByte[i] = byte('a' + k)
+			newStr := string(strByte)
+			if _, ok := words[newStr]; ok {
+				ret = append(ret, newStr)
+			}
+		}
+	}
+
+	return ret
+}
+
+// FindLadders 同上，本题要求返回，所有的最短路径
+// 126
+func FindLadders(beginWord string, endWord string, wordList []string) [][]string {
+	wordMap := map[string]bool{}
+	for _, v := range wordList {
+		wordMap[v] = false
+	}
+
+	ret := [][]string{}
+	min := len(wordList)
+	ladderHelper(1, &min, wordMap, beginWord, endWord, []string{beginWord}, &ret)
+	return ret
+}
+
+func ladderHelper(level int, min *int, words map[string]bool, beginWord, endWord string, cur []string, ret *[][]string) {
+
+	if beginWord == endWord {
+		if *min > level {
+			*min = level
+			*ret = [][]string{}
+			tmp := make([]string, len(cur))
+			copy(tmp, cur)
+			*ret = append(*ret, tmp)
+		} else if level == *min {
+			tmp := make([]string, len(cur))
+			copy(tmp, cur)
+			*ret = append(*ret, tmp)
+		} else {
+
+		}
+		return
+	}
+
+	nerbs := findiff1(beginWord, words)
+	if len(nerbs) == 0 {
+		*min = 0
+		*ret = [][]string{}
+		return
+	}
+
+	for _, nerb := range nerbs {
+		if !words[nerb] && level < *min {
+			level++
+			words[nerb] = true
+			cur = append(cur, nerb)
+			ladderHelper(level, min, words, nerb, endWord, cur, ret)
+			cur = cur[:len(cur)-1]
+			words[nerb] = false
+			level--
+		}
+
+	}
+}
+
+// 433
