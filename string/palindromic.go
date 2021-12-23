@@ -207,20 +207,47 @@ func isPalindrome(s string, l, r int) bool {
 func Partition(s string) [][]string {
 
 	ret := [][]string{}
-	backward(0, s, []string{}, &ret)
+	// mem := map[string]bool{}
+	// backward(0, s, []string{}, &ret, &mem)
+	dp := make([][]bool, len(s))
+	for i := 0; i < len(s); i++ {
+		dp[i] = make([]bool, len(s))
+	}
+	backwardWithDP(0, s, []string{}, &ret, &dp)
 	return ret
 }
 
-func backward(idx int, s string, one []string, ret *[][]string) {
-	if idx >= len(s) {
-		*ret = append(*ret, one)
+func backward(start int, s string, one []string, ret *[][]string, mem *map[string]bool) {
+	if start >= len(s) {
+		tmp := make([]string, len(one))
+		copy(tmp, one)
+		*ret = append(*ret, tmp)
 		return
 	}
 
-	for i := idx; i < len(s); i++ {
-		if isPalindrome(s, 0, i) {
-			one = append(one, s[0:i])
-			backward(i+1, s, one, ret)
+	for i := start; i < len(s); i++ {
+		if _, ok := (*mem)[s[start:i+1]]; ok || isPalindrome(s, start, i) {
+			(*mem)[s[start:i+1]] = true
+			one = append(one, s[start:i+1])
+			backward(i+1, s, one, ret, mem)
+			one = one[:len(one)-1]
+		}
+	}
+}
+
+func backwardWithDP(start int, s string, one []string, ret *[][]string, dp *[][]bool) {
+	if start >= len(s) {
+		tmp := make([]string, len(one))
+		copy(tmp, one)
+		*ret = append(*ret, tmp)
+		return
+	}
+
+	for i := start; i < len(s); i++ {
+		if s[start] == s[i] && (i-start <= 2 || (*dp)[start+1][i-1]) {
+			(*dp)[start][i] = true
+			one = append(one, s[start:i+1])
+			backwardWithDP(i+1, s, one, ret, dp)
 			one = one[:len(one)-1]
 		}
 	}
