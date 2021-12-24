@@ -87,3 +87,44 @@ func SortedSquares(nums []int) []int {
 
 	return ret
 }
+
+// Intersect 求两个数组的交集
+// 350
+func Intersect(nums1 []int, nums2 []int) []int {
+	a, b := len(nums1), len(nums2)
+	num1Map := map[int]int{}
+	for i := range nums1 {
+		num1Map[nums1[i]]++
+	}
+	num2Map := map[int]int{}
+	for i := range nums2 {
+		num2Map[nums2[i]]++
+
+	}
+
+	ret := []int{}
+	if a <= b {
+		for _, k := range nums1 {
+			if _, ok := num2Map[k]; ok {
+				ret = append(ret, k)
+				num2Map[k]--
+				if num2Map[k] == 0 {
+					delete(num2Map, k)
+				}
+
+			}
+		}
+	} else if a > b {
+		for _, k := range nums2 {
+			if _, ok := num1Map[k]; ok {
+				ret = append(ret, k)
+				num1Map[k]--
+				if num1Map[k] == 0 {
+					delete(num1Map, k)
+				}
+			}
+		}
+	}
+
+	return ret
+}

@@ -94,11 +94,21 @@ func ContainsDuplicate(nums []int) bool {
 func MoveZeroes(nums []int) {
 	start := 0
 	for i := 0; i < len(nums); i++ {
-		for ; nums[start] != 0; start++ {
+		for ; start < len(nums) && nums[start] != 0; start++ {
 		}
 
 		if nums[i] != 0 && start < i {
 			nums[start], nums[i] = nums[i], nums[start]
+		}
+	}
+}
+
+func MoveZeroes2(nums []int) {
+	start := 0
+	for i := 0; i < len(nums); i++ {
+		if nums[i] != 0 {
+			nums[start], nums[i] = nums[i], nums[start]
+			start++
 		}
 	}
 }

@@ -635,6 +635,24 @@ func getRow(rowIndex int) []int {
 		for j := i; j >= 1; j-- {
 			ret[j] += ret[j-1]
 		}
+		fmt.Println(ret)
 	}
 	return ret
+}
+
+// IsPowerOfThree 判断n是不是3的k次方
+// 326
+func IsPowerOfThree(n int) bool {
+	if n == 0 {
+		return false
+	}
+
+	if n == 1 {
+		return true
+	}
+	for n%3 == 0 {
+		n = n / 3
+	}
+
+	return n%3 == 0
 }

@@ -393,3 +393,20 @@ func TitleToNumber2(columnTitle string) int {
 
 	return ret
 }
+
+// FirstUniqChar 找到第一个唯一的字符，返回索引
+// 387
+func FirstUniqChar(s string) int {
+	set := make(map[byte]int)
+	for i := range s {
+		set[s[i]]++
+	}
+
+	for i := range s {
+		if set[s[i]] == 1 {
+			return i
+		}
+	}
+
+	return -1
+}
