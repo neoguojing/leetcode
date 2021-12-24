@@ -2,6 +2,7 @@ package string
 
 import (
 	"fmt"
+	"math"
 	"sort"
 	"strconv"
 )
@@ -370,4 +371,25 @@ func IsAnagram(s string, t string) bool {
 	}
 
 	return s1 == t1
+}
+
+// TitleToNumber 返回字母所代表的列数
+// 171
+func TitleToNumber(columnTitle string) int {
+	ret := 0
+	for i := len(columnTitle) - 1; i >= 0; i-- {
+		ret += (int(columnTitle[i]-'A') + 1) * int(math.Pow(26, float64(len(columnTitle)-i-1)))
+	}
+
+	return ret
+}
+
+func TitleToNumber2(columnTitle string) int {
+	ret := 0
+	for i := 0; i < len(columnTitle); i++ {
+		ret *= 26
+		ret += int(columnTitle[i]-'A') + 1
+	}
+
+	return ret
 }
