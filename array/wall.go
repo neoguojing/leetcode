@@ -87,3 +87,31 @@ func ProductExceptSelf(nums []int) []int {
 
 	return ret
 }
+
+// MaxProduct 返回连续子串的最大乘积
+// 152
+func MaxProduct(nums []int) int {
+	max := nums[0]
+	target := nums[0]
+	i, j := 0, 1
+
+	for j < len(nums) {
+		target = target * nums[j]
+		if target > max {
+			j++
+			max = target
+			continue
+		}
+
+		for i < j {
+			target /= nums[i]
+			i++
+			if target > max {
+				max = target
+				break
+			}
+		}
+	}
+
+	return max
+}
