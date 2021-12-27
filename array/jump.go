@@ -215,3 +215,58 @@ type Range [][]int
 func (a Range) Len() int           { return len(a) }
 func (a Range) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
 func (a Range) Less(i, j int) bool { return a[i][1] < a[j][1] }
+
+//CanCompleteCircuit gas存的时每个加油站的油量；cost存的是从i->i+1需要消耗的油量；路是环路；问能不能环绕一圈,返回起点
+// no 134
+// 暴力法：超时
+func CanCompleteCircuit(gas []int, cost []int) int {
+	sub := make(map[int]int, len(gas))
+
+	for i := 0; i < len(gas); i++ {
+		if gas[i]-cost[i] >= 0 {
+			sub[i] = gas[i] - cost[i]
+		}
+
+	}
+
+	ret := -1
+	n := len(gas)
+	for i, _ := range sub {
+		start := (i + 1) % n
+		tank := gas[i] - cost[i]
+		for ; start%n != i && tank >= 0; start = (start + 1) % n {
+			tank += gas[start] - cost[start]
+		}
+		if start == i && tank >= 0 {
+			ret = i
+			break
+		}
+	}
+
+	return ret
+}
+
+// 贪心算法
+func CanCompleteCircuit2(gas []int, cost []int) int {
+	total := 0
+
+	for i := range gas {
+		total += gas[i] - cost[i]
+	}
+
+	if total < 0 {
+		return -1
+	}
+
+	tank := 0
+	start := 0
+	for i := range gas {
+		tank += gas[i] - cost[i]
+		if tank < 0 {
+			start = i + 1
+			tank = 0
+		}
+	}
+
+	return start
+}

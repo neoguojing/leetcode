@@ -1,6 +1,7 @@
 package classify
 
 import (
+	"fmt"
 	"math"
 )
 
@@ -180,4 +181,33 @@ func find(x int, setMap map[int]int) int {
 	}
 
 	return setMap[x]
+}
+
+func LongestConsecutive2(nums []int) int {
+	if len(nums) == 0 {
+		return 0
+	}
+	setMap := make(map[int]int)
+	for i := 0; i < len(nums); i++ {
+		setMap[nums[i]] = nums[i]
+	}
+	logest := 0
+	fmt.Println(setMap)
+	for _, v := range setMap {
+		if _, ok := setMap[v-1]; !ok {
+			fmt.Println(v)
+			curNum := v
+			curLen := 1
+
+			for _, ok := setMap[curNum+1]; ok; curNum += 1 {
+				curLen += 1
+			}
+
+			if curLen > logest {
+				logest = curLen
+			}
+		}
+	}
+
+	return logest
 }
