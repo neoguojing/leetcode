@@ -381,6 +381,9 @@ func backword(cond1,cond2,oneResult,*allResult){
 - no 63 同62,格子中加了障碍，遇到障碍，则dp[i][j] = 0
 - no 64 同62，求所有路径中的最小路径：dp[i][j] 表示最小路径长度 ：dp[i][j] = min(dp[i][j-1],dp[i-1][j])+grid[i][j]
 - no 70 爬梯子，一步或两步，求总共有多少趴法：dp[0] = 0, dp[1] = 1 dp[2] = 2; dp[i]表示到i的爬法有多少种：到达i，要么爬两阶，要么爬1阶，则dp[i] = dp[i-1][i+1]
+- no 139 s是否能够完全分裂为wordDict中的单词；s不能有剩余的非dict单词:
+- > 动态规划：dp[i] = dp[j] && set[s[j:i]];初始dp[0] = 0
+- > 递归
 ### 回文
 - 5 最大回文子串 ：必要条件：(s[start] == s[end] && (end - start <= 2 || dp[start + 1][end - 1])
 - > 子问题：dp[i][j]是回文需要满足什么条件？0<=i<n,i<=j<n
