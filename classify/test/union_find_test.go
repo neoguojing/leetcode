@@ -26,3 +26,12 @@ func TestSolve(t *testing.T) {
 	ret := classify.Solve(grid)
 	t.Log(ret)
 }
+
+func TestLongestConsecutive(t *testing.T) {
+	grid := []int{9, 1, 4, 7, 3, -1, 0, 5, 8, -1, 6}
+	ret := classify.LongestConsecutive(grid)
+	t.Log(ret)
+	grid = []int{0, 3, 7, 2, 5, 8, 4, 6, 0, 1}
+	ret = classify.LongestConsecutive(grid)
+	t.Log(ret)
+}

@@ -1,5 +1,9 @@
 package classify
 
+import (
+	"math"
+)
+
 // NumIslands ...
 //  no 200
 // 一个二维数组，把 1 看做陆地，把 0 看做大海，陆地相连组成一个岛屿。把数组以外的区域也看做是大海，问总共有多少个岛屿
@@ -130,4 +134,50 @@ func Solve(board [][]string) [][]string {
 	}
 
 	return board
+}
+
+//LongestConsecutive 要求o(n)
+// 128 最长连续子序列
+func LongestConsecutive(nums []int) int {
+	if len(nums) == 0 {
+		return 0
+	}
+	setMap := make(map[int]int)
+	for i := 0; i < len(nums); i++ {
+		setMap[nums[i]] = nums[i]
+	}
+
+	for i := range nums {
+		_, ok1 := setMap[nums[i]-1]
+		if ok1 {
+			setMap[nums[i]] = nums[i] - 1
+		}
+	}
+
+	for i := range nums {
+		find(nums[i], setMap)
+	}
+
+	countMap := map[int]int{}
+	max := 0
+	for _, v := range setMap {
+		countMap[v]++
+		if countMap[v] > max {
+			max = countMap[v]
+		}
+	}
+
+	return max
+}
+
+func find(x int, setMap map[int]int) int {
+	parent, ok := setMap[x]
+	if !ok {
+		return math.MaxInt32
+	}
+	if parent != x {
+		setMap[x] = find(parent, setMap)
+	}
+
+	return setMap[x]
 }
