@@ -253,15 +253,44 @@ for i := 1; i < len(arr); i++ { //从1开始遍历元数据
 ### 二分查找：数组必须有序
 - 模式
 ```
+// 闭区间搜索
 初始值： left, right := 0, len(nums)-1
-循环条件： for left <= right
+循环条件： for left <= right  //表示是闭区间搜索[a,b]              
 中值： mid := left + (right-left)/2
-条件1 ： nums[mid] < target 则left = mid + 1
-条件2：nums[mid] > target 则right = mid - 1
+条件1 ： nums[mid] < target 则left = mid + 1                        
+条件2：nums[mid] > target 则right = mid - 1                         right = mid
 条件3：nums[mid] == target ： 寻找左值：则压迫右值right = mid - 1，寻找右值则压迫左值：left = mid + 1
-未找到左值：left >= len(nums) || nums[left] != target ；未找到右值：right < 0 || nums[right] != target
+结束条件：直接返回-1
+未找到左值：left >= len(nums) || nums[left] != target ；
+未找到右值：right < 0 || nums[right] != target
+//半开区间搜索
+初始值： left, right := 0, len(nums)
+循环条件：  for left < right  表示半开区间搜索[a,b)
+中值： mid := left + (right-left)/2
+条件1 ： nums[mid] < target 则left = mid + 1                        
+条件2：nums[mid] > target 则right = mid
+条件3：nums[mid] == target ： 寻找左值：则压迫右值right = mid，寻找右值则压迫左值：left = mid + 1
+结束条件： 需要判断nums[left] == target ? left;-1;
+未找到左值：if (left == nums.length) return -1; 
+未找到右值：if (left == 0) return -1; return nums[left-1] == target ? (left-1) : -1;
 ```
+	 
 - no 704 34 35
+- 162 找到一个峰值的索引，峰值比相邻元素大的值，要求o(logn)
+- > 寻找峰值有三种情况，1.递增序列，则最右值为结果；2.递减序列相反；3.序列存在多个峰值
+```
+l, r := 0, len(nums)-1
+for l < r { //采用小于，表面至少两个元素
+	mid := l + (r-l)/2
+	if nums[mid] > nums[mid+1] { //值和数组本身比较，则最少需要两个元素，否则会越界
+		r = mid
+	} else {
+		l = mid + 1
+	}
+
+}
+return l
+```
 #### 有序的旋转数组查找 o(logn)
 - 旋转数组特性： 
 - > 1.任意取中间值，则至少右一半的区间是递增区间
