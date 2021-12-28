@@ -90,28 +90,39 @@ func ProductExceptSelf(nums []int) []int {
 
 // MaxProduct 返回连续子串的最大乘积
 // 152
+// dp[i][j] = max(dp[i][j-1],dp[i+1][j],)
+// i == j dp[i][j] = num[i]
 func MaxProduct(nums []int) int {
-	max := nums[0]
-	target := nums[0]
-	i, j := 0, 1
-
-	for j < len(nums) {
-		target = target * nums[j]
-		if target > max {
-			j++
-			max = target
-			continue
+	curmax, curmin := 1, 1
+	ret := nums[0]
+	max := func(a, b, c int) int {
+		if a >= b && a >= c {
+			return a
 		}
-
-		for i < j {
-			target /= nums[i]
-			i++
-			if target > max {
-				max = target
-				break
-			}
+		if b >= a && b >= c {
+			return b
 		}
+		return c
 	}
 
-	return max
+	min := func(a, b, c int) int {
+		if a <= b && a <= c {
+			return a
+		}
+		if b <= a && b <= c {
+			return b
+		}
+		return c
+	}
+	for _, v := range nums {
+		a := curmax * v
+		b := curmin * v
+		curmax = max(v, a, b)
+		curmin = min(v, a, b)
+		if ret < curmax {
+			ret = curmax
+		}
+
+	}
+	return ret
 }

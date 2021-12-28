@@ -38,3 +38,10 @@ func Sqrt(x int64) int64 {
 
 	return -1
 }
+
+// FractionToDecimal numerator/denominator 返回字符串表示的小数，循环小数用括号包裹
+// 小数计算
+func FractionToDecimal(numerator int, denominator int) string {
+	ret := ""
+
+}
