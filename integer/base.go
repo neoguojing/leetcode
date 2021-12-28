@@ -1,6 +1,7 @@
 package integer
 
 import (
+	"fmt"
 	"math"
 )
 
@@ -44,4 +45,35 @@ func Sqrt(x int64) int64 {
 func FractionToDecimal(numerator int, denominator int) string {
 	ret := ""
 
+	for numerator >= denominator {
+		ret += fmt.Sprintf("%d", numerator/denominator)
+		numerator %= denominator
+	}
+
+	if numerator == 0 {
+		return ret
+	}
+
+	if len(ret) == 0 {
+		ret = "0."
+	}
+
+	set := map[int]bool{}
+	for {
+		for numerator < denominator {
+			numerator = numerator * 10
+			set[numerator] = true
+			ret += "0"
+		}
+		tmp := numerator / denominator
+		set[numerator] = true
+		ret += fmt.Sprintf("%d", tmp)
+		numerator = numerator % denominator
+		if numerator == 0 {
+			break
+		}
+
+	}
+
+	return ret
 }
