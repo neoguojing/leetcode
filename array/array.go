@@ -1,7 +1,9 @@
 package array
 
 import (
+	"container/heap"
 	"fmt"
+	"leetcode/utils"
 )
 
 /*RemoveDuplicates ...
@@ -690,4 +692,57 @@ func revese(nums []int, s, e int) {
 		s++
 		e--
 	}
+}
+
+// FindKthLargest 返回第K大的数，指的是排序之后的顺序
+// 215
+func FindKthLargest(nums []int, k int) int {
+	h := utils.Heap(nums)
+	heap.Init(&h)
+	ret := 0
+	for i := 0; i < k; i++ {
+		ret = heap.Pop(&h).(int)
+	}
+
+	return ret
+}
+
+// 快速选择算法
+func FindKthLargestQuick(nums []int, k int) int {
+	return QuickSelect(nums, 0, len(nums)-1, k)
+}
+
+func QuickSelect(arr []int, l, r, k int) int {
+	if l >= r {
+		return -1
+	}
+
+	priv := l + (r-l)/2
+	tmp := arr[priv]
+	arr[priv] = arr[l]
+	i, j := l, r
+	for i < j {
+
+		for arr[j] >= tmp {
+			j--
+		}
+		arr[i] = arr[j]
+
+		for arr[i] <= tmp {
+			i++
+		}
+
+		arr[j] = arr[i]
+	}
+	arr[i] = tmp
+
+	if len(arr)-i == k {
+		return arr[i]
+	} else if len(arr)-i > k {
+		QuickSelect(arr, i+1, r, k)
+	} else {
+		QuickSelect(arr, l, i-1, k-len(arr)-i)
+	}
+
+	return arr[len(arr)-k]
 }
