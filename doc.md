@@ -218,6 +218,8 @@ return x1
 - 128 求数组中的最长连续子序列，要求o(n):
 - > 1.并查集：建立集合保存值和父亲；遍历数组：若存在num[i]-1的元素，则设置为num[i]父亲；遍历数组进行路径压缩，同一集合的父亲为同一个值（最小值）；返回最大集合的个数
 - > 2.借助集合：若集合中找不到比当前小1的，则作为一个新的子串起点；循环遍历比当前大1的值是否能够找到，更新长度等。
+- 150 返回数组中子数组中乘积最大的值：记录：当前最大值，当前最小值，和当前值比较，取最大和最小更新当前最大和最小值；最大的当前最大值则为返回结果
+- > 1.当所有数位正数时，则所有数相乘位最大值，即当前最大值；2.当包含负数时，最大值可能变位最小值，同理，此处为记录最小值的意义；3.当包含0时，最大和最小均为0；当前元素即为最大值。
 ### 数组合并
 - 有序数组合并：1.找到两个数组的最大或最小位置，依次比较然后选择一个填入目标位置 o（n）
 - 插入新的集合：1.边界处理：插入最前和最后的直接处理；2.获取插入位置；3.将前一个位置与待插入元素计算集合入队；，一次遍历剩下集合，右交集则更新队尾；无则入队
@@ -251,15 +253,44 @@ for i := 1; i < len(arr); i++ { //从1开始遍历元数据
 ### 二分查找：数组必须有序
 - 模式
 ```
+// 闭区间搜索
 初始值： left, right := 0, len(nums)-1
-循环条件： for left <= right
+循环条件： for left <= right  //表示是闭区间搜索[a,b]              
 中值： mid := left + (right-left)/2
-条件1 ： nums[mid] < target 则left = mid + 1
-条件2：nums[mid] > target 则right = mid - 1
+条件1 ： nums[mid] < target 则left = mid + 1                        
+条件2：nums[mid] > target 则right = mid - 1                         right = mid
 条件3：nums[mid] == target ： 寻找左值：则压迫右值right = mid - 1，寻找右值则压迫左值：left = mid + 1
-未找到左值：left >= len(nums) || nums[left] != target ；未找到右值：right < 0 || nums[right] != target
+结束条件：直接返回-1
+未找到左值：left >= len(nums) || nums[left] != target ；
+未找到右值：right < 0 || nums[right] != target
+//半开区间搜索
+初始值： left, right := 0, len(nums)
+循环条件：  for left < right  表示半开区间搜索[a,b)
+中值： mid := left + (right-left)/2
+条件1 ： nums[mid] < target 则left = mid + 1                        
+条件2：nums[mid] > target 则right = mid
+条件3：nums[mid] == target ： 寻找左值：则压迫右值right = mid，寻找右值则压迫左值：left = mid + 1
+结束条件： 需要判断nums[left] == target ? left;-1;
+未找到左值：if (left == nums.length) return -1; 
+未找到右值：if (left == 0) return -1; return nums[left-1] == target ? (left-1) : -1;
 ```
+	 
 - no 704 34 35
+- 162 找到一个峰值的索引，峰值比相邻元素大的值，要求o(logn) 
+- > 寻找峰值有三种情况，1.递增序列，则最右值为结果；2.递减序列相反；3.序列存在多个峰值
+```
+l, r := 0, len(nums)-1
+for l < r { //采用小于，表面至少两个元素
+	mid := l + (r-l)/2
+	if nums[mid] > nums[mid+1] { //值和数组本身比较，则最少需要两个元素，否则会越界
+		r = mid
+	} else {
+		l = mid + 1
+	}
+
+}
+return l
+```
 #### 有序的旋转数组查找 o(logn)
 - 旋转数组特性： 
 - > 1.任意取中间值，则至少右一半的区间是递增区间
