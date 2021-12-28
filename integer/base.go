@@ -56,24 +56,66 @@ func FractionToDecimal(numerator int, denominator int) string {
 
 	if len(ret) == 0 {
 		ret = "0."
+	} else {
+		ret += "."
 	}
 
 	set := map[int]bool{}
+	little := ""
+	repeat := ""
 	for {
 		for numerator < denominator {
 			numerator = numerator * 10
-			set[numerator] = true
-			ret += "0"
+			if _, ok := set[numerator]; !ok {
+				set[numerator] = true
+				if numerator < denominator {
+					little += "0"
+				}
+			} else {
+				if numerator < denominator {
+					repeat += "0"
+				}
+			}
 		}
+
 		tmp := numerator / denominator
-		set[numerator] = true
-		ret += fmt.Sprintf("%d", tmp)
+		if _, ok := set[numerator]; !ok {
+			set[numerator] = true
+			little += fmt.Sprintf("%d", tmp)
+		} else {
+			repeat += fmt.Sprintf("%d", tmp)
+		}
+
 		numerator = numerator % denominator
 		if numerator == 0 {
 			break
 		}
 
+		if repeat == little {
+			little = "(" + little + ")"
+			break
+		}
 	}
 
-	return ret
+	return ret + little
+}
+
+// TrailingZeroes n的阶乘的结果的结尾0的个数
+//  no 172
+// n = 5  5! = 120 答案是1
+// 会越界
+func TrailingZeroes(n int) int {
+	if n == 0 {
+		return 0
+	}
+	count := 0
+	for n >= 5 {
+		if n%5 == 0 {
+			count += n / 5
+			n = n / 5
+		} else {
+			n = n - (n % 5)
+		}
+	}
+	return count
 }

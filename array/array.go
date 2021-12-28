@@ -656,3 +656,38 @@ func PlusOne(digits []int) []int {
 
 	return digits
 }
+
+// Rotate 从右边开始旋转数组k次 o(1)空间复杂度
+// 189
+// nums = [1,2,3,4,5,6,7], k = 3
+// [5,6,7,1,2,3,4] n=7 (0,7-3+0) (1,7-3+1) (2,6)
+func Rotate(nums []int, k int) {
+	n := len(nums)
+	k = k % n
+	for i := 0; i < k; i++ {
+		j := n - 1
+		tmp := nums[j]
+		for j := n - 2; j >= 0; j-- {
+			nums[j+1] = nums[j]
+		}
+		nums[0] = tmp
+	}
+}
+
+func Rotate1(nums []int, k int) {
+	if len(nums) == 0 {
+		return
+	}
+	k = k % len(nums)
+	revese(nums, 0, len(nums)-1)
+	revese(nums, 0, k-1)
+	revese(nums, k, len(nums)-1)
+}
+
+func revese(nums []int, s, e int) {
+	for s < e {
+		nums[s], nums[e] = nums[e], nums[s]
+		s++
+		e--
+	}
+}
