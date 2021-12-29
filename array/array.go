@@ -717,32 +717,34 @@ func QuickSelect(arr []int, l, r, k int) int {
 		return -1
 	}
 
-	priv := l + (r-l)/2
-	tmp := arr[priv]
-	arr[priv] = arr[l]
-	i, j := l, r
-	for i < j {
+	for l < r {
+		priv := l + (r-l)/2
+		tmp := arr[priv]
+		arr[priv] = arr[l]
+		i, j := l, r
+		for i < j {
 
-		for arr[j] >= tmp {
-			j--
+			for i < j && arr[j] >= tmp {
+				j--
+			}
+			arr[i] = arr[j]
+
+			for i < j && arr[i] <= tmp {
+				i++
+			}
+
+			arr[j] = arr[i]
 		}
-		arr[i] = arr[j]
+		arr[i] = tmp
 
-		for arr[i] <= tmp {
-			i++
+		if len(arr)-i == k {
+			break
+		} else if len(arr)-i > k {
+			l = i + 1
+		} else {
+			r = i - 1
 		}
 
-		arr[j] = arr[i]
 	}
-	arr[i] = tmp
-
-	if len(arr)-i == k {
-		return arr[i]
-	} else if len(arr)-i > k {
-		QuickSelect(arr, i+1, r, k)
-	} else {
-		QuickSelect(arr, l, i-1, k-len(arr)-i)
-	}
-
 	return arr[len(arr)-k]
 }
