@@ -112,3 +112,38 @@ func MoveZeroes2(nums []int) {
 		}
 	}
 }
+
+// LengthOfLIS 求最长增长序列 不需要连续  要求o(nlogn)
+// no 300
+// dp[i][j] = k 1. i==j; k=1
+//  [0,1,0,3,2,3]
+func LengthOfLIS(nums []int) int {
+	if len(nums) == 0 {
+		return 0
+	}
+	ret := 1
+	lengthOfLISHelper(nums, 1, 0, 1, &ret)
+	return ret
+}
+
+func lengthOfLISHelper(nums []int, start, lastInc, count int, max *int) {
+	if start == len(nums) {
+		return
+	}
+
+	for i := start; i < len(nums); i++ {
+		if *max-count > len(nums)-i {
+			break
+		}
+
+		if nums[i] > nums[lastInc] {
+			count++
+			lengthOfLISHelper(nums, i+1, i, count, max)
+			count--
+		}
+	}
+
+	if count > *max {
+		*max = count
+	}
+}

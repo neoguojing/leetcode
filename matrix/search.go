@@ -123,16 +123,42 @@ func searchMatrixHelper(matrix [][]int, xb, xe, yb, ye, target int) bool {
 		if matrix[mx][my] == target {
 			return true
 		} else if matrix[mx][my] > target {
-			xe = mx
-			ye = my
+			return searchMatrixHelper(matrix, xb, mx-1, yb, my-1, target) ||
+				searchMatrixHelper(matrix, mx, xe, yb, my-1, target) ||
+				searchMatrixHelper(matrix, xb, mx-1, my, ye, target)
 		} else {
-			if mx+1 <= xe && my+1 <= ye && target >= matrix[mx+1][my+1] && target <= matrix[xe][ye] {
-				xb = mx + 1
-				yb = my + 1
-			} else {
-				return searchMatrixHelper(matrix, xb, mx, my+1, yb, target) ||
-					searchMatrixHelper(matrix, mx+1, xe, yb, my)
-			}
+
+			return searchMatrixHelper(matrix, mx+1, xe, my+1, ye, target) ||
+				searchMatrixHelper(matrix, xb, mx, my+1, ye, target) ||
+				searchMatrixHelper(matrix, mx+1, xe, yb, my, target)
+
+		}
+	}
+
+	return false
+}
+
+// 从右上角开始搜索
+func SearchMatrix2(matrix [][]int, target int) bool {
+	if len(matrix) == 0 {
+		return false
+	}
+
+	m := len(matrix) - 1
+	n := len(matrix[0]) - 1
+	if target < matrix[0][0] || target > matrix[m][n] {
+		return false
+	}
+
+	i, j := 0, n
+
+	for i >= 0 && i <= m && j >= 0 && j <= n {
+		if matrix[i][j] == target {
+			return true
+		} else if matrix[i][j] > target {
+			j--
+		} else {
+			i++
 		}
 	}
 
