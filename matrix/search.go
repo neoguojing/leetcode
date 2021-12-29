@@ -97,3 +97,44 @@ func existRecur(board [][]byte, word string, index int, x, y int, bitMap [][]boo
 // no 74
 //判断一个矩阵中是否存在某个数，矩阵是有序的。
 // todo
+
+// SearchMatrix 矩阵的每行（左-》右）和每列（上-》下）都是有序的，快速搜索某个值
+// 240 二分查找
+func SearchMatrix(matrix [][]int, target int) bool {
+	if len(matrix) == 0 {
+		return false
+	}
+
+	m := len(matrix) - 1
+	n := len(matrix[0]) - 1
+	if target < matrix[0][0] || target > matrix[m][n] {
+		return false
+	}
+
+	return searchMatrixHelper(matrix, 0, m, 0, n, target)
+}
+
+func searchMatrixHelper(matrix [][]int, xb, xe, yb, ye, target int) bool {
+
+	for xb <= xe && yb <= ye {
+		mx := xb + (xe-xb)/2
+		my := yb + (ye-yb)/2
+
+		if matrix[mx][my] == target {
+			return true
+		} else if matrix[mx][my] > target {
+			xe = mx
+			ye = my
+		} else {
+			if mx+1 <= xe && my+1 <= ye && target >= matrix[mx+1][my+1] && target <= matrix[xe][ye] {
+				xb = mx + 1
+				yb = my + 1
+			} else {
+				return searchMatrixHelper(matrix, xb, mx, my+1, yb, target) ||
+					searchMatrixHelper(matrix, mx+1, xe, yb, my)
+			}
+		}
+	}
+
+	return false
+}

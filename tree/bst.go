@@ -293,7 +293,29 @@ func findMode(root *TreeNode) []int {
 
 }
 
-// 230
+// KthSmallest 返回二叉搜索树上第K个最小的值
+// 230 中序遍历
+func KthSmallest(root *TreeNode, k int) int {
+	ret := 0
+	kthSmallestHelper(root, &k, &ret)
+	return ret
+}
+
+func kthSmallestHelper(root *TreeNode, k, val *int) {
+
+	if root == nil {
+		return
+	}
+
+	kthSmallestHelper(root.Left, k, val)
+	*k--
+	if *k == 0 {
+		*val = root.Val.(int)
+		return
+	}
+	kthSmallestHelper(root.Right, k, val)
+}
+
 // 658
 // 783
 // 99
