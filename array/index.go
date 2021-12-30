@@ -138,3 +138,28 @@ func LengthOfLIS(nums []int) int {
 
 	return len(piles)
 }
+
+// 动态规划
+// dp[i] 表示以i为结尾的最长子串，初始全为1 1 dp[i] = dp[i-1] +1
+func LengthOfLISDP(nums []int) int {
+	dp := make([]int, len(nums))
+
+	for i := 0; i < len(dp); i++ {
+		dp[i] = 1
+	}
+
+	for i := 0; i < len(nums); i++ {
+		for j := 0; j < i; j++ {
+			if nums[i] > nums[j] && dp[i] < dp[j]+1 {
+				dp[i] = dp[j] + 1
+			}
+		}
+	}
+	max := dp[0]
+	for i := range dp {
+		if dp[i] > max {
+			max = dp[i]
+		}
+	}
+	return max
+}
