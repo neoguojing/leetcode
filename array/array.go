@@ -4,6 +4,7 @@ import (
 	"container/heap"
 	"fmt"
 	"leetcode/utils"
+	"math"
 )
 
 /*RemoveDuplicates ...
@@ -747,4 +748,84 @@ func QuickSelect(arr []int, l, r, k int) int {
 
 	}
 	return arr[len(arr)-k]
+}
+
+// IncreasingTriplet 数组中是否存在连续3个的递增子序列（值可以不连续） o(n) o(1)
+// 334
+func IncreasingTriplet(nums []int) bool {
+	if len(nums) < 3 {
+		return false
+	}
+
+	small, max := math.MaxInt32, math.MaxInt32
+	for _, n := range nums {
+		if n <= small {
+			small = n
+		} else if n <= max {
+			max = n
+		} else {
+			return true
+		}
+	}
+
+	return false
+}
+
+// LengthOfLIS 求最长增长序列 不需要连续  要求o(nlogn)
+// no 300
+//  [0,1,0,3,2,3]
+// 耐心排序
+func LengthOfLIS(nums []int) int {
+
+	piles := []int{}
+
+	for _, num := range nums {
+		isSet := false
+		for i := range piles {
+			if piles[i] >= num {
+				piles[i] = num
+				isSet = true
+				break
+			}
+		}
+
+		if !isSet {
+			piles = append(piles, num)
+		}
+	}
+
+	return len(piles)
+}
+
+// 动态规划
+// dp[i] 表示以i为结尾的最长子串，初始全为1 1 dp[i] = dp[i-1] +1
+func LengthOfLISDP(nums []int) int {
+	dp := make([]int, len(nums))
+
+	for i := 0; i < len(dp); i++ {
+		dp[i] = 1
+	}
+
+	for i := 0; i < len(nums); i++ {
+		for j := 0; j < i; j++ {
+			if nums[i] > nums[j] && dp[i] < dp[j]+1 {
+				dp[i] = dp[j] + 1
+			}
+		}
+	}
+	max := dp[0]
+	for i := range dp {
+		if dp[i] > max {
+			max = dp[i]
+		}
+	}
+	return max
+}
+
+// TopKFrequent 数组中出现最频繁的K个数字
+// 347
+func TopKFrequent(nums []int, k int) []int {
+	if k >= len(nums) {
+		return nums
+	}
 }

@@ -303,3 +303,42 @@ func ReorderList(head *ListNode) *ListNode {
 
 	return newHaed
 }
+
+// OddEvenList o(1)space o(n)time
+// 328
+func OddEvenList(head *ListNode) *ListNode {
+	if head == nil {
+		return nil
+	}
+	odd := head
+	even := head.Next
+	evenHead := even
+	for even != nil && even.Next != nil {
+		odd.Next = even.Next
+		odd = odd.Next
+		even.Next = odd.Next
+		even = even.Next
+	}
+	odd.Next = evenHead
+	return head
+}
+
+// NestedIterator 实现迭代器，将[[1,1],2,[1,1]] 平铺
+// 341
+type NestedInteger struct {
+}
+
+type NestedIterator struct {
+}
+
+func Constructor(nestedList []*NestedInteger) *NestedIterator {
+
+}
+
+func (this *NestedIterator) Next() int {
+
+}
+
+func (this *NestedIterator) HasNext() bool {
+
+}
