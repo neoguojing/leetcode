@@ -164,3 +164,9 @@ func SearchMatrix2(matrix [][]int, target int) bool {
 
 	return false
 }
+
+// KthSmallest 在排序（非递减,左边小于右边，上小于下）矩阵中最小的第k个元素 时间复杂度小于o（N^2）
+// 378
+func KthSmallest(matrix [][]int, k int) int {
+
+}

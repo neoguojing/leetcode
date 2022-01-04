@@ -822,10 +822,62 @@ func LengthOfLISDP(nums []int) int {
 	return max
 }
 
-// TopKFrequent 数组中出现最频繁的K个数字
+// TopKFrequent 数组中出现最频繁的K个数字 o(nlogn)
 // 347
 func TopKFrequent(nums []int, k int) []int {
 	if k >= len(nums) {
 		return nums
 	}
+
+	pq := PriorityQueue{}
+	countMap := map[int]int{}
+	for i := range nums {
+		if _, ok := countMap[nums[i]]; !ok {
+			countMap[nums[i]] = 1
+		} else {
+			countMap[nums[i]] += 1
+		}
+	}
+
+	for k, v := range countMap {
+		heap.Push(&pq, Elem{
+			Val:   k,
+			Count: v,
+		})
+	}
+
+	ret := []int{}
+	for i := 0; i < k; i++ {
+		tmp := heap.Pop(&pq).(Elem)
+		ret = append(ret, tmp.Val)
+	}
+
+	return ret
+}
+
+type PriorityQueue []Elem
+
+type Elem struct {
+	Val   int
+	Count int
+}
+
+func (pq PriorityQueue) Len() int { return len(pq) }
+func (pq PriorityQueue) Less(i, j int) bool {
+	// We want Pop to give us the highest, not lowest, priority so we use greater than here.
+	return pq[i].Count > pq[j].Count
+}
+func (pq PriorityQueue) Swap(i, j int) {
+	pq[i], pq[j] = pq[j], pq[i]
+}
+
+func (pq *PriorityQueue) Push(x interface{}) {
+	*pq = append(*pq, x.(Elem))
+}
+func (pq *PriorityQueue) Pop() interface{} {
+	old := *pq
+	n := len(old)
+	x := old[n-1]
+	*pq = old[0 : n-1]
+	return x
 }
