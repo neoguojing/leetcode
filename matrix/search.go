@@ -1,5 +1,7 @@
 package matrix
 
+import "container/heap"
+
 /*Exist ...
 no 79
 DSF算法
@@ -168,5 +170,44 @@ func SearchMatrix2(matrix [][]int, target int) bool {
 // KthSmallest 在排序（非递减,左边小于右边，上小于下）矩阵中最小的第k个元素 时间复杂度小于o（N^2）
 // 378
 func KthSmallest(matrix [][]int, k int) int {
+	if matrix == nil {
+		return -1
+	}
+	pq := PriorityQueue{}
+	for i := range matrix[0] {
+		heap.Push(&pq, [3]int{0, i, matrix[0][i]})
+	}
 
+	for i := 0; i < k-1; i++ {
+		tmp := heap.Pop(&pq).([3]int)
+		if tmp[0] == len(matrix[0])-1 {
+			continue
+		}
+
+		heap.Push(&pq, [3]int{tmp[0] + 1, tmp[1], matrix[tmp[0]+1][tmp[1]]})
+	}
+
+	return heap.Pop(&pq).([3]int)[2]
+}
+
+type PriorityQueue [][3]int
+
+func (pq PriorityQueue) Len() int { return len(pq) }
+func (pq PriorityQueue) Less(i, j int) bool {
+	// We want Pop to give us the highest, not lowest, priority so we use greater than here.
+	return pq[i][2] < pq[j][2]
+}
+func (pq PriorityQueue) Swap(i, j int) {
+	pq[i], pq[j] = pq[j], pq[i]
+}
+
+func (pq *PriorityQueue) Push(x interface{}) {
+	*pq = append(*pq, x.([3]int))
+}
+func (pq *PriorityQueue) Pop() interface{} {
+	old := *pq
+	n := len(old)
+	x := old[n-1]
+	*pq = old[0 : n-1]
+	return x
 }
