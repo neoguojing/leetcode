@@ -410,3 +410,63 @@ func FirstUniqChar(s string) int {
 
 	return -1
 }
+
+// LongestSubstring 字符串子串中包含最少k个重复字符的最长子串长度
+// 395 换种说法：子串中的所有字符的重复字符必须超过k
+func LongestSubstring(s string, k int) int {
+	if s == "" || len(s) < k {
+		return 0
+	}
+
+	if k == 1 {
+		return len(s)
+	}
+
+	cMap := map[byte]int{}
+	for i := range s {
+		cMap[s[i]] += 1
+	}
+
+	if s == "" || len(s) < k {
+		return 0
+	}
+
+	slow, fast := 0, len(s)-1
+
+	for cMap[s[slow]] < k && slow < fast {
+		cMap[s[slow]]--
+		if cMap[s[slow]] == 0 {
+			delete(cMap, s[slow])
+		}
+		slow++
+	}
+
+	for cMap[s[fast]] < k && slow < fast {
+		cMap[s[fast]]--
+		if cMap[s[fast]] == 0 {
+			delete(cMap, s[fast])
+		}
+		fast--
+	}
+
+	max := 0
+	isMatch := true
+	for i := slow; i < fast; i++ {
+		if cMap[s[i]] < k {
+			isMatch = false
+			a := LongestSubstring(s[slow:i], k)
+			if a > max {
+				max = a
+			}
+			b := LongestSubstring(s[i+1:], k)
+			if b > max {
+				max = b
+			}
+		}
+	}
+	if isMatch && fast-slow+1 > max {
+		max = fast - slow + 1
+	}
+
+	return max
+}

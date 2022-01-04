@@ -2,7 +2,9 @@ package array
 
 import (
 	"math"
+	"math/rand"
 	"sort"
+	"time"
 )
 
 func iniDP(m, n int, tag int) [][]int {
@@ -111,4 +113,35 @@ func MoveZeroes2(nums []int) {
 			start++
 		}
 	}
+}
+
+// 洗牌算法
+// 384
+type Solution struct {
+	origin  []int
+	shuffle []int
+}
+
+func Constructor(nums []int) Solution {
+	ret := Solution{
+		origin:  nums,
+		shuffle: make([]int, len(nums)),
+	}
+	copy(ret.shuffle, nums)
+	rand.Seed(time.Now().Unix())
+	return ret
+}
+
+func (this *Solution) Reset() []int {
+	copy(this.shuffle, this.origin)
+	return this.origin
+}
+
+func (this *Solution) Shuffle() []int {
+	for i := len(this.origin) - 1; i >= 0; i-- {
+		k := rand.Intn(i + 1)
+		this.shuffle[i], this.shuffle[k] = this.shuffle[k], this.shuffle[i]
+	}
+
+	return this.shuffle
 }
