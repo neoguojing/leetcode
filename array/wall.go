@@ -1,6 +1,7 @@
 package array
 
 import (
+	"gopls-workspace/utils"
 	"leetcode/utils"
 )
 
@@ -124,5 +125,79 @@ func MaxProduct(nums []int) int {
 		}
 
 	}
+	return ret
+}
+
+// GetSkyline 获取天际线
+// 218
+func GetSkyline(buildings [][]int) [][]int {
+	if buildings == nil {
+		return [][]int{}
+	}
+
+	ret := [][]int{}
+
+	for i := range buildings {
+		tmp := []int{buildings[i][0], buildings[i][2]}
+		if len(ret) == 0 {
+			ret = append(ret, tmp)
+		} else {
+			if buildings[i][0] < buildings[i-1][1] { //有交集的情况
+				if buildings[i][1] <= buildings[i-1][1] { //完全包含的情况
+					if buildings[i][2] > buildings[i-1][2] {
+						ret = append(ret, tmp)
+						if buildings[i][1] < buildings[i-1][1] {
+							ret = append(ret, []int{buildings[i][1], buildings[i-1][2]})
+						}
+					}
+				} else { //半包含
+					if buildings[i][2] < buildings[i-1][2] { //高度小
+						tmp[0] = buildings[i-1][1]
+						ret = append(ret, tmp)
+					} else if buildings[i][2] == buildings[i-1][2] { //
+
+					} else {
+						ret = append(ret, tmp)
+					}
+				}
+
+			} else if buildings[i][0] == buildings[i-1][1] { //正好衔接的情况
+				ret = append(ret, tmp)
+			} else { //无交集
+				ret = append(ret, []int{buildings[i-1][1], 0})
+				ret = append(ret, tmp)
+			}
+		}
+	}
+
+	return ret
+}
+
+// MaxSlidingWindow 以固定k窗口滑动，求出每个窗口最大值，并返回
+// 239
+func MaxSlidingWindow(nums []int, k int) []int {
+	if len(nums) == 0 {
+		return []int{}
+	}
+
+	q := utils.NewQueue()
+
+	ret := []int{}
+	for i := 0; i < len(nums); i++ {
+		for !q.Empty() && nums[q.Back().(int)] < nums[i] {
+			q.PopBack()
+		}
+		q.Push(i)
+
+		for nums[q.Peak().(int)] < i-k+1 {
+			q.Pop()
+		}
+
+		if i >= k-1 {
+			ret = append(ret, nums[q.Peak().(int)])
+		}
+
+	}
+
 	return ret
 }

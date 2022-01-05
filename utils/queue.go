@@ -2,6 +2,7 @@ package utils
 
 import (
 	"container/list"
+	"fmt"
 )
 
 type Queue struct {
@@ -35,6 +36,11 @@ func (queue *Queue) PopBack() interface{} {
 	return nil
 }
 
+func (queue *Queue) Back() interface{} {
+	e := queue.list.Back()
+	return e.Value
+}
+
 func (queue *Queue) Peak() interface{} {
 	e := queue.list.Front()
 	if e != nil {
@@ -50,6 +56,17 @@ func (queue *Queue) Len() int {
 
 func (queue *Queue) Empty() bool {
 	return queue.list.Len() == 0
+}
+
+func (queue Queue) Print() {
+	p := queue.list.Front()
+	ret := ""
+	for p != nil {
+		ret += fmt.Sprintf("%v->", p.Value)
+		p = p.Next()
+	}
+	fmt.Println(ret)
+
 }
 
 type PriorityQueue []int
