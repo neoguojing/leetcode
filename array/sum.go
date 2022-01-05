@@ -25,7 +25,7 @@ func TwoSum(nums []int, target int) []int {
 }
 
 //ThreeSum ...
-//排序和双指针
+// no 15 排序和双指针
 func ThreeSum(nums []int, target int) [][]int {
 	sort.Ints(nums)
 	result := make([][]int, 0)
