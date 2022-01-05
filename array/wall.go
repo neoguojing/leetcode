@@ -189,7 +189,7 @@ func MaxSlidingWindow(nums []int, k int) []int {
 		}
 		q.Push(i)
 
-		for nums[q.Peak().(int)] < i-k+1 {
+		for q.Peak().(int) < i-k+1 {
 			q.Pop()
 		}
 

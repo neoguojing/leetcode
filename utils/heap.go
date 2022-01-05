@@ -24,3 +24,16 @@ func (h *Heap) Pop() interface{} {
 	*h = (old)[:len(old)-1]
 	return x
 }
+
+func (h Heap) Top() int {
+	return h[0]
+}
+
+type MinHeap struct {
+	Heap
+}
+
+func (m MinHeap) Less(a, b int) bool {
+
+	return m.Heap[a] < m.Heap[b]
+}
