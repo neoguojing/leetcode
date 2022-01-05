@@ -70,3 +70,30 @@ func ThreeSum(nums []int, target int) [][]int {
 	}
 	return result
 }
+
+// FourSumCount 四个数组相加，返回组合中和等于0 的组合个数；数组长度相等
+// no 454
+func FourSumCount(nums1 []int, nums2 []int, nums3 []int, nums4 []int) int {
+	sumMap := map[int]int{}
+
+	for i := 0; i < len(nums1); i++ {
+		for j := 0; j < len(nums2); j++ {
+			sum := nums1[i] + nums2[j]
+			sumMap[sum] += 1
+		}
+	}
+
+	res := 0
+	for i := 0; i < len(nums3); i++ {
+		for j := 0; j < len(nums4); j++ {
+			sum := nums3[i] + nums4[j]
+			if sum == 0 {
+				res += sumMap[0]
+			} else {
+				res += sumMap[-sum]
+			}
+		}
+	}
+
+	return res
+}
