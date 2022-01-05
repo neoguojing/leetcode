@@ -450,6 +450,8 @@ func backword(cond1,cond2,oneResult,*allResult){
 - no 139 s是否能够完全分裂为wordDict中的单词；s不能有剩余的非dict单词:
 - > 动态规划：dp[i] = dp[j] && set[s[j:i]];初始dp[0] = 0
 - > 递归
+- no 140 将s分解为带空格的句子，句子中每个单词都是wordDict中的单词
+- > 动态规划：dp[i] = []string{} 保存所有以i为结尾的句子；dp[i] = dp[j] + s[j:i];当j==0 或者 dp[j] != nil
 ### 回文
 - 5 最大回文子串 ：必要条件：(s[start] == s[end] && (end - start <= 2 || dp[start + 1][end - 1])
 - > 子问题：dp[i][j]是回文需要满足什么条件？0<=i<n,i<=j<n
