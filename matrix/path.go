@@ -1,6 +1,9 @@
 package matrix
 
-import "leetcode/utils"
+import (
+	"gopls-workspace/utils"
+	"leetcode/utils"
+)
 
 //UniquePaths ...
 //no 62
@@ -101,4 +104,80 @@ func MinPathSum(grid [][]int) int {
 	}
 
 	return dp[m-1][n-1]
+}
+
+// LongestIncreasingPath 求矩阵的最长递增路径
+// 329
+func LongestIncreasingPath(matrix [][]int) int {
+
+	m, n := len(matrix), len(matrix[0])
+	inDegree := make([][]int, m)
+	for i := range matrix {
+		inDegree[i] = make([]int, n)
+		for j := range matrix[i] {
+			if i-1 >= 0 && matrix[i-1][j] < matrix[i][j] {
+				inDegree[i][j]++
+			}
+
+			if i+1 < m && matrix[i+1][j] < matrix[i][j] {
+				inDegree[i][j]++
+			}
+
+			if j+1 < n && matrix[i][j+1] < matrix[i][j] {
+				inDegree[i][j]++
+			}
+
+			if j-1 >= 0 && matrix[i][j-1] < matrix[i][j] {
+				inDegree[i][j]++
+			}
+		}
+	}
+
+	q := utils.NewQueue()
+	for i := range matrix {
+		for j := range matrix[i] {
+			if inDegree[i][j] == 0 {
+				q.Push([]int{i, j})
+			}
+		}
+	}
+	max := 0
+	for !q.Empty() {
+
+		for k := 0; k < q.Len(); k++ {
+			pos := q.Pop().([]int)
+			i := pos[0]
+			j := pos[1]
+
+			if i-1 >= 0 && matrix[i-1][j] > matrix[i][j] {
+				inDegree[i-1][j]--
+				if inDegree[i-1][j] == 0 {
+					q.Push((i-1)*m + j)
+				}
+			}
+
+			if i+1 < m && matrix[i+1][j] > matrix[i][j] {
+				inDegree[i+1][j]--
+				if inDegree[i+1][j] == 0 {
+					q.Push((i+1)*m + j)
+				}
+			}
+
+			if j+1 < n && matrix[i][j+1] > matrix[i][j] {
+				inDegree[i][j+1]--
+				if inDegree[i][j+1] == 0 {
+					q.Push((i)*m + j + 1)
+				}
+			}
+
+			if j-1 >= 0 && matrix[i][j-1] > matrix[i][j] {
+				inDegree[i][j-1]--
+				if inDegree[i][j-1] == 0 {
+					q.Push((i)*m + j - 1)
+				}
+			}
+		}
+		max++
+	}
+	return max
 }

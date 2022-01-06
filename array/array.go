@@ -881,3 +881,28 @@ func (pq *PriorityQueue) Pop() interface{} {
 	*pq = old[0 : n-1]
 	return x
 }
+
+//CountSmaller 元素右边比元素本身小的值计数
+// no 315
+func CountSmaller(nums []int) []int {
+	if nums == nil {
+		return []int{}
+	}
+
+	if len(nums) == 1 {
+		return []int{0}
+	}
+
+	count := make([]int, len(nums))
+	for i := 0; i < len(nums); i++ {
+		tmp := 0
+		for j := i + 1; j < len(nums); j++ {
+			if nums[j] < nums[i] {
+				tmp++
+			}
+		}
+		count[i] = tmp
+	}
+
+	return count
+}
