@@ -2,7 +2,7 @@ package array
 
 import (
 	"container/heap"
-	"gopls-workspace/utils"
+	"leetcode/utils"
 )
 
 // MedianFinder 数据流中找到中位数：（排序之后位于中间位置的元素）
