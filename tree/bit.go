@@ -21,7 +21,8 @@ func NewBiTree(nums []int) BITree {
 
 // Add i为数组索引
 func (bit BITree) Add(i int, val int) {
-	for i = i + 1; i < len(bit); i += getParent(i) {
+	i = i + 1
+	for ; i < len(bit); i = getNext(i) {
 		bit[i] = val
 	}
 }
@@ -32,7 +33,7 @@ func (bit BITree) GetSum(i int) int {
 	sum := 0
 	for i > 0 {
 		sum += bit[i]
-		i -= getNext(i)
+		i = getParent(i)
 	}
 
 	return sum
