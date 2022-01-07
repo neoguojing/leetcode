@@ -1,7 +1,6 @@
 package array
 
 import (
-	"gopls-workspace/utils"
 	"leetcode/utils"
 )
 

@@ -16,7 +16,6 @@ func CopyRandomList(head *Node) *Node {
 	new := &Node{}
 	cur := head
 	p2I := map[*Node]*Node{}
-	idx := 0
 	p := new
 	for cur != nil {
 		tmp := &Node{
@@ -26,7 +25,6 @@ func CopyRandomList(head *Node) *Node {
 		p = p.Next
 		p2I[cur] = tmp
 		cur = cur.Next
-		idx++
 	}
 
 	p = new.Next
