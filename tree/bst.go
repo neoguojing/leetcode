@@ -290,7 +290,7 @@ func LowestCommonAncestorForBst2(root, p, q *TreeNode) *TreeNode {
 //
 // 501
 func findMode(root *TreeNode) []int {
-
+	return nil
 }
 
 // KthSmallest 返回二叉搜索树上第K个最小的值

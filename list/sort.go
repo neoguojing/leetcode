@@ -17,7 +17,7 @@ func merge(a, b *ListNode) *ListNode {
 	head := &ListNode{}
 	p := head
 	for a != nil && b != nil {
-		if a.Val < b.Val {
+		if a.Val.(int) < b.Val.(int) {
 			p.Next = a
 			a = a.Next
 			p = p.Next
@@ -65,7 +65,7 @@ func InsertionSortList(head *ListNode) *ListNode {
 	p := head
 	head = dummy
 	for p != nil {
-		for head.Next != nil && head.Next.Val < p.Val {
+		for head.Next != nil && head.Next.Val.(int) < p.Val.(int) {
 			head = head.Next
 		}
 		q := head.Next

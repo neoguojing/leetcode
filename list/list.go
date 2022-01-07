@@ -332,13 +332,13 @@ type NestedIterator struct {
 }
 
 func Constructor(nestedList []*NestedInteger) *NestedIterator {
-
+	return nil
 }
 
 func (this *NestedIterator) Next() int {
-
+	return 0
 }
 
 func (this *NestedIterator) HasNext() bool {
-
+	return false
 }
