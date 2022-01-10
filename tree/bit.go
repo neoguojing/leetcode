@@ -68,10 +68,11 @@ func (bit BITree) Set(i, val int) {
 
 func (bit BITree) GetArray() []int {
 	ret := make([]int, len(bit)-1)
-	for i := len(bit) - 1; i > 0; i-- {
-		j := getNext(i)
+	copy(ret, bit[1:])
+	for i := len(ret) - 1; i >= 0; i-- {
+		j := getNext(i + 1)
 		if j < len(bit) {
-			ret[j-1] = bit[j] - bit[i]
+			ret[j-1] -= ret[i]
 		}
 
 	}
