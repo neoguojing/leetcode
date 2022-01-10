@@ -1,5 +1,6 @@
 package tree
 
+// 求前缀和或者区间和
 type BITree []int
 
 func getParent(i int) int {
@@ -56,6 +57,11 @@ func (bit BITree) RangeSum(i, j int) int {
 	}
 
 	return sum
+}
+
+// RangeQuery 数组不存在负值，求前缀和小于等于val的索引
+func (bit BITree) RangeQuery(val int) int {
+	return 0
 }
 
 func (bit BITree) Get(i int) int {

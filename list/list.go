@@ -55,12 +55,7 @@ func ReverseKGroup(head *ListNode, k int) *ListNode {
 		return nil
 	}
 
-	if k == 0 {
-		return head
-	}
-
-	if k == 1 {
-		head, _ = ReverseList(head)
+	if k == 0 || k == 1 {
 		return head
 	}
 
