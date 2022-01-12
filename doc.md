@@ -453,6 +453,7 @@ func backword(cond1,cond2,oneResult,*allResult){
 - > 递归
 - no 140 将s分解为带空格的句子，句子中每个单词都是wordDict中的单词
 - > 动态规划：dp[i] = []string{} 保存所有以i为结尾的句子；dp[i] = dp[j] + s[j:i];当j==0 或者 dp[j] != nil
+- no 96 给定1-n，求独立的二分查找树有多少个？ ：G(n)=G(0)∗G(n−1)+G(1)∗(n−2)+...+G(n−1)∗G(0)
 ### 回文
 - 5 最大回文子串 ：必要条件：(s[start] == s[end] && (end - start <= 2 || dp[start + 1][end - 1])
 - > 子问题：dp[i][j]是回文需要满足什么条件？0<=i<n,i<=j<n
