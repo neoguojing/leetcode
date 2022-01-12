@@ -96,7 +96,6 @@ func Trap(height []int) int {
 	return total
 }
 
-// 85
 // NextGreaterElement 暴力法
 // no 496
 func NextGreaterElement(nums1 []int, nums2 []int) []int {
