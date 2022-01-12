@@ -1,49 +1,36 @@
 package combination
 
 import (
-	"fmt"
 	"sort"
 )
 
 //NextPermutation ...
 // no 31
-// 给定一个数，然后将这些数字的位置重新排列，得到一个刚好比原数字大的一种排列。如果没有比原数字大的，就升序输出
+// 给定一个数组，然后将这些数字的位置重新排列，得到一个刚好比原数字大的一种排列。如果没有比原数字大的，就升序输出
 func NextPermutation(nums []int) []int {
-	if nums == nil || len(nums) == 0 {
+	if len(nums) == 0 {
 		return nums
 	}
 
-	pos := 0
-	//从后向前查找递减的第一个元素
-	for i := len(nums) - 1; i > 0; i-- {
-		if nums[i] > nums[i-1] {
-			pos = i - 1
-			break
-		}
-	}
-	//找不到则返回升序序列
-	if pos == 0 {
-		sort.Ints(nums)
-		return nums
+	i := len(nums) - 2
+
+	for ; i >= 0 && nums[i] >= nums[i+1]; i-- {
 	}
 
-	justIndex := 0
-	posVal := nums[pos]
-
-	remain := nums[pos+1:]
-	sort.Ints(remain)
-	//在递减位置开始找到第一个比它大的元素
-	for i := 0; i < len(remain)-1; i++ {
-		if remain[i] > posVal {
-			justIndex = i
-			break
+	if i >= 0 {
+		for j := len(nums) - 1; j > i; j-- {
+			if nums[j] > nums[i] {
+				nums[i], nums[j] = nums[j], nums[i]
+				break
+			}
 		}
 	}
-	fmt.Println(pos)
-	//交换元素位置
-	nums[pos] = remain[justIndex]
-	remain[justIndex] = posVal
-	nums = append(nums[:pos+1], remain...)
+
+	i = i + 1
+	for j := len(nums) - 1; j > i; i, j = i+1, j-1 {
+		nums[i], nums[j] = nums[j], nums[i]
+	}
+
 	return nums
 }
 
