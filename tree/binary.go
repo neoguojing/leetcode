@@ -768,6 +768,39 @@ func getMax(node *TreeNode, maxPath *int) int {
 	return node.Val.(int) + leftMax //返回上层时只能保留左右子树中的最大的一个，否则不是路径
 }
 
+// DiameterOfBinaryTree 求二叉树的最长路径（直径）
+// 543
+func DiameterOfBinaryTree(root *TreeNode) int {
+
+	max := 0
+	diameterOfBinaryTreeHelper(root, &max)
+	if max > 0 {
+		return max - 1
+	}
+	return 0
+}
+
+func diameterOfBinaryTreeHelper(root *TreeNode, max *int) int {
+	if root == nil {
+		return 0
+	}
+
+	left := diameterOfBinaryTreeHelper(root.Left, max)
+
+	right := diameterOfBinaryTreeHelper(root.Right, max)
+
+	curLen := left + right + 1
+	if curLen > *max {
+		*max = curLen
+	}
+
+	if right > left {
+		left = right
+	}
+
+	return left + 1
+}
+
 // 2096
 // 107
 

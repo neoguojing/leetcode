@@ -1,5 +1,7 @@
 package matrix
 
+import "leetcode/utils"
+
 func initVisitedGraph(m, n int) [][]bool {
 	visited := make([][]bool, m)
 	for i := range visited {
@@ -285,4 +287,38 @@ func SpiralMatrixIII(rows int, cols int, rStart int, cStart int) [][]int {
 	}
 
 	return ret
+}
+
+// MaximalRectangle 由1组成的最大矩形面积
+// 85
+// dp[i][j] 表示以(i,j)为右下角的矩形的面积
+func MaximalRectangle(matrix [][]byte) int {
+
+	return 0
+}
+
+// MaximalSquare 由1组成的最大正方形面积
+// 221
+// dp[i][j] 表示以(i,j)为右下角的正方形的的边长
+// dp[i][j] = min(dp[i-1][j],dp[i][j-1],dp[i-1][j-1])+1
+func MaximalSquare(matrix [][]byte) int {
+	m := len(matrix)
+	n := len(matrix[0])
+	dp := make([][]int, m+1)
+	for i := range dp {
+		dp[i] = make([]int, n+1)
+	}
+	maxSide := 0
+	for i := 1; i <= m; i++ {
+		for j := 1; j <= n; j++ {
+			if matrix[i-1][j-1] == '1' {
+				dp[i][j] = utils.Min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]) + 1
+				if dp[i][j] > maxSide {
+					maxSide = dp[i][j]
+				}
+			}
+		}
+	}
+
+	return maxSide * maxSide
 }
