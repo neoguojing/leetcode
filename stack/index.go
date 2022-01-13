@@ -18,9 +18,9 @@ func (s *Stack) Pop() int {
 	return -1
 }
 
-func (s *Stack) Top() int {
-	if len(*s) > 0 {
-		return (*s)[len(*s)-1]
+func (s Stack) Top() int {
+	if len(s) > 0 {
+		return (s)[len(s)-1]
 	}
 	return -1
 }

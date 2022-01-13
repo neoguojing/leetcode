@@ -1,6 +1,7 @@
 package array
 
 import (
+	"leetcode/utils"
 	"sort"
 )
 
@@ -96,4 +97,44 @@ func FourSumCount(nums1 []int, nums2 []int, nums3 []int, nums4 []int) int {
 	}
 
 	return res
+}
+
+// SubarraySum 和为k的子数组个数
+// no 560
+func SubarraySum(nums []int, k int) int {
+	cnt := 0
+	if len(nums) == 0 {
+		return cnt
+	}
+
+	for i := 0; i < len(nums); i++ {
+		for j := i; j < len(nums); j++ {
+			sum := 0
+			for k := i; k <= j; k++ {
+				sum += nums[k]
+			}
+
+			if sum == k {
+				cnt++
+			}
+		}
+	}
+	return cnt
+}
+
+func SubarraySumWithBitree(nums []int, k int) int {
+	cnt := 0
+	if len(nums) == 0 {
+		return cnt
+	}
+	bit := utils.NewBiTree(nums)
+	for i := 0; i < len(nums); i++ {
+		for j := i; j < len(nums); j++ {
+			sum := bit.RangeSum(i-1, j)
+			if sum == k {
+				cnt++
+			}
+		}
+	}
+	return cnt
 }

@@ -171,5 +171,23 @@ func NextGreaterElementsWithCircle(nums []int) []int {
 
 // 316
 // 402
+// DailyTemperatures 等几天天气才能更温暖？ 单调递减栈
 // no 739
+// [73,74,75,71,69,72,76,73]
+func DailyTemperatures(temperatures []int) []int {
+	s := make(Stack, 0)
+
+	ret := make([]int, len(temperatures))
+	for i := range temperatures {
+		for len(s) != 0 && temperatures[s.Top()] < temperatures[i] {
+			ret[s.Top()] = i - s.Top()
+			s.Pop()
+		}
+		s.Push(i)
+
+	}
+
+	return ret
+}
+
 // 962
