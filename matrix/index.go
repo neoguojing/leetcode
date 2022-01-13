@@ -289,13 +289,6 @@ func SpiralMatrixIII(rows int, cols int, rStart int, cStart int) [][]int {
 	return ret
 }
 
-// MaximalRectangle 由1组成的最大矩形面积
-// 85
-// dp[i][j] 表示以(i,j)为右下角的矩形的面积
-func MaximalRectangle(matrix [][]byte) int {
-	return 0
-}
-
 // MaximalSquare 由1组成的最大正方形面积
 // 221
 // dp[i][j] 表示以(i,j)为右下角的正方形的的边长
