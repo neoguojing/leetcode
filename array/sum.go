@@ -138,3 +138,22 @@ func SubarraySumWithBitree(nums []int, k int) int {
 	}
 	return cnt
 }
+
+func SubarraySumWithMap(nums []int, k int) int {
+	cnt := 0
+	sum := 0
+	if len(nums) == 0 {
+		return cnt
+	}
+
+	cntMap := map[int]int{}
+	cntMap[0] = 1
+	for i := 0; i < len(nums); i++ {
+		sum += nums[i]
+		if n, ok := cntMap[sum-k]; ok {
+			cnt += n
+		}
+		cntMap[sum] = 1
+	}
+	return cnt
+}
