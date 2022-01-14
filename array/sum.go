@@ -157,3 +157,32 @@ func SubarraySumWithMap(nums []int, k int) int {
 	}
 	return cnt
 }
+
+// FindTargetSumWays,在数字前面放置+或者-号，让所有数字的和等于target；返回可能的组合个数
+// no 494
+func FindTargetSumWays(nums []int, target int) int {
+	if len(nums) == 0 {
+		return 0
+	}
+	cnt := 0
+	findTargetSumWayshelper(nums, target, 0, 0, &cnt)
+	return cnt
+}
+
+func findTargetSumWayshelper(nums []int, target, cur, sum int, cnt *int) {
+	if cur == len(nums) {
+		if sum == target {
+			*cnt++
+		}
+		return
+	}
+
+	findTargetSumWayshelper(nums, target, cur+1, sum+nums[cur], cnt)
+	findTargetSumWayshelper(nums, target, cur+1, sum-nums[cur], cnt)
+}
+
+//FindTargetSumWayWithsDP
+func FindTargetSumWayWithsDP(nums []int, target int) int {
+
+	return 0
+}
