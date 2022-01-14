@@ -24,7 +24,7 @@ func LengthOfLongestSubstring(in string) int {
 	return max
 }
 
-// FindAnagrams 找到s中关于p的相同字母异序词
+// FindAnagrams 找到s中关于p的相同字母异序词 返回起始位置
 // 438
 func FindAnagrams(s string, p string) []int {
 	bytes := []byte(p)

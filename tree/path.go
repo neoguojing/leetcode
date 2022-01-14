@@ -25,27 +25,27 @@ func PathSum(root *TreeNode, sum int) [][]int {
 	ret := make([][]int, 0)
 	tmp := make([]int, 0)
 
-	pathSum(root, sum, tmp, &ret)
+	pathSumHelper(root, sum, tmp, &ret)
 	return ret
 }
 
-func pathSum(root *TreeNode, sum int, tmp []int, ret *[][]int) {
+func pathSumHelper(root *TreeNode, sum int, tmp []int, ret *[][]int) {
 	if root == nil {
+		if sum == 0 {
+			tmp1 := make([]int, len(tmp))
+			copy(tmp1, tmp)
+			*ret = append(*ret, tmp1)
+		}
 		return
 	}
-
-	sum = sum - root.Val.(int)
 	tmp = append(tmp, root.Val.(int))
-	//处理合法的叶节点和非合法的叶节点
-	if root.Left == nil && root.Right == nil && sum == 0 {
-		dst := make([]int, len(tmp))
-		copy(dst, tmp)
-		*ret = append(*ret, tmp)
-		return
-	} else if root.Left == nil && root.Right == nil && sum != 0 {
-		return
-	}
+	pathSumHelper(root.Left, sum-root.Val.(int), tmp, ret)
+	pathSumHelper(root.Right, sum-root.Val.(int), tmp, ret)
+	tmp = tmp[:len(tmp)-1]
+}
 
-	pathSum(root.Left, sum, tmp, ret)
-	pathSum(root.Right, sum, tmp, ret)
+// PathSumIII 路径和等于targetSum，路径可以不经过根，且路径方向朝下
+// 437
+func PathSumIII(root *TreeNode, targetSum int) int {
+	return 0
 }
