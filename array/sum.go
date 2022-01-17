@@ -213,5 +213,62 @@ func CanPartition(nums []int) bool {
 		}
 	}
 
-	return false
+	return canPartitionHelper(nums, sum/2, 0)
+}
+
+func canPartitionHelper(nums []int, target, idx int) bool {
+	if target == 0 {
+		return true
+	}
+
+	if idx == len(nums) || target < 0 {
+		return false
+	}
+
+	return canPartitionHelper(nums, target-nums[idx], idx+1) || canPartitionHelper(nums, target, idx+1)
+}
+
+// CanPartitionWithDP
+// dp[i][j] 0-i中部分值的和等于j，则dp值为true
+// dp[len(nums)][sum/2]为结果
+// dp[0][j] = false dp[i][0] = true
+// dp[i][j] = dp[i-1][j] || dp[i-1][j-num[i]]
+// 转换未0-1背包问题
+func CanPartitionWithDP(nums []int) bool {
+	if len(nums) == 0 || len(nums) == 1 {
+		return false
+	}
+	sum := 0
+	for i := 0; i < len(nums); i++ {
+		sum += nums[i]
+	}
+
+	if sum%2 != 0 {
+		return false
+	}
+
+	dp := make([][]bool, len(nums)+1)
+	for i := range dp {
+		dp[i] = make([]bool, sum/2+1)
+	}
+
+	for i := 0; i <= len(nums); i++ {
+		dp[i][0] = true
+	}
+
+	for i := 1; i <= sum/2; i++ {
+		dp[0][i] = false
+	}
+
+	for i := 1; i <= len(nums); i++ {
+		for j := 1; j <= sum/2; j++ {
+			if j-nums[i-1] < 0 {
+				dp[i][j] = dp[i-1][j]
+			} else {
+				dp[i][j] = dp[i-1][j] || dp[i-1][j-nums[i-1]]
+			}
+
+		}
+	}
+	return dp[len(nums)][sum/2]
 }
