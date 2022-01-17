@@ -186,3 +186,32 @@ func FindTargetSumWayWithsDP(nums []int, target int) int {
 
 	return 0
 }
+
+// CanPartition
+// 416 是否能够将集合分成两个组，每组的和相等？ 所有值都是正数
+// 转换为任意个数字的和等于sum/2
+// 动态规划
+func CanPartition(nums []int) bool {
+
+	if len(nums) == 0 || len(nums) == 1 {
+		return false
+	}
+	sum := 0
+	for i := 0; i < len(nums); i++ {
+		sum += nums[i]
+	}
+
+	if sum%2 != 0 {
+		return false
+	}
+	for i := 0; i < len(nums); i++ {
+		if nums[i] > sum/2 {
+			return false
+		}
+		if nums[i] == sum/2 {
+			return true
+		}
+	}
+
+	return false
+}
