@@ -2,6 +2,7 @@ package string
 
 import (
 	"fmt"
+	"leetcode/utils"
 	"math"
 	"sort"
 	"strconv"
@@ -469,4 +470,12 @@ func LongestSubstring(s string, k int) int {
 	}
 
 	return max
+}
+
+//DecodeString  "3[a2[c]]" = > "accaccacc"
+// no 394
+func DecodeString(s string) string {
+	_ = utils.NewStack()
+
+	return ""
 }
