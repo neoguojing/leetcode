@@ -3,7 +3,6 @@ package tree
 import (
 	"container/list"
 	"leetcode/utils"
-	"math"
 )
 
 /*
@@ -732,73 +731,6 @@ func LowestCommonAncestorSimple(root, p, q *TreeNode) *TreeNode {
 	}
 
 	return left
-}
-
-// MaxPathSum二叉树中的权重最长的路径 路径不一定经过根
-// 124
-func MaxPathSum(root *TreeNode) int {
-	maxPath := math.MinInt32
-	getMax(root, &maxPath)
-	return maxPath
-}
-
-func getMax(node *TreeNode, maxPath *int) int {
-	if node == nil {
-		return 0
-	}
-
-	leftMax := getMax(node.Left, maxPath)
-	if leftMax < 0 {
-		leftMax = 0
-	}
-
-	rightMax := getMax(node.Right, maxPath)
-	if rightMax < 0 {
-		rightMax = 0
-	}
-
-	curMax := node.Val.(int) + leftMax + rightMax
-	if curMax > *maxPath {
-		*maxPath = curMax
-	}
-
-	if rightMax > leftMax {
-		leftMax = rightMax
-	}
-	return node.Val.(int) + leftMax //返回上层时只能保留左右子树中的最大的一个，否则不是路径
-}
-
-// DiameterOfBinaryTree 求二叉树的最长路径（直径）
-// 543
-func DiameterOfBinaryTree(root *TreeNode) int {
-
-	max := 0
-	diameterOfBinaryTreeHelper(root, &max)
-	if max > 0 {
-		return max - 1
-	}
-	return 0
-}
-
-func diameterOfBinaryTreeHelper(root *TreeNode, max *int) int {
-	if root == nil {
-		return 0
-	}
-
-	left := diameterOfBinaryTreeHelper(root.Left, max)
-
-	right := diameterOfBinaryTreeHelper(root.Right, max)
-
-	curLen := left + right + 1
-	if curLen > *max {
-		*max = curLen
-	}
-
-	if right > left {
-		left = right
-	}
-
-	return left + 1
 }
 
 // 2096
