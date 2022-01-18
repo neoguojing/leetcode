@@ -482,39 +482,37 @@ func DecodeString(s string) string {
 		switch s[i] {
 		case ']':
 			tmp := ""
-			top := stack.Peak().(byte)
-			for top != '[' {
-				tmp = string(top) + tmp
+			top := stack.Peak().(string)
+			for top != "[" {
+				tmp = top + tmp
 				stack.Pop()
-				top = stack.Peak().(byte)
+				top = stack.Peak().(string)
 			}
 			stack.Pop() //'['出栈
 
-			dight := stack.Peak().(byte)
+			dight := stack.Peak().(string)
 			var times string = ""
-			for int(dight-'0') >= 0 && int(dight-'0') <= 9 {
-				times = times + string(dight)
+			for int([]byte(dight)[0]-'0') >= 0 && int([]byte(dight)[0]-'0') <= 9 {
+				times = string(dight) + times
 				stack.Pop()
 				if stack.Empty() {
 					break
 				}
-				dight = stack.Peak().(byte)
+				dight = stack.Peak().(string)
 			}
 
 			t, _ := strconv.Atoi(times)
 			for i := 0; i < t; i++ {
-				for j := range tmp {
-					stack.Push(tmp[j])
-				}
+				stack.Push(tmp)
 			}
 		default:
-			stack.Push(s[i])
+			stack.Push(string(s[i]))
 		}
 
 	}
 
 	for !stack.Empty() {
-		ret = string(stack.Pop().(byte)) + ret
+		ret = string(stack.Pop().(string)) + ret
 	}
 	return ret
 }
