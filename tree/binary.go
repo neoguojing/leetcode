@@ -2,6 +2,7 @@ package tree
 
 import (
 	"container/list"
+	"encoding/json"
 	"leetcode/utils"
 )
 
@@ -48,7 +49,6 @@ func inorderTraversal(p *TreeNode, q *TreeNode) bool {
 // PreOrder ...
 func PreOrder(root *TreeNode, op func(*TreeNode)) {
 	if root == nil {
-		op(root)
 		return
 	}
 
@@ -731,6 +731,40 @@ func LowestCommonAncestorSimple(root, p, q *TreeNode) *TreeNode {
 	}
 
 	return left
+}
+
+// 297 二叉树的序列化和反序列化
+type Codec struct {
+	Inorder  []int
+	Preorder []int
+}
+
+func NewCodec() Codec {
+	return Codec{
+		Inorder:  make([]int, 0),
+		Preorder: make([]int, 0),
+	}
+}
+
+// Serializes a tree to a single string.
+func (this *Codec) serialize(root *TreeNode) string {
+	InOrder(root, func(tn *TreeNode) {
+		this.Inorder = append(this.Inorder, tn.Val.(int))
+	})
+
+	PreOrder(root, func(tn *TreeNode) {
+		this.Preorder = append(this.Preorder, tn.Val.(int))
+	})
+
+	bytes, _ := json.Marshal(this)
+	return string(bytes)
+}
+
+// Deserializes your encoded data to tree.
+func (this *Codec) deserialize(data string) *TreeNode {
+	json.Unmarshal([]byte(data), this)
+	root := BuildTree(this.Preorder, this.Inorder)
+	return root
 }
 
 // 2096
