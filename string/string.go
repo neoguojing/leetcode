@@ -475,7 +475,46 @@ func LongestSubstring(s string, k int) int {
 //DecodeString  "3[a2[c]]" = > "accaccacc"
 // no 394
 func DecodeString(s string) string {
-	_ = utils.NewStack()
+	stack := utils.NewStack()
+	ret := ""
+	for i := range s {
 
-	return ""
+		switch s[i] {
+		case ']':
+			tmp := ""
+			top := stack.Peak().(byte)
+			for top != '[' {
+				tmp = string(top) + tmp
+				stack.Pop()
+				top = stack.Peak().(byte)
+			}
+			stack.Pop() //'['出栈
+
+			dight := stack.Peak().(byte)
+			var times string = ""
+			for int(dight-'0') >= 0 && int(dight-'0') <= 9 {
+				times = times + string(dight)
+				stack.Pop()
+				if stack.Empty() {
+					break
+				}
+				dight = stack.Peak().(byte)
+			}
+
+			t, _ := strconv.Atoi(times)
+			for i := 0; i < t; i++ {
+				for j := range tmp {
+					stack.Push(tmp[j])
+				}
+			}
+		default:
+			stack.Push(s[i])
+		}
+
+	}
+
+	for !stack.Empty() {
+		ret = string(stack.Pop().(byte)) + ret
+	}
+	return ret
 }
