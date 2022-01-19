@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"leetcode/utils"
 	"math"
+	"sort"
 )
 
 /*RemoveDuplicates ...
@@ -529,10 +530,9 @@ func FirstMissingPositive(nums []int) int {
 
 	for i := 0; i < len(nums); i++ {
 		for nums[i]-1 >= 0 && nums[i]-1 < len(nums) && nums[nums[i]-1] != nums[i] {
-			fmt.Println(nums)
-			tmp := nums[nums[i]-1]
-			nums[nums[i]-1] = nums[i]
-			nums[i] = tmp
+
+			nums[nums[i]-1], nums[i] = nums[i], nums[nums[i]-1]
+
 		}
 
 	}
@@ -632,9 +632,77 @@ func FindDisappearedNumbers2(nums []int) []int {
 }
 
 // no 442
+// FindDuplicate 找到数组中重复的元素  注意条件1 <= nums[i] <= n
 // no 287
+// 检测环算法
 func FindDuplicate(nums []int) int {
-	return 0
+	fast := nums[0]
+	slow := nums[0]
+
+	for slow != fast {
+		slow = nums[slow]
+		fast = nums[nums[fast]]
+	}
+
+	slow = nums[0]
+	for slow != fast {
+		slow = nums[slow]
+		fast = nums[fast]
+	}
+	return slow
+}
+
+func FindDuplicateWithSort(nums []int) int {
+	sort.Ints(nums)
+	for i := range nums {
+		if nums[i] == nums[i+1] {
+			return nums[i]
+		}
+	}
+	return -1
+}
+
+func FindDuplicateWithMap(nums []int) int {
+	set := map[int]int{}
+	for i := range nums {
+		set[nums[i]]++
+		if set[nums[i]] > 1 {
+			return nums[i]
+		}
+	}
+	return -1
+}
+
+func FindDuplicateIII(nums []int) int {
+	dup := -1
+	for i := range nums {
+		cur := nums[i]
+		if cur < 0 {
+			cur = 0 - cur
+		}
+
+		if nums[cur] < 0 {
+			dup = cur
+			break
+		}
+
+		nums[cur] *= -1
+
+	}
+
+	for i := range nums {
+		nums[i] = -nums[i]
+	}
+	return dup
+}
+
+func FindDuplicateIV(nums []int) int {
+
+	for nums[0] != nums[nums[0]] {
+		nums[0], nums[nums[0]] = nums[nums[0]], nums[0]
+	}
+
+	return nums[0]
 }
 
 // 765
