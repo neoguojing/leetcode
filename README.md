@@ -44,7 +44,7 @@ func backword(cond1,cond2,oneResult,*allResult){
 - no 64 同62，求所有路径中的最小路径：dp[i][j] 表示最小路径长度 ：dp[i][j] = min(dp[i][j-1],dp[i-1][j])+grid[i][j]
 - no 70 爬梯子，一步或两步，求总共有多少趴法：dp[0] = 0, dp[1] = 1 dp[2] = 2; dp[i]表示到i的爬法有多少种：到达i，要么爬两阶，要么爬1阶，则dp[i] = dp[i-1] + dp[i-2]
 - no 139 s是否能够完全分裂为wordDict中的单词；s不能有剩余的非dict单词:
-- > 动态规划：dp[i] = dp[j] && set[s[j:i]];初始dp[0] = 0
+- > 动态规划：dp[i]  = ( dp[j] && set[s[j:i]]);初始dp[0] = 0
 - > 递归：set[s[0:i]] && helper(s[i:],set)
 - no 140 将s分解为带空格的句子，句子中每个单词都是wordDict中的单词
 - > 动态规划：dp[i] = []string{} 保存所有以i为结尾的句子；dp[i] = dp[j] + s[j:i];当j==0 或者 dp[j] != nil
