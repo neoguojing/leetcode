@@ -8,21 +8,7 @@ import (
 //LongestPalindrome ...
 // no 5
 //给定一个字符串，输出最长的回文子串。回文串指的是正的读和反的读是一样的字符串
-func LongestPalindrome(in string) string {
-	return longestPalindromeByDP(in)
-}
-
-//1.双重循环
-//2.边循环边计算dp
-/*
-55
-44 45
-33 34 35                44
-22 23 24 25             33  34
-11 12 13 14 15          22  23  24
-00 01 02 03 04 05       11  12  13 14
-*/
-func longestPalindromeByDP(s string) string {
+func LongestPalindrome(s string) string {
 	if len(s) == 0 || len(s) == 1 {
 		return s
 	}
@@ -36,11 +22,7 @@ func longestPalindromeByDP(s string) string {
 	var ret string
 	for i := len(s) - 1; i >= 0; i-- {
 		for j := i; j < len(s); j++ {
-			if j == i {
-				dp[i][j] = true
-			} else if j-i == 1 && s[i] == s[j] {
-				dp[i][j] = true
-			} else if j-i > 1 && s[i] == s[j] && dp[i+1][j-1] {
+			if s[i] == s[j] && (j-i <= 2 || dp[i+1][j-1]) {
 				dp[i][j] = true
 			}
 
