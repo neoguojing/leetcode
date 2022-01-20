@@ -1,7 +1,6 @@
 package string
 
 import (
-	"fmt"
 	"math"
 )
 
@@ -63,7 +62,6 @@ func LongestPalindromeSubseq(s string) int {
 		}
 
 	}
-	fmt.Println(dp)
 	return dp[0][len(s)-1]
 }
 
