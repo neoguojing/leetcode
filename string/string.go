@@ -413,7 +413,7 @@ func FirstUniqChar(s string) int {
 }
 
 // LongestSubstring 字符串子串中包含最少k个重复字符的最长子串长度
-// 395 换种说法：子串中的所有字符的重复字符必须超过k
+// 395 换种说法：子串中的所有重复字符必须超过k
 func LongestSubstring(s string, k int) int {
 	if s == "" || len(s) < k {
 		return 0
@@ -493,7 +493,7 @@ func DecodeString(s string) string {
 			dight := stack.Peak().(string)
 			var times string = ""
 			for int([]byte(dight)[0]-'0') >= 0 && int([]byte(dight)[0]-'0') <= 9 {
-				times = string(dight) + times
+				times = dight + times
 				stack.Pop()
 				if stack.Empty() {
 					break

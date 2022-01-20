@@ -62,10 +62,9 @@ func CanJump3(nums []int) bool {
 		for step := 0; step <= nums[i] && (i+step) < len(nums); step++ {
 			if dp[i+step] {
 				dp[i] = true
-				goto HEAR
+				break
 			}
 		}
-	HEAR:
 	}
 
 	return dp[0]
