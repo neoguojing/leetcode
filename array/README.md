@@ -73,7 +73,7 @@ for i := 1; i < len(arr); i++ { //从1开始遍历元数据
 循环条件： for left <= right  //表示是闭区间搜索[a,b]              
 中值： mid := left + (right-left)/2
 条件1 ： nums[mid] < target 则left = mid + 1                        
-条件2：nums[mid] > target 则right = mid - 1                         right = mid
+条件2：nums[mid] > target 则right = mid - 1 
 条件3：nums[mid] == target ： 寻找左值：则压迫右值right = mid - 1，寻找右值则压迫左值：left = mid + 1
 结束条件：直接返回-1
 未找到左值：left >= len(nums) || nums[left] != target ；
