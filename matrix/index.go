@@ -102,9 +102,7 @@ func transpose(matrix [][]int) {
 func reflect(matrix [][]int) {
 	for j := 0; j < len(matrix[0])/2; j++ {
 		for i := 0; i < len(matrix); i++ {
-			tmp := matrix[i][j]
-			matrix[i][j] = matrix[i][len(matrix[0])-1-j]
-			matrix[i][len(matrix[0])-1-j] = tmp
+			matrix[i][j], matrix[i][len(matrix[0])-1-j] = matrix[i][len(matrix[0])-1-j], matrix[i][j]
 		}
 	}
 }
