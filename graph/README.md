@@ -9,15 +9,15 @@
 - 计算最短路径：进行n-1轮的松弛计算；第一轮更新原点相隔一条表的节点；第二轮两条边可达的距离；n-1轮正好覆盖最差情况（n个节点串联）；若某轮没有更新Distant，则结束
 - 负环路：权值之和为负数的环路；存在则无法求出最短路径；遍历所有边，若依然存在Distant[j] > Distant[i] + w[i,j]，则有环路，无法求解最短路径
 ```
-dist := make([][]int, n)//到原点的距离
+dist := make([]int, n)//到原点的距离
 edges [][]int{起始点，终点，权重} //边集合，邻接矩阵
 	// n-1轮循环
 for i := 0; i < n-1; i++ {
 	    check := false
 		   // 遍历所有边，进行松弛
 	for _, v := range edges {
-		if dist[v[1]][0] > dist[v[0]][0]+v[2] {
-			dist[v[1]][0] = dist[v[0]][0] + v[2]
+		if dist[v[1]] > dist[v[0]]+v[2] {
+			dist[v[1]] = dist[v[0]] + v[2]
 			check = true
 		}
 	}
