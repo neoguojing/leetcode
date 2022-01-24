@@ -149,10 +149,7 @@ func Union(intervals [][]int) [][]int {
 		hasSwap := false
 		for j := len(intervals) - 1; j > i; j-- {
 			if intervals[j][0] < intervals[j-1][0] {
-				tmp := intervals[j]
-				intervals[j] = intervals[j-1]
-				intervals[j-1] = tmp
-				hasSwap = true
+				intervals[j], intervals[j-1] = intervals[j-1], intervals[j]
 			}
 		}
 
