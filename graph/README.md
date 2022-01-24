@@ -170,4 +170,4 @@ for !q.Empty() { //非空
 	}
 }					
 ``` 
-- no 127
+- no 127 LadderLength word ladder 即有一个字符不一样的单词，从beginword开始，从wordList选仅一个字符不一样的word，直到endWord命中
