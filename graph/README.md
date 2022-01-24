@@ -48,7 +48,7 @@ for i := 0; i < n-1; i++ {
   // 计算
   for i := 0; i < n; i++ {
        min := INF //最小值保存
-		   selectNode := 0 //旋转节点保存
+		   selectNode := 0 //选中节点保存
       //寻找节点              
       for j := 0; j < n; j++ {
         if !set[j] && dist[j] < min {
