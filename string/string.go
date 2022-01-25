@@ -223,18 +223,18 @@ func getNext(p string) []int {
 func fastNext(p string) []int {
 	next := make([]int, len(p))
 	next[0] = 0
-	i := 1
-	now := 0
+	j := 1
+	i := 0
 
-	for i < len(p) {
-		if p[now] == p[i] {
-			next[i] = now + 1
-			now++
+	for j < len(p) {
+		if p[i] == p[j] {
+			next[j] = i + 1
 			i++
-		} else if now != 0 {
-			now = next[now-1]
+			j++
+		} else if i != 0 {
+			i = next[i-1]
 		} else {
-			i++
+			j++
 		}
 	}
 	return next
