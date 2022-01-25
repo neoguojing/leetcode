@@ -96,9 +96,30 @@ func existRecur(board [][]byte, word string, index int, x, y int, bitMap [][]boo
 	return false
 }
 
+//  SearchMatrixI 矩阵每行元素有序；第i行的值总是大于第i-1行
 // no 74
 //判断一个矩阵中是否存在某个数，矩阵是有序的。
-// todo
+func SearchMatrixI(matrix [][]int, target int) bool {
+	m := len(matrix)
+	n := len(matrix[0])
+
+	lo := 0
+	hi := m*n - 1
+	for lo <= hi {
+		md := lo + (hi-lo)/2
+		r := md / n
+		c := md % n
+		if matrix[r][c] == target {
+			return true
+		} else if matrix[r][c] > target {
+			hi = md - 1
+		} else {
+			lo = md + 1
+		}
+	}
+
+	return false
+}
 
 // SearchMatrix 矩阵的每行（左-》右）和每列（上-》下）都是有序的，快速搜索某个值
 // 240 二分查找
