@@ -106,7 +106,7 @@ func MinPathSum(grid [][]int) int {
 }
 
 // LongestIncreasingPath 求矩阵的最长递增路径
-// 329
+// 329 拓扑排序
 func LongestIncreasingPath(matrix [][]int) int {
 
 	m, n := len(matrix), len(matrix[0])
