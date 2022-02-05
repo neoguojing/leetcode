@@ -337,3 +337,47 @@ func (this *NestedIterator) Next() int {
 func (this *NestedIterator) HasNext() bool {
 	return false
 }
+
+// IsPalindrome
+// 234
+func IsPalindrome(head *ListNode) bool {
+	cnt := 0
+	p := head
+	for p != nil {
+		cnt++
+		p = p.Next
+	}
+
+	fmt.Println(cnt)
+	if cnt == 0 || cnt == 1 {
+		return true
+	}
+
+	dummy := &ListNode{}
+	p = head
+	for i := 0; i < cnt/2; i++ {
+		p = p.Next
+	}
+
+	if cnt%2 != 0 {
+		p = p.Next
+	}
+
+	for p != nil {
+		q := p
+		p = p.Next
+		q.Next = dummy.Next
+		dummy.Next = q
+	}
+
+	p = dummy.Next
+	for p != nil {
+		if p.Val != head.Val {
+			return false
+		}
+		p = p.Next
+		head = head.Next
+	}
+
+	return true
+}
