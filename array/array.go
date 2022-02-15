@@ -486,7 +486,25 @@ func FindMinWithDup(nums []int) int {
 // 1798
 // 53 MaxSubArray
 // 给一个数组，找出一个连续的子数组，长度任意，和最大
-// todo
+func MaxSubArray(nums []int) int {
+
+	dp := make([]int, len(nums))
+	dp[0] = nums[0]
+	max := dp[0]
+	for i := 1; i < len(nums); i++ {
+		if dp[i-1] > 0 {
+			dp[i] = dp[i-1] + nums[i]
+		} else {
+			dp[i] = nums[i]
+		}
+
+		if dp[i] > max {
+			max = dp[i]
+		}
+	}
+
+	return max
+}
 
 // 63 MaxSubArray
 // 数组代表一个数字，[ 1, 2, 3 ] 就代表 123，然后给它加上 1，输出新的数组。数组每个位置只保存 1 位，也就是 0 到 9
