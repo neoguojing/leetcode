@@ -50,6 +50,10 @@ func backword(cond1,cond2,oneResult,*allResult){
 - > 动态规划：dp[i] = []string{} 保存所有以i为结尾的句子；dp[i] = dp[j] + s[j:i];当j==0 或者 dp[j] != nil
 - no 96 给定1-n，求独立的二分查找树有多少个？ ：G(n)=G(0)∗G(n−1)+G(1)∗(n−2)+...+G(n−1)∗G(0)
 - > dp[i] = dp[j] * dp[i-j] i>=j dp[0] = 1 dp[1] = 1
+- no 198 房子盗窃问题：数组表示每个房子的现金数量；相邻房子不能抢；求能盗取的最大现金数；
+- > dp[i] : 盗窃i房子能够得到的最大现金数：dp[i] = max(dp[i-1],dp[i-2]+nums[i])
+- > dp[0] = nums[0] ,dp[1] = max(nums[0],nums[1])
+- no 213 房子盗窃II，房子形成环，条件同198：形成环的房子，首尾也有可能邻接；[0,n-1],[1,n] 风别调用198的函数
 ### 回文
 - 5 最大回文子串 ：必要条件：(s[start] == s[end] && (end - start <= 2 || dp[start + 1][end - 1])
 - > 子问题：dp[i][j]是回文需要满足什么条件？0<=i<n,i<=j<n

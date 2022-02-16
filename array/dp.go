@@ -206,3 +206,55 @@ func ClimbStairs(n int) int {
 
 	return dp[n]
 }
+
+//Rob no 198
+// 房子盗窃，不能盗相邻房子
+func Rob(nums []int) int {
+	if len(nums) == 0 {
+		return 0
+	}
+
+	if len(nums) == 1 {
+		return nums[0]
+	}
+
+	dp := make([]int, len(nums))
+	dp[0] = nums[0]
+	dp[1] = nums[0]
+	if dp[1] < nums[1] {
+		dp[1] = nums[1]
+	}
+
+	for i := 2; i < len(nums); i++ {
+		planA := dp[i-1]
+		planB := dp[i-2] + nums[i]
+
+		if planA > planB {
+			dp[i] = planA
+		} else {
+			dp[i] = planB
+		}
+	}
+
+	return dp[len(nums)-1]
+}
+
+// RobII 房子形成环状
+// no 213
+func RobII(nums []int) int {
+	if len(nums) == 0 {
+		return 0
+	}
+
+	if len(nums) == 1 {
+		return nums[0]
+	}
+
+	planA := Rob(nums[0 : len(nums)-1])
+	planB := Rob(nums[1:])
+	if planA > planB {
+		return planA
+	}
+
+	return planB
+}
