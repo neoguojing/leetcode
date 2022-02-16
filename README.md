@@ -54,6 +54,7 @@ func backword(cond1,cond2,oneResult,*allResult){
 - > dp[i] : 盗窃i房子能够得到的最大现金数：dp[i] = max(dp[i-1],dp[i-2]+nums[i])
 - > dp[0] = nums[0] ,dp[1] = max(nums[0],nums[1])
 - no 213 房子盗窃II，房子形成环，条件同198：形成环的房子，首尾也有可能邻接；[0,n-1],[1,n] 风别调用198的函数
+- no 337 二叉树状的房子：递归左子树和右子树，返回两个值：0：表示不包含当前节点的值:leftMax+rightMax;2.表示包含当前root.Val.(int) + right[0] + left[0]
 ### 回文
 - 5 最大回文子串 ：必要条件：(s[start] == s[end] && (end - start <= 2 || dp[start + 1][end - 1])
 - > 子问题：dp[i][j]是回文需要满足什么条件？0<=i<n,i<=j<n

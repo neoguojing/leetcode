@@ -3,6 +3,7 @@ package tree
 import (
 	"container/list"
 	"encoding/json"
+	"fmt"
 	"leetcode/utils"
 )
 
@@ -765,6 +766,46 @@ func (this *Codec) deserialize(data string) *TreeNode {
 	json.Unmarshal([]byte(data), this)
 	root := BuildTree(this.Preorder, this.Inorder)
 	return root
+}
+
+//  Rob 房子形成环状为二叉树状求能偷到的最大值
+// no 337
+func Rob(root *TreeNode) int {
+	if root == nil {
+		return 0
+	}
+
+	ret := robHelper(root)
+	if ret[0] > ret[1] {
+		return ret[0]
+	}
+
+	return ret[1]
+}
+
+func robHelper(root *TreeNode) []int {
+	if root == nil {
+		return []int{0, 0}
+	}
+
+	left := robHelper(root.Left)
+	leftMax := left[0]
+	if leftMax < left[1] {
+		leftMax = left[1]
+	}
+	right := robHelper(root.Right)
+	rightMax := right[0]
+	if rightMax < right[1] {
+		rightMax = right[1]
+	}
+
+	ret := make([]int, 2)
+
+	ret[0] = leftMax + rightMax                  //不包含当前root值的能够偷盗的最大值
+	ret[1] = root.Val.(int) + right[0] + left[0] //包含当前root，但不包含root的节点的值
+	fmt.Println(root.Val, ret)
+	return ret
+
 }
 
 // 2096
