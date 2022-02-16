@@ -5,20 +5,32 @@ import (
 )
 
 //LengthOfLongestSubstring ...
-//no 3给定一个字符串，找到没有重复字符的最长子串，返回它的长度。
+//no 3 给定一个字符串，找到没有重复字符的最长子串，返回它的长度。
 //滑动窗口
-func LengthOfLongestSubstring(in string) int {
+func LengthOfLongestSubstring(s string) int {
+	if len(s) == 0 {
+		return 0
+	}
+
+	i, j := 0, 0
+	hashMap := map[byte]int{}
 	max := 0
-	set := make(map[byte]int)
-	for start, end := 0, 0; end < len(in); end++ {
-		if _, ok := set[in[end]]; ok {
-			if max < (end - start) {
-				max = end - start
+	for i <= j && j < len(s) {
+		hashMap[s[j]]++
+		if v := hashMap[s[j]]; v > 1 {
+			for i <= j {
+				hashMap[s[i]]--
+				if s[i] == s[j] {
+					i++
+					break
+				}
+				i++
 			}
-			delete(set, in[start])
-			start++
 		}
-		set[in[end]] = 1
+		j++
+		if j-i > max {
+			max = j - i
+		}
 	}
 
 	return max
