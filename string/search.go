@@ -69,7 +69,7 @@ func FindAnagramsWithSlideWindow(s string, p string) []int {
 	cnt := len(p)
 	for j < len(s) {
 
-		if set[s[j]-'a'] >= 1 {
+		if set[s[j]-'a'] > 0 {
 			cnt--
 		}
 
