@@ -49,7 +49,7 @@ func backword(cond1,cond2,oneResult,*allResult){
 - no 140 将s分解为带空格的句子，句子中每个单词都是wordDict中的单词
 - > 动态规划：dp[i] = []string{} 保存所有以i为结尾的句子；dp[i] = dp[j] + s[j:i];当j==0 或者 dp[j] != nil
 - no 96 给定1-n，求独立的二分查找树有多少个？ ：G(n)=G(0)∗G(n−1)+G(1)∗(n−2)+...+G(n−1)∗G(0)
-- > dp[i] = dp[j] * dp[i-j] i>=j dp[0] = 1 dp[1] = 1
+- > dp[i] += dp[j] * dp[i-j] i>=j dp[0] = 1 dp[1] = 1
 - no 198 房子盗窃问题：数组表示每个房子的现金数量；相邻房子不能抢；求能盗取的最大现金数；
 - > dp[i] : 盗窃i房子能够得到的最大现金数：dp[i] = max(dp[i-1],dp[i-2]+nums[i])
 - > dp[0] = nums[0] ,dp[1] = max(nums[0],nums[1])
