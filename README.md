@@ -55,6 +55,16 @@ func backword(cond1,cond2,oneResult,*allResult){
 - > dp[0] = nums[0] ,dp[1] = max(nums[0],nums[1])
 - no 213 房子盗窃II，房子形成环，条件同198：形成环的房子，首尾也有可能邻接；[0,n-1],[1,n] 风别调用198的函数
 - no 337 二叉树状的房子：递归左子树和右子树，返回两个值：0：表示不包含当前节点的值:leftMax+rightMax;2.表示包含当前root.Val.(int) + right[0] + left[0]
+
+### 正则匹配
+- "*"的正确用法是：zo*  等价于z zo 或者zooo
+- no 10 判定s和p是否匹配：p中可能包含("."代表任意一个字符)，"*"代表之前的0个或多个字符
+- > dp[len(s)+1][len(p)] ,dp[0][0] = true;dp[0][i] && p[i]=='*' 则dp[0][i+1] = true
+- > 若s[i] == p[j] && dp[i][j] ,则dp[i+1][j+1] = true
+- > 若p[j] == '.' && dp[i][j] ,则dp[i+1][j+1] = true
+- > 若p[j] == '*' ：
+- > 1.  p.charAt(j-1) == s.charAt(i) or p.charAt(j-1) == '.' : dp[i+1][j+1] = (dp[i+1][j] || dp[i][j+1] || dp[i+1][j-1]) // （aa,a*）|| (aaa,a*) || ( a，a*)  
+- > 2. p.charAt(j-1) != s.charAt(i) or p.charAt(j-1) != '.' : dp[i+1][j+1] = dp[i+1][j-1]  // (aa,aab*）
 ### 回文
 - 5 最大回文子串 ：必要条件：(s[start] == s[end] && (end - start <= 2 || dp[start + 1][end - 1])
 - > 子问题：dp[i][j]是回文需要满足什么条件？0<=i<n,i<=j<n
