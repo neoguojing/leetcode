@@ -2,7 +2,8 @@ package stack
 
 import(
   "container/heap"
-  "fmt"
+	"fmt"
+	"sort"
 )
 func getSkyline(buildings [][]int) [][]int {
     heights := make([][]int, 0)
