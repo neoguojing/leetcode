@@ -74,35 +74,14 @@ for i := 1; i < len(arr); i++ { //从1开始遍历元数据
 直接法：因为判断语句是 left <= right，有时候要考虑返回是left 还是 right。循环体内有 3 个分支，并且一定有一个分支用于退出循环或者直接返回。这种思路适合解决简单题目。即要查找的元素性质简单，数组中都是非重复元素，且 ==、>、< 的情况非常好写的时候。
 排除法：更加符合二分查找算法的减治思想。每次排除目标元素一定不存在的区间，达到减少问题规模的效果。然后在可能存在的区间内继续查找目标元素。这种思路适合解决复杂题目。比如查找一个数组里可能不存在的元素，找边界问题，可以使用这种思路。
 
-判断语句是 left < right
-关于边界设置可以记忆为：只要看到 left = mid 就向上取整。或者记为：
 
+关于边界设置可以记忆为：只要看到 left = mid 就向上取整。或者记为：
+```
+判断语句是 left < right
 left = mid + 1、right = mid 和 mid = left + (right - left) // 2 一定是配对出现的。
 right = mid - 1、left = mid 和 mid = left + (right - left + 1) // 2 一定是配对出现的。
+```
 
-- 模式
-```
-// 闭区间搜索
-初始值： left, right := 0, len(nums)-1
-循环条件： for left <= right  //表示是闭区间搜索[a,b]              
-中值： mid := left + (right-left)/2
-条件1 ： nums[mid] < target 则left = mid + 1                        
-条件2：nums[mid] > target 则right = mid - 1 
-条件3：nums[mid] == target ： 寻找左值：则压迫右值right = mid - 1，寻找右值则压迫左值：left = mid + 1
-结束条件：直接返回-1
-未找到左值：left >= len(nums) || nums[left] != target ；
-未找到右值：right < 0 || nums[right] != target
-//半开区间搜索
-初始值： left, right := 0, len(nums)
-循环条件：  for left < right  表示半开区间搜索[a,b)
-中值： mid := left + (right-left)/2
-条件1 ： nums[mid] < target 则left = mid + 1                        
-条件2：nums[mid] > target 则right = mid
-条件3：nums[mid] == target ： 寻找左值：则压迫右值right = mid，寻找右值则压迫左值：left = mid + 1
-结束条件： 需要判断nums[left] == target ? left;-1;
-未找到左值：if (left == nums.length) return -1; 
-未找到右值：if (left == 0) return -1; return nums[left-1] == target ? (left-1) : -1;
-```
 	 
 - no 704 34 35
 - 162 找到一个峰值的索引，峰值比相邻元素大的值，要求o(logn) 
