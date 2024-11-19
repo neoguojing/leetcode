@@ -140,6 +140,10 @@ func backword(cond1,cond2,oneResult,*allResult){
 - 前缀和：sum[l,r]=prefixSum[r]−prefixSum[l−1]
 - 将区间数字拆分为数位，然后逐位进行确定
 - 统计特殊整数：过于复杂
+- - 状态： dp[pos][tight][mask]
+  - tight 为 1，当前位数字只能选 0∼digits[pos]
+  - tight 为 0，当前位数字可以选 0∼9
+  - res += dfs(pos+1, tight && (d == limit), newMask)
 - 至少有 1 位重复的数字： 逆向计算没有重复数字的个数
 - - dp法： 数字转换为字符串，状态是【pos,mask,tight】的数组；使用递归
   - - pos：当前正在处理的数位位置；pos达到数字尾部则结束
@@ -148,7 +152,7 @@ func backword(cond1,cond2,oneResult,*allResult){
     - tight = true 且 d == limit： tight状态传导
 - - 组合法：每个数位拆解放入数组
   - - 计算没有重复的排列数量：第一位取9个值，第二位只能取8个值；第一位不能使用0；pem(m,n) 从m个数字中选出n个进行排列
-    - 计算小于 length 位数的数字没有重复的总数：9×P(9,i−1)
+    - 计算小于 length 位数的数字没有重复的总数：9×P(9,i−1)，忽略第一位，则第二位可以选择9个
     - 计算长度为 length 且不超过 n 的没有重复数字的数量：遍历数位个数 和 每位能够选择的数字；noDupCount += perm(9-i, length-i-1)
 ### 普通
 - no 91 1->A 26->Z 由数字组成的字符串，求有多少种解码方法：dp[i]表示字符串长度为i有多少种编码法：类似楼梯，两个字符，要么1个字符：dp[i] = dp[i-1]+ dp[i-2] 两个字符有一定限制
