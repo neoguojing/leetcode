@@ -7,7 +7,7 @@
 
 关于边界设置可以记忆为：只要看到 left = mid 就向上取整。或者记为：
 ```
-判断语句是 left < right（确保检索空间至少有两个元素）
+判断语句是 left < right（确保检索空间至少有两个元素），对应[left,right)
 left = mid + 1、right = mid 和 mid = left + (right - left) // 2 一定是配对出现的。
 解读： 这种情况下mid的计算偏向左侧；相同元素下找打的是左侧的元素
 right = mid - 1、left = mid 和 mid = left + (right - left + 1) // 2 一定是配对出现的。
